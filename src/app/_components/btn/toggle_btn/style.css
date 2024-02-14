@@ -1,0 +1,31 @@
+.btn-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-property: top, right, transform;
+  transition-duration: 0.4s;
+  z-index: 2;
+}
+
+.btn-menu__bar {
+  width: 18px;
+  height: 2px;
+  margin: 4px 0;
+  border-radius: 2px;
+  background-color: var(--color-font);
+  transition-property: width, transform, background-color;
+  transition-duration: 0.4s;
+  transition-timing-function: ease;
+}
+
+.btn-menu--clk .btn-menu__bar:nth-child(1) {
+  transform: translateY(6px) rotateZ(45deg);
+}
+
+.btn-menu--clk .btn-menu__bar:nth-child(2) {
+  width: 0%;
+}
+
+.btn-menu--clk .btn-menu__bar:nth-child(3) {
+  transform: translateY(-6px) rotateZ(-45deg);
+}
