@@ -1,0 +1,16 @@
+export const categories = [
+  "HTML",
+  "CSS",
+  "Javascript",
+  "React",
+  "ThreeJS",
+  "NextJS",
+  "MongoDB",
+  "Server",
+  "AWS",
+  "Blender",
+  "Effect",
+  "Improve",
+  "Performance",
+  "Error",
+];

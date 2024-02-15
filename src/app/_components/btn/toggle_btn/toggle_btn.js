@@ -1,22 +1,21 @@
 "use client";
 import { memo } from "react";
-import "./style.css";
+import styles from "./btn.module.css";
 
-function ToggleBtn({ isClk, setIsClk }) {
+function ToggleBtn({ isClk, onClick }) {
   console.log("BTN");
-  const handleClkBtn = () => setIsClk((isClk) => !isClk);
 
   return (
     <>
       <button
-        className={"btn-menu" + (isClk ? " btn-menu--clk" : "")}
-        onClick={handleClkBtn}
+        className={styles.btn + (isClk ? " " + styles.btn_clk : "")}
+        onClick={onClick}
         aria-label="toggle"
       >
-        <div className={"btn-menu__bar-wrapper"}>
-          <div className="btn-menu__bar"></div>
-          <div className="btn-menu__bar"></div>
-          <div className="btn-menu__bar"></div>
+        <div>
+          <div className={styles.btnBar}></div>
+          <div className={styles.btnBar}></div>
+          <div className={styles.btnBar}></div>
         </div>
       </button>
     </>

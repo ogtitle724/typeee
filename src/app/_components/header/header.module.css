@@ -1,0 +1,73 @@
+.header {
+  width: var(--header-width);
+  height: var(--header-height);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: 0.3s;
+}
+
+.btn_wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.btn_wrapper button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input_search {
+  flex-grow: 1;
+  height: 90%;
+  padding: 5px 10px;
+  border: 1px solid rgba(var(--border-rgb));
+  border-radius: 7px;
+  outline: none;
+  font-size: var(--font-m);
+}
+
+.menu {
+  width: 100%;
+  height: fit-content;
+  padding: 10px 15px;
+  position: absolute;
+  left: 0;
+  top: calc(var(--header-height));
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: show 0.2s 1 ease forwards;
+}
+
+.menuItem {
+  width: fit-content;
+  height: fit-content;
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: rgb(199, 203, 218);
+  border-radius: 7px;
+  font-weight: 600;
+}
+
+.menuItem_focus {
+  background-color: rgb(119, 143, 194);
+  color: white;
+}
+
+@keyframes show {
+  100% {
+    opacity: 1;
+    transform: translateY(20px);
+  }
+}

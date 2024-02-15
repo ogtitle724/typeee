@@ -1,0 +1,31 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-property: top, right, transform;
+  transition-duration: 0.4s;
+  z-index: 2;
+}
+
+.btnBar {
+  width: 20px;
+  height: 1.5px;
+  margin: 5px 0;
+  border-radius: 4px;
+  background-color: black;
+  transition-property: width, transform, background-color;
+  transition-duration: 0.4s;
+  transition-timing-function: ease;
+}
+
+.btn_clk .btnBar:nth-child(1) {
+  transform: translateY(6.5px) rotateZ(45deg);
+}
+
+.btn_clk .btnBar:nth-child(2) {
+  width: 0%;
+}
+
+.btn_clk .btnBar:nth-child(3) {
+  transform: translateY(-6.5px) rotateZ(-45deg);
+}
