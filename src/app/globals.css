@@ -9,7 +9,7 @@
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 240, 243, 248;
+  --background-start-rgb: 233, 238, 243;
   --background-end-rgb: 255, 255, 255;
   --card-rgb: 248, 250, 252;
   --font-rgb: 60, 60, 60;
@@ -84,6 +84,18 @@ button {
   border: none;
   background: none;
   cursor: pointer;
+}
+
+.main {
+  width: 1000px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: pink;
 }
 
 .card {
