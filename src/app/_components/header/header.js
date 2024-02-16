@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { IoSearchOutline, IoCheckmark } from "react-icons/io5";
-import { categories } from "@/config/data";
+import { IoSearchOutline, IoCheckmark, IoCreateOutline } from "react-icons/io5";
+import { topics } from "@/config/topic";
 import ToggleBtn from "@comps/btn/toggle_btn/toggle_btn";
 import styles from "./header.module.css";
 
 export default function Header() {
   const [isSearch, setIsSearch] = useState(false);
-  const [isCategory, setIsCategory] = useState(false);
+  const [isTopic, setIsTopic] = useState(false);
   const [searchParam, setSearchParam] = useState("");
   const router = useRouter();
   const headerRef = useRef();
@@ -48,7 +48,7 @@ export default function Header() {
       if (searchParam) {
         router.push(`/search?param=${searchParam}&page=1`);
         setIsSearch(false);
-        setIsCategory(false);
+        setIsTopic(false);
         setSearchParam("");
       }
     } else {
@@ -57,16 +57,16 @@ export default function Header() {
   }, [isSearch, router, searchParam]);
 
   const handleClkBtnMenu = useCallback(() => {
-    if (!isCategory && !isSearch) {
-      setIsCategory(true);
+    if (!isTopic && !isSearch) {
+      setIsTopic(true);
     } else {
-      if (isCategory) setIsCategory(false);
+      if (isTopic) setIsTopic(false);
       if (isSearch) {
         setIsSearch(false);
         setSearchParam("");
       }
     }
-  }, [isCategory, isSearch]);
+  }, [isTopic, isSearch]);
 
   return (
     <header ref={headerRef} className={styles.header + " card"}>
@@ -78,7 +78,7 @@ export default function Header() {
           placeholder="Search..."
         />
       ) : (
-        <Link href="/">
+        <Link href="/" onClick={() => setIsTopic(false)}>
           <h3>TYPYtab</h3>
         </Link>
       )}
@@ -86,35 +86,44 @@ export default function Header() {
         <button onClick={handleClkBtnSearch}>
           {isSearch ? <IoCheckmark size={24} /> : <IoSearchOutline size={22} />}
         </button>
-        <ToggleBtn isClk={isSearch || isCategory} onClick={handleClkBtnMenu} />
+        <ToggleBtn isClk={isSearch || isTopic} onClick={handleClkBtnMenu} />
       </div>
-      {isCategory && <Menu setIsCategory={setIsCategory} />}
+      {isTopic && <Menu setIsTopic={setIsTopic} />}
     </header>
   );
 }
 
-function Menu({ setIsCategory }) {
-  const topic = useParams().topic;
+function Menu({ setIsTopic }) {
+  const targetParam = useParams().topic;
 
   return (
     <div className={styles.menu + " card"}>
-      {categories.map((category) => {
+      {topics.map((topic) => {
         return (
           <Link
-            key={`menuItem_${category.toLowerCase()}`}
-            href={`/topic/${category.toLowerCase()}`}
+            key={`menuItem_${topic.toLowerCase()}`}
+            href={`/topic/${topic.toLowerCase()}`}
             className={
-              styles.menuItem +
-              (category.toLowerCase() === topic
-                ? " " + styles.menuItem_focus
+              styles.menu_item +
+              (topic.toLowerCase() === targetParam
+                ? " " + styles.menu_item_focus
                 : "")
             }
-            onClick={() => setIsCategory(false)}
+            onClick={() => setIsTopic(false)}
           >
-            {category}
+            {topic}
           </Link>
         );
       })}
+      <div className={styles.menu_btnWrapper}>
+        <Link
+          href={"/write"}
+          className={styles.menu_btn}
+          onClick={() => setIsTopic(false)}
+        >
+          <IoCreateOutline size={25} />
+        </Link>
+      </div>
     </div>
   );
 }

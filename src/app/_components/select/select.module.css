@@ -1,0 +1,16 @@
+.select {
+  width: 136px;
+  height: 30px;
+  -o-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: var(--font-m);
+  text-align: center;
+  border-radius: var(--border-radius);
+}
+
+.select > option {
+  font-size: var(--font-m);
+  text-align: center;
+}

@@ -1,0 +1,39 @@
+.ck.ck-editor__top {
+  height: 40px;
+}
+
+.ck.ck-editor__editable {
+  height: calc(70vh - 40px);
+  font-size: var(--font-m);
+  font-weight: var(--weight-m);
+  border: none;
+  overflow-y: scroll !important;
+}
+
+.ck.ck-editor__editable::-webkit-scrollbar {
+  width: 8px;
+  color: aliceblue !important;
+}
+
+.ck.ck-editor__editable::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(219, 222, 228);
+}
+
+.ck.ck-editor__editable::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+  border: none;
+}
+.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.ck.ck-toolbar {
+  border: none !important;
+  border-bottom: 1px solid rgb(var(--border-rgb)) !important;
+  background-color: rgb(var(--card-rgb)) !important;
+}

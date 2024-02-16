@@ -10,7 +10,8 @@
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  transition: 0.3s;
+  transition: opacity 0.4s ease, top 0.4s ease;
+  z-index: 2;
 }
 
 .btn_wrapper {
@@ -50,7 +51,7 @@
   animation: show 0.2s 1 ease forwards;
 }
 
-.menuItem {
+.menu_item {
   width: fit-content;
   height: fit-content;
   margin: 5px;
@@ -58,11 +59,29 @@
   background-color: rgb(199, 203, 218);
   border-radius: 7px;
   font-weight: 600;
+  color: black;
 }
 
-.menuItem_focus {
-  background-color: rgb(119, 143, 194);
+.menu_item_focus {
+  background-color: rgb(var(--focus-rgb));
   color: white;
+}
+
+.menu_btnWrapper {
+  width: 100%;
+  margin-top: 10px;
+  padding-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px dotted rgba(var(--border-rgb));
+}
+
+.menu_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes show {

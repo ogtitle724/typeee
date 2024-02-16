@@ -1,5 +1,5 @@
 export const metadata = {
-  metadataBase: new URL(process.env.URL),
+  metadataBase: new URL(process.env.DOMAIN),
   title: {
     //title of doc. consisited with default, template, absolute(ignore other)
     default: process.env.TITLE, // fallback title
@@ -9,7 +9,7 @@ export const metadata = {
   alternates: {
     canonical: "/",
     languages: {
-      "ko-KR": process.env.URL,
+      "ko-KR": process.env.DOMAIN,
     },
   },
   openGraph: {
