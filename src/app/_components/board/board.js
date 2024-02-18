@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./board.module.css";
 import { delTags } from "@/util/text";
+import { IoCreateOutline } from "react-icons/io5";
+import { topics } from "@/config/topic";
 
 export default function Board({ posts, type }) {
   return (
@@ -13,11 +15,20 @@ export default function Board({ posts, type }) {
       }
       aria-label="board"
     >
-      <ul className={styles.ul}>
-        {Object.values(posts).map((post, idx) => {
-          return <Item key={"post_" + idx} post={post} />;
-        })}
-      </ul>
+      {posts.length ? (
+        <ul className={styles.ul}>
+          {posts.map((post, idx) => {
+            return <Item key={"post_" + idx} post={post} />;
+          })}
+        </ul>
+      ) : (
+        <div className={styles.empty}>
+          <Link href={"/write"}>
+            <IoCreateOutline size={30} color={"white"} strokeWidth={20} />
+          </Link>
+          <p>Write the first Article!</p>
+        </div>
+      )}
     </section>
   );
 }
@@ -51,7 +62,7 @@ function Item({ post }) {
               (post.thumbnail ? styles.content_short : styles.content_long)
             }
           >
-            {delTags(post.content)}
+            {post.summary || "test"}
           </p>
         </div>
       </Link>

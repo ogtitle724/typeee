@@ -29,6 +29,7 @@ export async function paging(topic, page, size) {
 
     if (topic) {
       pagingData = await Post.find({ topic })
+        .sort({ wr_date: -1 })
         .skip(size * (page - 1))
         .limit(size);
     } else {

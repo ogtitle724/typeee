@@ -20,6 +20,7 @@ export default function Page() {
     title: "",
     content: "",
     topic: "",
+    summary: "",
     thumbnail: "",
     author: {
       id: "",
@@ -37,15 +38,16 @@ export default function Page() {
             process.env.NEXT_PUBLIC_URL_POST + `/${id}`
           );
           const resData = await res.json();
-          const preData = {
+          /* const preData = {
             title: resData.title,
             content: resData.content,
             topic: resData.topic,
+            summary: resData.summary,
             author: { ...resData.author },
             thumbnail: resData.thumbnail,
-          };
+          }; */
 
-          setData(preData);
+          setData(structuredClone(resData));
           isEdit.current = true;
         } catch (err) {
           console.error(err.message);
@@ -67,7 +69,6 @@ export default function Page() {
   };
 
   const handleChangeContent = (event, editor) => {
-    getTextSize(editor.getData());
     setData((prevData) => ({
       ...prevData,
       content: editor.getData(),
@@ -81,7 +82,9 @@ export default function Page() {
       );
     }
 
-    if (isOverMaximumTextSize(data.content)) {
+    const plainText = delTags(data.content);
+
+    if (isOverMaximumTextSize(plainText)) {
       return alert("The size of your post has exceeded the size limit :(");
     }
 
@@ -89,6 +92,7 @@ export default function Page() {
 
     try {
       let res;
+      data.summary = plainText.slice(0, process.env.NEXT_PUBLIC_SUMMARY_LEN);
 
       if (isEdit.current) {
         res = await fetchIns.patch(
@@ -110,13 +114,8 @@ export default function Page() {
     }
   };
 
-  const getTextSize = (t) => {
-    const plainText = t.replace(/<[^>]*>/g, "");
-    return new Blob([plainText]).size;
-  };
-
   const isOverMaximumTextSize = (t) => {
-    if (getTextSize(t) > process.env.NEXT_PUBLIC_MAX_CONTENT_LEN) true;
+    if (new Blob([t]).size > process.env.NEXT_PUBLIC_MAX_CONTENT_LEN) true;
     else false;
   };
 

@@ -41,6 +41,10 @@ const postSchema = new mongoose.Schema({
     type: String,
     minLength: 1,
   },
+  summary: {
+    type: String,
+    minLength: 1,
+  },
   comments: {
     type: [commentSchema],
     default: [],

@@ -101,6 +101,31 @@
   -webkit-line-clamp: 2;
 }
 
+.empty {
+  width: min(400px, 94vw);
+  aspect-ratio: 4/3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgb(var(--highlight-rgb));
+  border-radius: var(--border-radius);
+  background-color: rgb(var(--background-end-rgb));
+  font-size: var(--font-t);
+  font-weight: var(--weight-t);
+}
+
+.empty a {
+  border-radius: var(--border-radius);
+  padding: 20px;
+  background-color: rgb(var(--border-rgb));
+}
+
 @media screen and (max-width: 769px) {
   .board {
     --item-width: 100%;
