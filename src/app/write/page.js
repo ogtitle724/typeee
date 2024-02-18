@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IoSave } from "react-icons/io5";
 import { topics } from "@/config/topic";
+import { delTags } from "@/util/text";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 
@@ -56,11 +57,32 @@ export default function Page() {
     }
   }, [query]);
 
+  const handleChangeTitle = (e) => {
+    if (e.target.value.length <= process.env.NEXT_PUBLIC_MAX_TITLE_LEN) {
+      setData((prevData) => ({
+        ...prevData,
+        title: e.target.value,
+      }));
+    }
+  };
+
+  const handleChangeContent = (event, editor) => {
+    getTextSize(editor.getData());
+    setData((prevData) => ({
+      ...prevData,
+      content: editor.getData(),
+    }));
+  };
+
   const handleClkBtnUpload = async () => {
     if (!data.title || !data.content || !data.topic) {
       return alert(
         "Please make sure you have entered all the title, content, and topic."
       );
+    }
+
+    if (isOverMaximumTextSize(data.content)) {
+      return alert("The size of your post has exceeded the size limit :(");
     }
 
     //TODO: check whether image included. if image exist extract it and store it to S3 bucket and then use the url
@@ -81,12 +103,21 @@ export default function Page() {
       }
 
       const resData = await res.json();
-      console.log(resData);
-      /* router.push(`/post/${resData._id}`); */
+      router.push(`/post/${resData._id}`);
     } catch (err) {
       console.error(err.message);
       alert(err.message);
     }
+  };
+
+  const getTextSize = (t) => {
+    const plainText = t.replace(/<[^>]*>/g, "");
+    return new Blob([plainText]).size;
+  };
+
+  const isOverMaximumTextSize = (t) => {
+    if (getTextSize(t) > process.env.NEXT_PUBLIC_MAX_CONTENT_LEN) true;
+    else false;
   };
 
   return (
@@ -95,18 +126,12 @@ export default function Page() {
         className={styles.write_title}
         value={data.title}
         placeholder="Enter the title here..."
-        onChange={(e) => {
-          const newData = { ...data, title: e.target.value };
-          setData(newData);
-        }}
+        onChange={handleChangeTitle}
       />
       <div className={styles.editor_wrapper}>
         <Editor
           data={data.content}
-          onChange={(event, editor) => {
-            const newData = { ...data, content: editor.getData() };
-            setData(newData);
-          }}
+          onChange={handleChangeContent}
           config={{
             placeholder: "Enter the content here...",
             removePlugins: ["MediaEmbedToolbar"],

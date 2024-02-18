@@ -1,0 +1,60 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import styles from "./board.module.css";
+import { delTags } from "@/util/text";
+
+export default function Board({ posts, type }) {
+  return (
+    <section
+      className={
+        styles.board + " " + (type === "list" ? styles.board_list : "")
+      }
+      aria-label="board"
+    >
+      <ul className={styles.ul}>
+        {Object.values(posts).map((post, idx) => {
+          return <Item key={"post_" + idx} post={post} />;
+        })}
+      </ul>
+    </section>
+  );
+}
+
+function Item({ post }) {
+  return (
+    <li className={styles.li}>
+      <Link href={`/post/${post._id}`}>
+        <div className={styles.title_wrapper}>
+          <span className={styles.title}>
+            <span className={styles.topic}>{post.topic}</span>
+            {" • " + post.title}
+          </span>
+        </div>
+        {post.thumbnail && (
+          <div className={styles.img_wrapper}>
+            {/* <Image
+              alt={`image of article "${post.title}"`}
+              src={"/"}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              fill={true}
+            /> */}
+          </div>
+        )}
+
+        <div className={styles.content_wrapper}>
+          <p
+            className={
+              styles.content +
+              " " +
+              (post.thumbnail ? styles.content_short : styles.content_long)
+            }
+          >
+            {delTags(post.content)}
+          </p>
+        </div>
+      </Link>
+    </li>
+  );
+}

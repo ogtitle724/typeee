@@ -68,6 +68,8 @@ class Fetch {
   }
 
   async post(url, data, options = {}) {
+    revalidate();
+
     return this.request(url, {
       ...options,
       method: "POST",

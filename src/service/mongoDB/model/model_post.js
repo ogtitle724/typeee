@@ -89,6 +89,8 @@ postSchema.pre("save", function (next) {
   next();
 }); */
 
+//here make vertual method that calc score(best)
+
 const Post = mongoose.models.posts || mongoose.model("posts", postSchema);
 
 export default Post;

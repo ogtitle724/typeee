@@ -10,20 +10,6 @@
   overflow-y: scroll !important;
 }
 
-.ck.ck-editor__editable::-webkit-scrollbar {
-  width: 8px;
-  color: aliceblue !important;
-}
-
-.ck.ck-editor__editable::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: rgb(219, 222, 228);
-}
-
-.ck.ck-editor__editable::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
 .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
   border: none;
 }

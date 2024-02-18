@@ -15,8 +15,10 @@
   --font-rgb: 60, 60, 60;
   --border-rgb: 181, 185, 200;
   --focus-rgb: 119, 143, 194;
+  --highlight-rgb: 199, 203, 218;
 
   --default-shadow: 0 0 12px rgba(0, 0, 0, 0.03);
+  --strong-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   --primary-glow: conic-gradient(
     from 180deg at 50% 50%,
     #16abff33 0deg,
@@ -33,7 +35,7 @@
   --font-t: 26px;
   --font-l: 21px;
   --font-m: 18px;
-  --font-s: 14px;
+  --font-s: 16px;
 
   --weight-t: 700;
   --weight-l: 600;
@@ -64,6 +66,20 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  color: rgb(var(--highlight-rgb));
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(164, 168, 177);
+}
+
+*::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
 html,
@@ -97,9 +113,9 @@ button {
 
 .main {
   width: min(1000px, 94vw);
-  min-height: 100vh;
   margin: 0 auto;
   padding: 90px 0px 30px 0px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

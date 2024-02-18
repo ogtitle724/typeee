@@ -23,6 +23,27 @@ export async function read(id) {
   }
 }
 
+export async function paging(topic, page, size) {
+  try {
+    let pagingData;
+
+    if (topic) {
+      pagingData = await Post.find({ topic })
+        .skip(size * (page - 1))
+        .limit(size);
+    } else {
+      pagingData = await Post.find()
+        .sort({ wr_date: -1 })
+        .skip(size * (page - 1))
+        .limit(size);
+    }
+
+    return pagingData;
+  } catch (err) {
+    console.error(err.message);
+  }
+}
+
 export async function update(id, data) {
   try {
     let post = await Post.findById(id);

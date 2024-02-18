@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { IoSearchOutline, IoCheckmark, IoCreateOutline } from "react-icons/io5";
+import {
+  IoSearchOutline,
+  IoCheckmark,
+  IoCreateOutline,
+  IoHomeOutline,
+} from "react-icons/io5";
 import { topics } from "@/config/topic";
 import ToggleBtn from "@comps/btn/toggle_btn/toggle_btn";
 import styles from "./header.module.css";
@@ -98,6 +103,15 @@ function Menu({ setIsTopic }) {
 
   return (
     <div className={styles.menu + " card"}>
+      <Link
+        href={`/`}
+        className={
+          styles.menu_item + (targetParam ? "" : " " + styles.menu_item_focus)
+        }
+        onClick={() => setIsTopic(false)}
+      >
+        {"Home"}
+      </Link>
       {topics.map((topic) => {
         return (
           <Link
