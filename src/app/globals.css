@@ -11,13 +11,14 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 233, 238, 243;
   --background-end-rgb: 255, 255, 255;
-  --card-rgb: 248, 250, 252;
+  --card-rgb: 250, 250, 252;
   --font-rgb: 60, 60, 60;
   --border-rgb: 181, 185, 200;
   --focus-rgb: 119, 143, 194;
   --highlight-rgb: 199, 203, 218;
+  --ui-bg-rgb: 255, 255, 255;
 
-  --default-shadow: 0 0 12px rgba(0, 0, 0, 0.03);
+  --default-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   --strong-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   --primary-glow: conic-gradient(
     from 180deg at 50% 50%,

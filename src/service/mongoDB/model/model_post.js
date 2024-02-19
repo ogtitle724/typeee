@@ -30,7 +30,7 @@ const postSchema = new mongoose.Schema({
   author: {
     id: {
       type: String,
-      default: "",
+      default: "anonymous",
     },
     nick: {
       type: String,

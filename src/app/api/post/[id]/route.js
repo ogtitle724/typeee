@@ -1,10 +1,20 @@
-import { update, read, del } from "@/service/mongoDB/mongoose";
+import { update, read, del, relate } from "@/service/mongoDB/mongoose";
 
 export async function GET(req, { params }) {
   const id = params.id;
   const postData = await read(id);
 
-  return new Response(JSON.stringify(postData), {
+  const relatePosts = await relate(
+    postData.wr_date,
+    postData.author.id,
+    postData.topic
+  );
+  const responseData = {
+    postData,
+    relatePosts,
+  };
+
+  return new Response(JSON.stringify(responseData), {
     status: 200,
   });
 }

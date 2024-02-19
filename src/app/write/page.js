@@ -23,8 +23,8 @@ export default function Page() {
     summary: "",
     thumbnail: "",
     author: {
-      id: "",
-      nick: "",
+      id: "anonymous",
+      nick: "anonymous",
     },
   });
 

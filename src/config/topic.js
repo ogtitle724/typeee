@@ -13,4 +13,5 @@ export const topics = [
   "Improve",
   "Performance",
   "Error",
+  "Etc",
 ];

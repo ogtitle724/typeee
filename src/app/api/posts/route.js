@@ -2,14 +2,15 @@ import { paging } from "@/service/mongoDB/mongoose";
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
-  const [topic, page, size] = [
+  const [topic, page, select, size] = [
     searchParams.get("topic"),
     searchParams.get("page"),
+    searchParams.get("select"),
     searchParams.get("size"),
   ];
 
   try {
-    const pagingData = await paging(topic, page, size);
+    const pagingData = await paging(topic, page, select, size);
 
     return new Response(JSON.stringify(pagingData), {
       status: 200,

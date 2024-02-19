@@ -88,7 +88,7 @@ export default function Header() {
         </Link>
       )}
       <div className={styles.btn_wrapper}>
-        <button onClick={handleClkBtnSearch}>
+        <button onClick={handleClkBtnSearch} aria-label="search button">
           {isSearch ? <IoCheckmark size={24} /> : <IoSearchOutline size={22} />}
         </button>
         <ToggleBtn isClk={isSearch || isTopic} onClick={handleClkBtnMenu} />

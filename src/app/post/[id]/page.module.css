@@ -1,0 +1,87 @@
+.post {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px 15px 30px 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(var(--ui-bg-rgb));
+  border-radius: var(--border-radius);
+  box-shadow: var(--strong-shadow);
+}
+
+.post h1 {
+  width: 100%;
+  padding: 0 5px;
+  text-align: start;
+  font-size: var(--font-l);
+  font-weight: var(--weight-l);
+}
+
+.data_wrapper {
+  height: 10px;
+  position: absolute;
+  top: -22px;
+  right: 5px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: rgb(var(--border-rgb));
+}
+
+.content {
+  width: 100%;
+  padding: 20px 5px 0 5px;
+  padding-top: 20px;
+  font-size: var(--font-m);
+}
+
+.related {
+  width: 100%;
+  height: fit-content;
+  margin-top: 20px;
+  background-color: rgb(var(--ui-bg-rgb));
+  border-radius: var(--border-radius);
+  box-shadow: var(--strong-shadow);
+}
+
+.related h3 {
+  width: 100%;
+  padding: 10px;
+  padding-bottom: 0;
+  text-align: center;
+  font-weight: var(--weight-l);
+}
+
+.related ul {
+  padding: 20px;
+  list-style: none;
+}
+
+.related li {
+  padding: 5px 3px;
+  font-size: var(--font-m);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-bottom: 1px dotted rgb(var(--border-rgb));
+  background-color: rgb(var(--ui-bg-rgb));
+}
+
+.related a {
+  width: 100%;
+  display: block;
+}
+
+.related li:hover {
+  filter: brightness(0.97);
+}
+
+.related li:last-child {
+  margin-bottom: 10px;
+}
+
+.related_cur {
+  font-weight: var(--weight-l);
+}
