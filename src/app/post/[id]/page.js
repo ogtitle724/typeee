@@ -2,6 +2,8 @@ import styles from "./page.module.css";
 import fetchIns from "@/util/fetch";
 import { sanitize } from "@/util/secure";
 import Link from "next/link";
+import BtnDelete from "@comps/btn/delete/delete";
+import { IoTrashOutline, IoCreateOutline } from "react-icons/io5";
 
 export default async function TopicPage({ params }) {
   try {
@@ -25,16 +27,29 @@ export default async function TopicPage({ params }) {
     return (
       <>
         <section className={styles.post}>
-          <h1>{postData.title}</h1>
           <div className={styles.data_wrapper}>
             <span>{` ${postData.author.nick || "anonymous"} • ${
               postData.topic
             } • ${new Date(postData.wr_date).toString().slice(0, 21)}`}</span>
           </div>
+          <h1>{postData.title}</h1>
           <div
             className={styles.content}
             dangerouslySetInnerHTML={{ __html: sanitize(postData.content) }}
           ></div>
+          <div className={styles.btn_wrapper}>
+            <Link
+              href={`/write?id=${params.id}`}
+              className={styles.btn}
+              aria-label="edit link"
+            >
+              <IoCreateOutline size={20} color="grey" />
+            </Link>
+            <BtnDelete
+              url={process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`}
+              size={18}
+            />
+          </div>
         </section>
         <section className={styles.related}>
           <h3>Related ARTICLEs</h3>

@@ -39,7 +39,12 @@ export async function PATCH(req, { params }) {
 export async function DELETE(req, { params }) {
   try {
     const id = params.id;
+    console.log(id);
     await del(id);
+
+    return new Response(JSON.stringify("Delete completed"), {
+      status: 200,
+    });
   } catch (err) {
     console.error(err.message);
     return new Response(JSON.stringify(err.message), {

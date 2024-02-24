@@ -1,49 +1,61 @@
 .post {
   width: 100%;
-  margin-top: 20px;
-  padding: 15px 15px 30px 15px;
+  padding: 15px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: rgb(var(--ui-bg-rgb));
   border-radius: var(--border-radius);
-  box-shadow: var(--strong-shadow);
+}
+
+.data_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 13px;
+  color: rgb(var(--border-rgb));
 }
 
 .post h1 {
   width: 100%;
-  padding: 0 5px;
+  padding: 0 10px;
   text-align: start;
   font-size: var(--font-l);
   font-weight: var(--weight-l);
 }
 
-.data_wrapper {
-  height: 10px;
-  position: absolute;
-  top: -22px;
-  right: 5px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  color: rgb(var(--border-rgb));
-}
-
 .content {
   width: 100%;
-  padding: 20px 5px 0 5px;
+  min-height: 160px;
+  padding: 20px 10px 0 10px;
   padding-top: 20px;
   font-size: var(--font-m);
+}
+
+.btn_wrapper {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn {
+  transition: filter 0.2s ease;
+}
+
+.btn:hover {
+  filter: brightness(0.4);
 }
 
 .related {
   width: 100%;
   height: fit-content;
-  margin-top: 20px;
+  margin-top: 30px;
   background-color: rgb(var(--ui-bg-rgb));
   border-radius: var(--border-radius);
-  box-shadow: var(--strong-shadow);
 }
 
 .related h3 {
@@ -55,18 +67,19 @@
 }
 
 .related ul {
-  padding: 20px;
+  padding: 15px;
   list-style: none;
 }
 
 .related li {
-  padding: 5px 3px;
+  padding: 7px 10px;
   font-size: var(--font-m);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  border-bottom: 1px dotted rgb(var(--border-rgb));
+  border-bottom: 1px solid rgb(var(--border-rgb));
   background-color: rgb(var(--ui-bg-rgb));
+  transition: filter 0.2s ease;
 }
 
 .related a {

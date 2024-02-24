@@ -38,16 +38,8 @@ export default function Page() {
             process.env.NEXT_PUBLIC_URL_POST + `/${id}`
           );
           const resData = await res.json();
-          /* const preData = {
-            title: resData.title,
-            content: resData.content,
-            topic: resData.topic,
-            summary: resData.summary,
-            author: { ...resData.author },
-            thumbnail: resData.thumbnail,
-          }; */
 
-          setData(structuredClone(resData));
+          setData(structuredClone(resData.postData));
           isEdit.current = true;
         } catch (err) {
           console.error(err.message);

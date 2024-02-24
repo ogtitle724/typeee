@@ -25,9 +25,14 @@
   width: 100%;
   height: fit-content;
   padding: 5px 0;
-  border-radius: var(--border-radius);
+  border-radius: 3px;
   background-color: rgb(var(--ui-bg-rgb));
+  transition: transform 0.3s ease;
   box-shadow: var(--strong-shadow);
+}
+
+.li:hover {
+  transform: scale(1.06);
 }
 
 .img_wrapper {
@@ -115,7 +120,7 @@
   transform: translate(-50%, -50%);
   border: 1px solid rgb(var(--highlight-rgb));
   border-radius: var(--border-radius);
-  background-color: rgb(var(--background-end-rgb));
+  background-color: rgb(var(--background-rgb));
   font-size: var(--font-t);
   font-weight: var(--weight-t);
 }

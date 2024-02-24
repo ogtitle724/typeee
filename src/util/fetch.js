@@ -1,4 +1,5 @@
 import revalidate from "./revalidate";
+import debounce from "./debounce";
 
 class Fetch {
   constructor() {
@@ -68,31 +69,31 @@ class Fetch {
   }
 
   async post(url, data, options = {}) {
-    revalidate();
+    function debounceArg() {
+      revalidate();
 
-    return this.request(url, {
-      ...options,
-      method: "POST",
-      body: data,
-    });
-  }
+      return this.request(url, {
+        ...options,
+        method: "POST",
+        body: data,
+      });
+    }
 
-  async put(url, data, options = {}) {
-    revalidate();
-    return this.request(url, {
-      ...options,
-      method: "PUT",
-      body: data,
-    });
+    debounce(debounceArg, 400);
   }
 
   async patch(url, data, options = {}) {
-    revalidate();
-    return this.request(url, {
-      ...options,
-      method: "PATCH",
-      body: data,
-    });
+    function debounceArg() {
+      revalidate();
+
+      return this.request(url, {
+        ...options,
+        method: "PATCH",
+        body: data,
+      });
+    }
+
+    debounce(debounceArg, 400);
   }
 
   async delete(url, options = {}) {
