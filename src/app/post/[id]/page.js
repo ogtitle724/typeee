@@ -1,11 +1,15 @@
 import styles from "./page.module.css";
-import fetchIns from "@/util/fetch";
-import { sanitize } from "@/util/secure";
+import fetchIns from "@/lib/fetch";
+import { sanitize } from "@/lib/secure";
 import Link from "next/link";
 import BtnDelete from "@comps/btn/delete/delete";
-import { IoTrashOutline, IoCreateOutline } from "react-icons/io5";
+import BtnEdit from "@/app/_components/btn/edit/edit";
+import { getServerSession } from "next-auth";
+import authOptions from "@/lib/auth_config";
 
 export default async function TopicPage({ params }) {
+  const session = await getServerSession(authOptions);
+
   try {
     const res = await fetchIns.get(
       process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`
@@ -23,7 +27,7 @@ export default async function TopicPage({ params }) {
       prevPosts = prevPosts.slice(0, 3);
       nextPosts = nextPosts.slice(-3);
     }
-
+    console.log(postData._id);
     return (
       <>
         <section className={styles.post}>
@@ -38,17 +42,21 @@ export default async function TopicPage({ params }) {
             dangerouslySetInnerHTML={{ __html: sanitize(postData.content) }}
           ></div>
           <div className={styles.btn_wrapper}>
-            <Link
-              href={`/write?id=${params.id}`}
-              className={styles.btn}
-              aria-label="edit link"
-            >
-              <IoCreateOutline size={20} color="grey" />
-            </Link>
-            <BtnDelete
-              url={process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`}
-              size={18}
-            />
+            {(!postData.author.id ||
+              postData.author.id === session?.user.uid) && (
+              <>
+                <BtnEdit
+                  comparePwd={postData.author.pwd}
+                  targetId={postData._id}
+                  size={20}
+                />
+                <BtnDelete
+                  comparePwd={postData.author.pwd}
+                  url={process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`}
+                  size={18}
+                />
+              </>
+            )}
           </div>
         </section>
         <section className={styles.related}>

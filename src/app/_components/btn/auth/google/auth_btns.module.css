@@ -1,0 +1,10 @@
+.sign_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-size: var(--font-vs);
+  font-weight: var(--weight-l);
+  color: rgb(var(--border-rgb));
+  text-transform: capitalize;
+}

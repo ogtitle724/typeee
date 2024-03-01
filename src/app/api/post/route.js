@@ -1,4 +1,4 @@
-import { create } from "@/service/mongoDB/mongoose";
+import { create } from "@/service/mongoDB/mongoose_post";
 
 export async function POST(req) {
   const data = await req.json();

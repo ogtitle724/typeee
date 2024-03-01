@@ -69,7 +69,7 @@ class Fetch {
   }
 
   async post(url, data, options = {}) {
-    function debounceArg() {
+    const debounceArg = () => {
       revalidate();
 
       return this.request(url, {
@@ -77,13 +77,14 @@ class Fetch {
         method: "POST",
         body: data,
       });
-    }
+    };
 
-    debounce(debounceArg, 400);
+    const debouncedFunc = debounce(debounceArg, 400);
+    return debouncedFunc();
   }
 
   async patch(url, data, options = {}) {
-    function debounceArg() {
+    const debounceArg = () => {
       revalidate();
 
       return this.request(url, {
@@ -91,9 +92,10 @@ class Fetch {
         method: "PATCH",
         body: data,
       });
-    }
+    };
 
-    debounce(debounceArg, 400);
+    const debouncedFunc = debounce(debounceArg, 400);
+    return debouncedFunc();
   }
 
   async delete(url, options = {}) {

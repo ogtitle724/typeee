@@ -3,8 +3,6 @@ import { memo } from "react";
 import styles from "./btn.module.css";
 
 function ToggleBtn({ isClk, onClick }) {
-  console.log("BTN");
-
   return (
     <>
       <button

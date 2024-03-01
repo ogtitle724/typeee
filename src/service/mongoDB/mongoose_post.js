@@ -89,7 +89,7 @@ export async function relate(date, id, topic) {
       .select("title wr_date _id")
       .sort({ wr_date: 1 })
       .limit(6);
-    console.log(nextPosts);
+
     return { prevPosts, nextPosts };
   } catch (err) {
     console.error(err.message);

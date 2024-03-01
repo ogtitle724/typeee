@@ -1,6 +1,6 @@
 "use client";
 
-import fetchIns from "@/util/fetch";
+import fetchIns from "@/lib/fetch";
 import dynamic from "next/dynamic";
 import Select from "@comps/select/select";
 import styles from "./write.module.css";
@@ -8,14 +8,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IoSave } from "react-icons/io5";
 import { topics } from "@/config/topic";
-import { delTags } from "@/util/text";
+import { delTags } from "@/lib/text";
+import { useSession } from "next-auth/react";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 
 export default function Page() {
   const query = useSearchParams();
   const router = useRouter();
+  const session = useSession();
   const isEdit = useRef(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [data, setData] = useState({
     title: "",
     content: "",
@@ -23,14 +26,15 @@ export default function Page() {
     summary: "",
     thumbnail: "",
     author: {
-      id: "anonymous",
-      nick: "anonymous",
+      id: session?.data?.user?.uid || "",
+      nick: session?.data?.user?.name || "",
+      pwd: "",
     },
   });
 
   useEffect(() => {
     const id = query.get("id");
-
+    console.log(id);
     if (id) {
       const getData = async () => {
         try {
@@ -67,6 +71,14 @@ export default function Page() {
     }));
   };
 
+  const handleChangePwd = (e) => {
+    if (e.target.value.length > 10) return;
+
+    const newData = structuredClone(data);
+    newData.author.pwd = String(e.target.value);
+    setData(newData);
+  };
+
   const handleClkBtnUpload = async () => {
     if (!data.title || !data.content || !data.topic) {
       return alert(
@@ -74,11 +86,17 @@ export default function Page() {
       );
     }
 
+    if (session.status === "unauthenticated" && data.author.pwd.length < 4) {
+      return alert("Please enter a password of at least 4 characters.");
+    }
+
     const plainText = delTags(data.content);
 
     if (isOverMaximumTextSize(plainText)) {
       return alert("The size of your post has exceeded the size limit :(");
     }
+
+    setIsUploading(true);
 
     //TODO: check whether image included. if image exist extract it and store it to S3 bucket and then use the url
 
@@ -102,6 +120,7 @@ export default function Page() {
       router.push(`/post/${resData._id}`);
     } catch (err) {
       console.error(err.message);
+      setIsUploading(false);
       alert(err.message);
     }
   };
@@ -129,6 +148,14 @@ export default function Page() {
           }}
         />
         <div className={styles.btn_wrapper}>
+          {session.status === "unauthenticated" && (
+            <input
+              value={data.author.pwd}
+              className={styles.input_pwd}
+              onChange={handleChangePwd}
+              placeholder="Password (4 ~ 10)"
+            />
+          )}
           <Select
             options={topics}
             value={data.topic}
@@ -137,9 +164,17 @@ export default function Page() {
               setData(newData);
             }}
           />
-          <button className={styles.btn} onClick={handleClkBtnUpload}>
-            <IoSave size={30} />
-          </button>
+          {isUploading ? (
+            <div className={styles.loader}></div>
+          ) : (
+            <button
+              className={styles.btn}
+              onClick={handleClkBtnUpload}
+              disabled={isUploading}
+            >
+              <IoSave size={30} />
+            </button>
+          )}
         </div>
       </div>
     </>

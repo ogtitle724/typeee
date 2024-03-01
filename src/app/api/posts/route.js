@@ -1,4 +1,4 @@
-import { paging } from "@/service/mongoDB/mongoose";
+import { paging } from "@/service/mongoDB/mongoose_post";
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);

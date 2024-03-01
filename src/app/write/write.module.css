@@ -22,11 +22,27 @@
 .btn_wrapper {
   height: 50px;
   display: flex;
+  padding: 0 5px;
   align-items: center;
   gap: 10px;
   position: absolute;
   bottom: 5px;
   right: 15px;
+  border-radius: var(--border-radius);
+}
+
+.input_pwd {
+  width: 150px;
+  height: 30px;
+  border: none;
+  border-bottom: 1px solid rgb(var(--border-rgb));
+  font-size: var(--font-);
+  background-color: transparent;
+  text-align: center;
+}
+
+.input_pwd:focus {
+  outline: none;
 }
 
 .btn {
@@ -40,4 +56,36 @@
 .btn span {
   font-size: var(--font-s);
   font-weight: var(--weight-t);
+}
+
+.loader {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 3px solid rgb(var(--highlight-rgb));
+  border-right: 3px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loader::after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border-bottom: 3px solid rgb(var(--highlight-rgb));
+  border-left: 3px solid transparent;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

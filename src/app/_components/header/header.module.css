@@ -67,11 +67,6 @@
   color: white;
 }
 
-.menu_sign {
-  display: flex;
-  gap: 10px;
-}
-
 .menu_btnWrapper {
   width: 100%;
   margin-top: 10px;
@@ -83,16 +78,31 @@
   border-top: 1px dotted rgba(var(--border-rgb));
 }
 
-.menu_sign button {
-  font-size: var(--font-vs);
-}
-
-.menu_btn {
+.btn_write {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.login_sign {
+  position: fixed;
+  top: 10px;
+  left: 35px;
+  z-index: 2;
+}
+
+.login_sign::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  left: -27px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: lightgreen;
+  border-radius: 100%;
+}
 @keyframes show {
   100% {
     opacity: 1;

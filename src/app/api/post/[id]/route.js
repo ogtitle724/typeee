@@ -1,4 +1,4 @@
-import { update, read, del, relate } from "@/service/mongoDB/mongoose";
+import { update, read, del, relate } from "@/service/mongoDB/mongoose_post";
 
 export async function GET(req, { params }) {
   const id = params.id;
@@ -39,7 +39,6 @@ export async function PATCH(req, { params }) {
 export async function DELETE(req, { params }) {
   try {
     const id = params.id;
-    console.log(id);
     await del(id);
 
     return new Response(JSON.stringify("Delete completed"), {

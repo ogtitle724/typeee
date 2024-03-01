@@ -1,5 +1,5 @@
 import Board from "@comps/board/board";
-import { getPosts } from "@/util/api";
+import { getPosts } from "@/lib/api";
 
 export const generateMetadata = async (props) => {
   const topic = props.params.topic;

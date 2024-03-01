@@ -5,7 +5,13 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IoSearchOutline, IoCheckmark, IoCreateOutline } from "react-icons/io5";
 import { topics } from "@/config/topic";
+import { useSession } from "next-auth/react";
+
 import ToggleBtn from "@comps/btn/toggle_btn/toggle_btn";
+import {
+  GoogleAuthButton,
+  SignOutButton,
+} from "@/app/_components/btn/auth/google/auth_btns";
 import styles from "./header.module.css";
 
 export default function Header() {
@@ -16,6 +22,7 @@ export default function Header() {
   const router = useRouter();
   const headerRef = useRef();
   const scrollY = useRef();
+  const { data, status } = useSession();
 
   useEffect(() => {
     const header = headerRef.current;
@@ -37,12 +44,17 @@ export default function Header() {
 
       window.addEventListener("scroll", headerScrollEffect);
 
-      return () =>
-        window.removeEventListener("scroll", (e) => {
-          console.log(e);
-        });
+      return () => window.removeEventListener("scroll", headerScrollEffect);
     }
   }, []);
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      console.log(`now logged in with ${data?.session?.user?.name}`);
+    } else {
+      console.log("you are not logged in now");
+    }
+  }, [data?.session?.user?.name, status]);
 
   useEffect(() => {
     setIsSearch(false);
@@ -76,31 +88,40 @@ export default function Header() {
   }, [isTopic, isSearch]);
 
   return (
-    <header ref={headerRef} className={styles.header + " card"}>
-      {isSearch ? (
-        <input
-          className={styles.input_search}
-          value={searchParam}
-          onChange={(e) => setSearchParam(e.target.value)}
-          placeholder="Search..."
-        />
-      ) : (
-        <Link href="/" onClick={() => setIsTopic(false)}>
-          <h3>TYPYtab</h3>
-        </Link>
+    <>
+      <header ref={headerRef} className={styles.header + " card"}>
+        {isSearch ? (
+          <input
+            className={styles.input_search}
+            value={searchParam}
+            onChange={(e) => setSearchParam(e.target.value)}
+            placeholder="Search..."
+          />
+        ) : (
+          <Link href="/" onClick={() => setIsTopic(false)}>
+            <h3>{process.env.NEXT_PUBLIC_SITE_NAME}</h3>
+          </Link>
+        )}
+        <div className={styles.btn_wrapper}>
+          <button onClick={handleClkBtnSearch} aria-label="search button">
+            {isSearch ? (
+              <IoCheckmark size={24} />
+            ) : (
+              <IoSearchOutline size={22} />
+            )}
+          </button>
+          <ToggleBtn isClk={isSearch || isTopic} onClick={handleClkBtnMenu} />
+        </div>
+        {isTopic && <Menu setIsTopic={setIsTopic} status={status} />}
+      </header>
+      {status === "authenticated" && (
+        <span className={styles.login_sign}>Now sign up</span>
       )}
-      <div className={styles.btn_wrapper}>
-        <button onClick={handleClkBtnSearch} aria-label="search button">
-          {isSearch ? <IoCheckmark size={24} /> : <IoSearchOutline size={22} />}
-        </button>
-        <ToggleBtn isClk={isSearch || isTopic} onClick={handleClkBtnMenu} />
-      </div>
-      {isTopic && <Menu setIsTopic={setIsTopic} />}
-    </header>
+    </>
   );
 }
 
-function Menu({ setIsTopic }) {
+function Menu(props) {
   const targetParam = useParams().topic;
 
   return (
@@ -110,7 +131,7 @@ function Menu({ setIsTopic }) {
         className={
           styles.menu_item + (targetParam ? "" : " " + styles.menu_item_focus)
         }
-        onClick={() => setIsTopic(false)}
+        onClick={() => props.setIsTopic(false)}
       >
         {"Home"}
       </Link>
@@ -125,23 +146,25 @@ function Menu({ setIsTopic }) {
                 ? " " + styles.menu_item_focus
                 : "")
             }
-            onClick={() => setIsTopic(false)}
+            onClick={() => props.setIsTopic(false)}
           >
             {topic}
           </Link>
         );
       })}
       <div className={styles.menu_btnWrapper}>
-        <div className={styles.menu_sign}>
-          <button>LogIn</button>
-          <button>SignUp</button>
-        </div>
+        {props.status === "authenticated" ? (
+          <SignOutButton />
+        ) : (
+          <GoogleAuthButton />
+        )}
+
         <Link
           href={"/write"}
-          className={styles.menu_btn}
-          onClick={() => setIsTopic(false)}
+          className={styles.btn_write}
+          onClick={() => props.setIsTopic(false)}
         >
-          <IoCreateOutline size={25} />
+          <IoCreateOutline size={22} />
         </Link>
       </div>
     </div>

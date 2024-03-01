@@ -1,4 +1,4 @@
-import fetchIns from "@/util/fetch";
+import fetchIns from "@/lib/fetch";
 
 export const getPosts = async (query) => {
   let qs = Object.entries(query).reduce((acc, query, idx) => {

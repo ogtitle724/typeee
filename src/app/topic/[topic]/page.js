@@ -1,5 +1,5 @@
 import Board from "@comps/board/board";
-import { getPosts } from "@/util/api";
+import { getPosts } from "@/lib/api";
 
 export default async function Topic({ params }) {
   const pagingData = await getPosts({
