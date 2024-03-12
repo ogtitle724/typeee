@@ -14,6 +14,8 @@ import { Suspense } from "react";
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 
 export function WritePage() {
+  const testgit = true;
+  const testgit2 = true;
   const query = useSearchParams();
   const router = useRouter();
   const session = { data: undefined, status: "unauthenticated" };
