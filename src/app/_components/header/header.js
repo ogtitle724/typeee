@@ -5,13 +5,8 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IoSearchOutline, IoCheckmark, IoCreateOutline } from "react-icons/io5";
 import { topics } from "@/config/topic";
-import { useSession } from "next-auth/react";
 
 import ToggleBtn from "@comps/btn/toggle_btn/toggle_btn";
-import {
-  GoogleAuthButton,
-  SignOutButton,
-} from "@/app/_components/btn/auth/google/auth_btns";
 import styles from "./header.module.css";
 
 export default function Header() {
@@ -22,7 +17,6 @@ export default function Header() {
   const router = useRouter();
   const headerRef = useRef();
   const scrollY = useRef();
-  const { data, status } = useSession();
 
   useEffect(() => {
     const header = headerRef.current;
@@ -47,14 +41,6 @@ export default function Header() {
       return () => window.removeEventListener("scroll", headerScrollEffect);
     }
   }, []);
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      console.log(`now logged in with ${data?.session?.user?.name}`);
-    } else {
-      console.log("you are not logged in now");
-    }
-  }, [data?.session?.user?.name, status]);
 
   useEffect(() => {
     setIsSearch(false);
@@ -112,11 +98,8 @@ export default function Header() {
           </button>
           <ToggleBtn isClk={isSearch || isTopic} onClick={handleClkBtnMenu} />
         </div>
-        {isTopic && <Menu setIsTopic={setIsTopic} status={status} />}
+        {isTopic && <Menu setIsTopic={setIsTopic} />}
       </header>
-      {status === "authenticated" && (
-        <span className={styles.login_sign}>Now sign up</span>
-      )}
     </>
   );
 }
@@ -153,12 +136,6 @@ function Menu(props) {
         );
       })}
       <div className={styles.menu_btnWrapper}>
-        {props.status === "authenticated" ? (
-          <SignOutButton />
-        ) : (
-          <GoogleAuthButton />
-        )}
-
         <Link
           href={"/write"}
           className={styles.btn_write}

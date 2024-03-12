@@ -1,7 +1,7 @@
 import Board from "@comps/board/board";
-import { getPosts } from "@/lib/api";
+import { paging } from "@/service/mongoDB/mongoose_post";
 
-export const generateMetadata = async (props) => {
+/* export const generateMetadata = async (props) => {
   const topic = props.params.topic;
   const querys = props.searchParams;
 
@@ -14,19 +14,18 @@ export const generateMetadata = async (props) => {
 
   return;
 };
-
+ */
 export default async function Home() {
-  const pagingData = await getPosts({
-    topic: "",
-    page: 1,
-    select: "_id title summary topic",
+  const topic = "";
+  const page = 1;
+  const select = "_id title summary topic";
+  const size = 30;
 
-    size: 30,
-  });
-
-  return (
-    <>
-      <Board posts={pagingData} type={""} />
-    </>
-  );
+  try {
+    const pagingData = await paging(topic, page, select, size);
+    return <Board posts={pagingData} type={""} />;
+  } catch (err) {
+    console.error(err.message);
+    return <span>There is an error during fetching Articles</span>;
+  }
 }

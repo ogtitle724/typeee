@@ -78,7 +78,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  border-bottom: 1px solid rgb(var(--border-rgb));
+  border-bottom: 1px solid rgb(var(--background-rgb));
   background-color: rgb(var(--ui-bg-rgb));
   transition: filter 0.2s ease;
 }

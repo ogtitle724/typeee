@@ -9,14 +9,14 @@ import { useEffect, useRef, useState } from "react";
 import { IoSave } from "react-icons/io5";
 import { topics } from "@/config/topic";
 import { delTags } from "@/lib/text";
-import { useSession } from "next-auth/react";
+import { Suspense } from "react";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 
-export default function Page() {
+export function WritePage() {
   const query = useSearchParams();
   const router = useRouter();
-  const session = useSession();
+  const session = { data: undefined, status: "unauthenticated" };
   const isEdit = useRef(false);
   const [isUploading, setIsUploading] = useState(false);
   const [data, setData] = useState({
@@ -26,7 +26,7 @@ export default function Page() {
     summary: "",
     thumbnail: "",
     author: {
-      id: session?.data?.user?.uid || "",
+      uid: session?.data?.user?.uid || "",
       nick: session?.data?.user?.name || "",
       pwd: "",
     },
@@ -34,7 +34,7 @@ export default function Page() {
 
   useEffect(() => {
     const id = query.get("id");
-    console.log(id);
+
     if (id) {
       const getData = async () => {
         try {
@@ -42,8 +42,10 @@ export default function Page() {
             process.env.NEXT_PUBLIC_URL_POST + `/${id}`
           );
           const resData = await res.json();
+          const newData = structuredClone(resData);
+          newData.author.pwd = "";
 
-          setData(structuredClone(resData.postData));
+          setData(newData);
           isEdit.current = true;
         } catch (err) {
           console.error(err.message);
@@ -54,6 +56,17 @@ export default function Page() {
       getData();
     }
   }, [query]);
+
+  useEffect(() => {
+    setData({
+      ...data,
+      author: {
+        uid: session?.data?.user?.uid || "",
+        nick: session?.data?.user?.name || "",
+        pwd: "",
+      },
+    });
+  }, [session?.data?.user?.name, session?.data?.user?.uid, session.status]);
 
   const handleChangeTitle = (e) => {
     if (e.target.value.length <= process.env.NEXT_PUBLIC_MAX_TITLE_LEN) {
@@ -178,5 +191,13 @@ export default function Page() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <WritePage />
+    </Suspense>
   );
 }

@@ -1,21 +1,20 @@
 import styles from "./page.module.css";
-import fetchIns from "@/lib/fetch";
 import { sanitize } from "@/lib/secure";
 import Link from "next/link";
 import BtnDelete from "@comps/btn/delete/delete";
 import BtnEdit from "@/app/_components/btn/edit/edit";
-import { getServerSession } from "next-auth";
-import authOptions from "@/lib/auth_config";
+import { read, relate } from "@/service/mongoDB/mongoose_post";
 
 export default async function TopicPage({ params }) {
-  const session = await getServerSession(authOptions);
-
+  //TODO: 로그인 된 상태로 버튼 조작 제한없이 가능한거, 익명작성글을 로그인 후 수정했을 때 자동으로 글쓴이 설정해 말아?
   try {
-    const res = await fetchIns.get(
-      process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`
+    const postData = await read(params.id);
+    const relatePosts = await relate(
+      postData.wr_date,
+      postData.author.id,
+      postData.topic
     );
-    const resData = await res.json();
-    const { postData, relatePosts } = resData;
+
     let prevPosts = relatePosts.prevPosts;
     let nextPosts = relatePosts.nextPosts.reverse();
 
@@ -27,7 +26,7 @@ export default async function TopicPage({ params }) {
       prevPosts = prevPosts.slice(0, 3);
       nextPosts = nextPosts.slice(-3);
     }
-    console.log(postData._id);
+
     return (
       <>
         <section className={styles.post}>
@@ -42,21 +41,22 @@ export default async function TopicPage({ params }) {
             dangerouslySetInnerHTML={{ __html: sanitize(postData.content) }}
           ></div>
           <div className={styles.btn_wrapper}>
-            {(!postData.author.id ||
-              postData.author.id === session?.user.uid) && (
+            {
               <>
                 <BtnEdit
+                  isAnnonymous={!postData.author.uid}
                   comparePwd={postData.author.pwd}
                   targetId={postData._id}
                   size={20}
                 />
                 <BtnDelete
+                  isAnnonymous={!postData.author.uid}
                   comparePwd={postData.author.pwd}
                   url={process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`}
                   size={18}
                 />
               </>
-            )}
+            }
           </div>
         </section>
         <section className={styles.related}>
@@ -88,6 +88,11 @@ export default async function TopicPage({ params }) {
       </>
     );
   } catch (err) {
-    console.error(err.message);
+    console.error("Error(/app/post/[id]/page.js) :", err.message);
+    return (
+      <section>
+        <span>There is an error during fetching article</span>
+      </section>
+    );
   }
 }

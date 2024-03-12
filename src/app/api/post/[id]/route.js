@@ -1,35 +1,41 @@
-import { update, read, del, relate } from "@/service/mongoDB/mongoose_post";
+import { update, read, del } from "@/service/mongoDB/mongoose_post";
 
 export async function GET(req, { params }) {
-  const id = params.id;
-  const postData = await read(id);
+  try {
+    const id = params.id;
+    const postData = await read(id);
 
-  const relatePosts = await relate(
-    postData.wr_date,
-    postData.author.id,
-    postData.topic
-  );
-  const responseData = {
-    postData,
-    relatePosts,
-  };
-
-  return new Response(JSON.stringify(responseData), {
-    status: 200,
-  });
+    return new Response(JSON.stringify(postData), {
+      status: 200,
+    });
+  } catch (err) {
+    console.error("Error(api/post/route.js > GET) :", err.message);
+    return new Response(JSON.stringify(err.message), {
+      status: 500,
+    });
+  }
 }
 
 export async function PATCH(req, { params }) {
   try {
     const id = params.id;
     const data = await req.json();
-    const updatedPost = await update(id, data);
+    const session = true;
+    let updatedPost;
+
+    if (!session) {
+      console.log("no sessino update");
+      updatedPost = await update(id, data, data.author.pwd);
+    } else {
+      console.log("with sessino update");
+      updatedPost = await update(id, data, session.user.uid);
+    }
 
     return new Response(JSON.stringify(updatedPost), {
       status: 200,
     });
   } catch (err) {
-    console.error(err.message);
+    console.error("Error(api/post/route.js > PATCH) :", err.message);
     return new Response(JSON.stringify(err.message), {
       status: 500,
     });
@@ -45,7 +51,7 @@ export async function DELETE(req, { params }) {
       status: 200,
     });
   } catch (err) {
-    console.error(err.message);
+    console.error("Error(api/post/route.js > DELETE) :", err.message);
     return new Response(JSON.stringify(err.message), {
       status: 500,
     });

@@ -3,9 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./board.module.css";
-import { delTags } from "@/lib/text";
 import { IoCreateOutline } from "react-icons/io5";
-import { topics } from "@/config/topic";
 
 export default function Board({ posts, type }) {
   return (

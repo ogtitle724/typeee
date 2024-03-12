@@ -4,18 +4,16 @@ import { useRouter } from "next/navigation";
 import styles from "./btn_del.module.css";
 import { IoTrashOutline } from "react-icons/io5";
 import fetchIns from "@/lib/fetch";
-import { useSession } from "next-auth/react";
 
 export default function BtnDelete(props) {
   const router = useRouter();
-  const { status } = useSession();
 
   const handleClkBtnDel = async () => {
-    if (status === "unauthenticated") {
-      const inputId = String(prompt("Please enter a password."));
+    if (props.isAnnonymous) {
+      const inputId = prompt("Please enter a password.");
 
       if (!inputId) return;
-      if (inputId !== props.comparePwd) {
+      if (String(inputId) !== props.comparePwd) {
         return alert("Please check your password");
       }
     }

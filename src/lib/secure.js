@@ -1,7 +1,7 @@
 import sanitizeHtml from "sanitize-html-react";
 
-export const sanitize = (content) =>
-  sanitizeHtml(content, {
+export const sanitize = (content) => {
+  const sanitized = sanitizeHtml(content, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat(["span", "img"]),
     allowedAttributes: {
       ...sanitizeHtml.defaults.allowedAttributes,
@@ -9,3 +9,6 @@ export const sanitize = (content) =>
       iframe: ["src", "width", "height"],
     },
   });
+
+  return sanitized;
+};

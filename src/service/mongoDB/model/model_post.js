@@ -28,7 +28,7 @@ const postSchema = new mongoose.Schema({
     minLength: 1,
   },
   author: {
-    id: {
+    uid: {
       type: String,
       default: "",
     },
@@ -99,7 +99,6 @@ postSchema.pre("save", function (next) {
 }); */
 
 //here make vertual method that calc score(best)
-
 const Post = mongoose.models.posts || mongoose.model("posts", postSchema);
 
 export default Post;
