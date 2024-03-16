@@ -27,14 +27,11 @@ export function WritePage() {
     summary: "",
     thumbnail: "",
     author: {
+      uid: session?.data?.user?.uid,
       name: session?.data?.user?.name,
       email: session?.data?.user?.email,
     },
   });
-
-  useEffect(() => {
-    if (session.status === "unauthenticated") router.push("/");
-  }, [router, session]);
 
   useEffect(() => {
     const id = query.get("id");
@@ -46,12 +43,6 @@ export function WritePage() {
             process.env.NEXT_PUBLIC_URL_POST + `/${id}`
           );
           const resData = await res.json();
-
-          if (session?.data?.user?.email !== resData.author.email) {
-            alert("You don't have permission to edit the post");
-            router.back();
-          }
-
           const newData = structuredClone(resData);
 
           setData(newData);
@@ -64,7 +55,7 @@ export function WritePage() {
 
       getData();
     }
-  }, [query, router, session?.data?.user?.email]);
+  }, [query, router, session?.data?.user?.uid]);
 
   const handleChangeTitle = (e) => {
     if (e.target.value.length <= process.env.NEXT_PUBLIC_MAX_TITLE_LEN) {
@@ -83,6 +74,12 @@ export function WritePage() {
   };
 
   const handleClkBtnUpload = async () => {
+    if (session.status !== "authenticated") {
+      return alert(
+        "You must log in to write a post. (Please note that your data will be deleted during the login process.)"
+      );
+    }
+
     if (!data.title || !data.content || !data.topic) {
       return alert(
         "Please make sure you have entered all the title, content, and topic."

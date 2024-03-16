@@ -94,6 +94,7 @@
 
 .related li:last-child {
   margin-bottom: 10px;
+  border: none;
 }
 
 .related_cur {

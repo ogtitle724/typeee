@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 
 import ToggleBtn from "@comps/btn/toggle_btn/toggle_btn";
 import styles from "./header.module.css";
-import { GoogleAuthButton, SignOutButton } from "../btn/auth/google/auth_btns";
+import { GoogleSignIn, SignOut } from "@comps/btn/auth/auth_btns";
 
 export default function Header() {
   const [isSearch, setIsSearch] = useState(false);
@@ -63,17 +63,23 @@ export default function Header() {
     }
   }, [isSearch, router, searchParam]);
 
-  const handleClkBtnMenu = useCallback(() => {
-    if (!isTopic && !isSearch) {
-      setIsTopic(true);
-    } else {
-      if (isTopic) setIsTopic(false);
-      if (isSearch) {
-        setIsSearch(false);
-        setSearchParam("");
+  const handleClkBtnMenu = useCallback(
+    (e) => {
+      console.log(e);
+      e.stopPropagation();
+
+      if (!isTopic && !isSearch) {
+        setIsTopic(true);
+      } else {
+        if (isTopic) setIsTopic(false);
+        if (isSearch) {
+          setIsSearch(false);
+          setSearchParam("");
+        }
       }
-    }
-  }, [isTopic, isSearch]);
+    },
+    [isTopic, isSearch]
+  );
 
   return (
     <>
@@ -110,6 +116,26 @@ function Menu(props) {
   const targetParam = useParams().topic;
   const session = useSession();
   const router = useRouter();
+  const menuRef = useRef();
+
+  useEffect(() => {
+    const touchClose = (e) => {
+      const mX = e.clientX;
+      const mY = e.clientY;
+      const { left, right, top, bottom } =
+        menuRef.current.getBoundingClientRect();
+
+      if (!(mY > top && mY < bottom && mX > left && mX < right)) {
+        props.setIsTopic(false);
+      }
+    };
+
+    if (typeof window !== undefined && menuRef.current) {
+      window.addEventListener("click", touchClose);
+    }
+
+    return () => window.removeEventListener("click", touchClose);
+  }, []);
 
   const handleClkBtnCreate = () => {
     if (session.status === "unauthenticated") {
@@ -125,7 +151,7 @@ function Menu(props) {
   };
 
   return (
-    <div className={styles.menu + " card"}>
+    <div ref={menuRef} className={styles.menu + " card"}>
       <Link
         href={`/`}
         className={
@@ -153,11 +179,7 @@ function Menu(props) {
         );
       })}
       <div className={styles.menu_btnWrapper}>
-        {session.status !== "authenticated" ? (
-          <GoogleAuthButton />
-        ) : (
-          <SignOutButton />
-        )}
+        {session.status !== "authenticated" ? <GoogleSignIn /> : <SignOut />}
         <button
           className={styles.btn_write}
           onClick={handleClkBtnCreate}

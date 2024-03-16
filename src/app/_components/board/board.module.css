@@ -27,12 +27,12 @@
   padding: 5px 0;
   border-radius: 3px;
   background-color: rgb(var(--ui-bg-rgb));
-  transition: transform 0.3s ease;
+  transition: scale 0.2s ease;
   box-shadow: var(--strong-shadow);
 }
 
 .li:hover {
-  transform: scale(1.06);
+  scale: 0.96;
 }
 
 .img_wrapper {

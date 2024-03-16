@@ -28,6 +28,7 @@ const postSchema = new mongoose.Schema({
     minLength: 1,
   },
   author: {
+    uid: { type: String, default: "" },
     name: {
       type: String,
       default: "",

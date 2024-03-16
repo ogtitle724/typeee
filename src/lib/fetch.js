@@ -17,13 +17,6 @@ class Fetch {
 
   //intercept response and set auth header
   async interceptRes(res) {
-    const authHeader = res.headers.get("Authorization");
-    const accessToken = authHeader && authHeader.split(" ")[1];
-
-    if (accessToken) {
-      console.log("access token generated");
-      this.defaultOptions.headers.Authorization = `Bearer ${accessToken}`;
-    }
     return res;
   }
 

@@ -1,4 +1,5 @@
 import { update, read, del } from "@/service/mongoDB/mongoose_post";
+import { auth } from "@/auth";
 
 export async function GET(req, { params }) {
   try {
@@ -20,16 +21,8 @@ export async function PATCH(req, { params }) {
   try {
     const id = params.id;
     const data = await req.json();
-    const session = true;
-    let updatedPost;
-
-    if (!session) {
-      console.log("no sessino update");
-      updatedPost = await update(id, data, data.author.pwd);
-    } else {
-      console.log("with sessino update");
-      updatedPost = await update(id, data, session.user.uid);
-    }
+    const session = await auth(); //이거 미들웨어에서 받은담에 req에 포함시키고 싶다
+    const updatedPost = await update(id, data, session.user.uid);
 
     return new Response(JSON.stringify(updatedPost), {
       status: 200,

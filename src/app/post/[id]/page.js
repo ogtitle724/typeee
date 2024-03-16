@@ -28,7 +28,7 @@ export default async function TopicPage({ params }) {
       prevPosts = prevPosts.slice(0, 3);
       nextPosts = nextPosts.slice(-3);
     }
-    console.log(session.user.email, postData.author.email);
+
     return (
       <>
         <section className={styles.post}>
@@ -45,7 +45,7 @@ export default async function TopicPage({ params }) {
             dangerouslySetInnerHTML={{ __html: sanitize(postData.content) }}
           ></div>
           <div className={styles.btn_wrapper}>
-            {session && session.user.email === postData.author.email && (
+            {session && session.user.uid === postData.author.uid && (
               <>
                 <BtnEdit
                   isAnnonymous={!postData.author.uid}

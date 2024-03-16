@@ -22,6 +22,7 @@ export default async function Home() {
   const page = 1;
   const select = "_id title summary topic";
   const size = 30;
+  const session = await auth();
 
   try {
     const pagingData = await paging(topic, page, select, size);

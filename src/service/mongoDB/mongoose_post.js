@@ -1,10 +1,7 @@
 import mongoose from "mongoose";
 import Post from "./model/model_post";
 
-mongoose
-  .connect(process.env.CONN_STRING)
-  .then(() => console.log("MongoDB connected!"))
-  .catch((err) => console.error("Error connecting to MongoDB :", err.message));
+mongoose.connect(process.env.CONN_STRING);
 
 export async function create(data) {
   try {
@@ -30,7 +27,7 @@ export async function update(id, data, key) {
   try {
     let post = await Post.findById(id);
 
-    if ((key && key === post.author.pwd) || key === post.author.uid) {
+    if (key === post.author.uid) {
       Object.keys(data).forEach((key) => {
         if (typeof data[key] === "object") {
           post[key] = structuredClone(data[key]);

@@ -6,10 +6,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [GoogleProvider],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      const isExist = await read({ email: user.email });
+      const isExist = await read({ uid: profile.sub });
 
       if (!isExist) {
         await create({
+          uid: profile.sub,
           name: user.name,
           email: user.email,
           profile_img: user.image,
@@ -18,13 +19,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       return true;
     },
-    async redirect({ url, baseUrl }) {
-      return baseUrl;
-    },
     async session({ session, user, token }) {
+      if (token.id) {
+        session.user.uid = token.id;
+      }
+
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {
+      if (account && account.providerAccountId) {
+        token.id = account.providerAccountId;
+      }
+
       return token;
     },
   },
