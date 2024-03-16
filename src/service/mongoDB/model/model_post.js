@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const commentSchema = new mongoose.Schema({
   author: {
-    id: String,
-    nick: String,
+    name: String,
+    email: String,
   },
   content: String,
   wr_date: {
@@ -28,18 +28,13 @@ const postSchema = new mongoose.Schema({
     minLength: 1,
   },
   author: {
-    uid: {
+    name: {
       type: String,
       default: "",
     },
-    pwd: {
+    email: {
       type: String,
-      maxlength: 8,
-      default: "0000",
-    },
-    nick: {
-      type: String,
-      default: "anonymous",
+      default: "",
     },
   },
   content: {

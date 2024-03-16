@@ -3,14 +3,17 @@
 import { useEffect, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import styles from "./auth_btns.module.css";
+import { signIn, signOut } from "next-auth/react";
 
 function GoogleAuthButton() {
   const url = useRef();
-  const handleClkBtnGoogleAuth = () => {};
+  const handleClkBtnGoogleAuth = () =>
+    signIn("google", { callbackUrl: url.current });
 
   useEffect(() => {
     if (typeof window !== undefined) {
       url.current = window.location.href;
+      console.log(url.current);
     }
   }, []);
 
@@ -27,7 +30,7 @@ function GoogleAuthButton() {
 }
 
 function SignOutButton() {
-  const handleClkBtnSignOut = () => {};
+  const handleClkBtnSignOut = () => signOut();
   return (
     <button
       className={styles.sign_btn}

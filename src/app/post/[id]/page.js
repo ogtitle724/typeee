@@ -4,10 +4,12 @@ import Link from "next/link";
 import BtnDelete from "@comps/btn/delete/delete";
 import BtnEdit from "@/app/_components/btn/edit/edit";
 import { read, relate } from "@/service/mongoDB/mongoose_post";
+import { auth } from "@/auth";
 
 export default async function TopicPage({ params }) {
   //TODO: 로그인 된 상태로 버튼 조작 제한없이 가능한거, 익명작성글을 로그인 후 수정했을 때 자동으로 글쓴이 설정해 말아?
   try {
+    const session = await auth();
     const postData = await read(params.id);
     const relatePosts = await relate(
       postData.wr_date,
@@ -26,14 +28,16 @@ export default async function TopicPage({ params }) {
       prevPosts = prevPosts.slice(0, 3);
       nextPosts = nextPosts.slice(-3);
     }
-
+    console.log(session.user.email, postData.author.email);
     return (
       <>
         <section className={styles.post}>
           <div className={styles.data_wrapper}>
-            <span>{` ${postData.author.nick || "anonymous"} • ${
-              postData.topic
-            } • ${new Date(postData.wr_date).toString().slice(0, 21)}`}</span>
+            <span>{` ${postData.author.name} • ${postData.topic} • ${new Date(
+              postData.wr_date
+            )
+              .toString()
+              .slice(0, 21)}`}</span>
           </div>
           <h1>{postData.title}</h1>
           <div
@@ -41,7 +45,7 @@ export default async function TopicPage({ params }) {
             dangerouslySetInnerHTML={{ __html: sanitize(postData.content) }}
           ></div>
           <div className={styles.btn_wrapper}>
-            {
+            {session && session.user.email === postData.author.email && (
               <>
                 <BtnEdit
                   isAnnonymous={!postData.author.uid}
@@ -56,7 +60,7 @@ export default async function TopicPage({ params }) {
                   size={18}
                 />
               </>
-            }
+            )}
           </div>
         </section>
         <section className={styles.related}>

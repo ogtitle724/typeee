@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  uid: {
-    type: String,
-    default: "anonymous",
-  },
-  nick: {
+  name: {
     type: String,
     default: "anonymous",
   },

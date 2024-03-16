@@ -1,5 +1,6 @@
 import Board from "@comps/board/board";
 import { paging } from "@/service/mongoDB/mongoose_post";
+import { auth } from "@/auth";
 
 /* export const generateMetadata = async (props) => {
   const topic = props.params.topic;
@@ -15,6 +16,7 @@ import { paging } from "@/service/mongoDB/mongoose_post";
   return;
 };
  */
+
 export default async function Home() {
   const topic = "";
   const page = 1;

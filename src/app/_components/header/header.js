@@ -5,9 +5,11 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IoSearchOutline, IoCheckmark, IoCreateOutline } from "react-icons/io5";
 import { topics } from "@/config/topic";
+import { useSession } from "next-auth/react";
 
 import ToggleBtn from "@comps/btn/toggle_btn/toggle_btn";
 import styles from "./header.module.css";
+import { GoogleAuthButton, SignOutButton } from "../btn/auth/google/auth_btns";
 
 export default function Header() {
   const [isSearch, setIsSearch] = useState(false);
@@ -106,6 +108,21 @@ export default function Header() {
 
 function Menu(props) {
   const targetParam = useParams().topic;
+  const session = useSession();
+  const router = useRouter();
+
+  const handleClkBtnCreate = () => {
+    if (session.status === "unauthenticated") {
+      const navForLogin = confirm("Would you like to login to write post?");
+
+      if (navForLogin) {
+        router.push("/api/auth/signin");
+      }
+    } else {
+      props.setIsTopic(false);
+      router.push("/write");
+    }
+  };
 
   return (
     <div className={styles.menu + " card"}>
@@ -136,13 +153,18 @@ function Menu(props) {
         );
       })}
       <div className={styles.menu_btnWrapper}>
-        <Link
-          href={"/write"}
+        {session.status !== "authenticated" ? (
+          <GoogleAuthButton />
+        ) : (
+          <SignOutButton />
+        )}
+        <button
           className={styles.btn_write}
-          onClick={() => props.setIsTopic(false)}
+          onClick={handleClkBtnCreate}
+          aria-label="write button"
         >
           <IoCreateOutline size={22} />
-        </Link>
+        </button>
       </div>
     </div>
   );

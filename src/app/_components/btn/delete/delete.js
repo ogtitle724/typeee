@@ -9,15 +9,6 @@ export default function BtnDelete(props) {
   const router = useRouter();
 
   const handleClkBtnDel = async () => {
-    if (props.isAnnonymous) {
-      const inputId = prompt("Please enter a password.");
-
-      if (!inputId) return;
-      if (String(inputId) !== props.comparePwd) {
-        return alert("Please check your password");
-      }
-    }
-
     const isDeleteOk = confirm("Would you like to delete your post? :(");
 
     if (isDeleteOk) {

@@ -19,7 +19,6 @@ export async function create(data) {
 
 /**read(query) : query = {key: value} */
 export async function read(query) {
-  console.log("here");
   try {
     let user = await User.findOne(query);
     return user;

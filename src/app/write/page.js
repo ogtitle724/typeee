@@ -3,22 +3,21 @@
 import fetchIns from "@/lib/fetch";
 import dynamic from "next/dynamic";
 import Select from "@comps/select/select";
-import styles from "./write.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IoSave } from "react-icons/io5";
 import { topics } from "@/config/topic";
 import { delTags } from "@/lib/text";
 import { Suspense } from "react";
+import { useSession } from "next-auth/react";
+import styles from "./write.module.css";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 
 export function WritePage() {
-  const testgit = true;
-  const testgit2 = true;
-  const query = useSearchParams();
+  const session = useSession();
   const router = useRouter();
-  const session = { data: undefined, status: "unauthenticated" };
+  const query = useSearchParams();
   const isEdit = useRef(false);
   const [isUploading, setIsUploading] = useState(false);
   const [data, setData] = useState({
@@ -28,11 +27,14 @@ export function WritePage() {
     summary: "",
     thumbnail: "",
     author: {
-      uid: session?.data?.user?.uid || "",
-      nick: session?.data?.user?.name || "",
-      pwd: "",
+      name: session?.data?.user?.name,
+      email: session?.data?.user?.email,
     },
   });
+
+  useEffect(() => {
+    if (session.status === "unauthenticated") router.push("/");
+  }, [router, session]);
 
   useEffect(() => {
     const id = query.get("id");
@@ -44,8 +46,13 @@ export function WritePage() {
             process.env.NEXT_PUBLIC_URL_POST + `/${id}`
           );
           const resData = await res.json();
+
+          if (session?.data?.user?.email !== resData.author.email) {
+            alert("You don't have permission to edit the post");
+            router.back();
+          }
+
           const newData = structuredClone(resData);
-          newData.author.pwd = "";
 
           setData(newData);
           isEdit.current = true;
@@ -57,41 +64,22 @@ export function WritePage() {
 
       getData();
     }
-  }, [query]);
-
-  useEffect(() => {
-    setData({
-      ...data,
-      author: {
-        uid: session?.data?.user?.uid || "",
-        nick: session?.data?.user?.name || "",
-        pwd: "",
-      },
-    });
-  }, [session?.data?.user?.name, session?.data?.user?.uid, session.status]);
+  }, [query, router, session?.data?.user?.email]);
 
   const handleChangeTitle = (e) => {
     if (e.target.value.length <= process.env.NEXT_PUBLIC_MAX_TITLE_LEN) {
-      setData((prevData) => ({
-        ...prevData,
+      setData((data) => ({
+        ...data,
         title: e.target.value,
       }));
     }
   };
 
   const handleChangeContent = (event, editor) => {
-    setData((prevData) => ({
-      ...prevData,
+    setData((data) => ({
+      ...data,
       content: editor.getData(),
     }));
-  };
-
-  const handleChangePwd = (e) => {
-    if (e.target.value.length > 10) return;
-
-    const newData = structuredClone(data);
-    newData.author.pwd = String(e.target.value);
-    setData(newData);
   };
 
   const handleClkBtnUpload = async () => {
@@ -101,13 +89,9 @@ export function WritePage() {
       );
     }
 
-    if (session.status === "unauthenticated" && data.author.pwd.length < 4) {
-      return alert("Please enter a password of at least 4 characters.");
-    }
-
     const plainText = delTags(data.content);
 
-    if (isOverMaximumTextSize(plainText)) {
+    if (new Blob([plainText]).size > process.env.NEXT_PUBLIC_MAX_CONTENT_LEN) {
       return alert("The size of your post has exceeded the size limit :(");
     }
 
@@ -140,11 +124,6 @@ export function WritePage() {
     }
   };
 
-  const isOverMaximumTextSize = (t) => {
-    if (new Blob([t]).size > process.env.NEXT_PUBLIC_MAX_CONTENT_LEN) true;
-    else false;
-  };
-
   return (
     <>
       <input
@@ -163,14 +142,6 @@ export function WritePage() {
           }}
         />
         <div className={styles.btn_wrapper}>
-          {session.status === "unauthenticated" && (
-            <input
-              value={data.author.pwd}
-              className={styles.input_pwd}
-              onChange={handleChangePwd}
-              placeholder="Password (4 ~ 10)"
-            />
-          )}
           <Select
             options={topics}
             value={data.topic}
