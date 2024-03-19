@@ -1,22 +1,18 @@
 import { create } from "@/service/mongoDB/mongoose_post";
 import { copyFile } from "@/service/aws/s3";
+import { getImgDirs } from "@/lib/text";
 
 export async function POST(req) {
-  const data = await req.json();
-  const regex = /<img.*?src=["'](.*?)["']/g;
-
-  const imgTags = data.content.match(regex);
-  const imgSrcs = imgTags.map((tag) => {
-    const regex = /image[^\s"']+/g;
-    const match = tag.match(regex);
-    const dest = match[0].replace("/temp", "");
-
-    return [match[0], dest];
-  });
-
   try {
-    for (const srcs of imgSrcs) {
-      await copyFile(srcs[0], srcs[1]);
+    const data = await req.json();
+    const imgDir = getImgDirs(data.content);
+
+    if (imgDir) {
+      for (const dir of imgDir) {
+        const newDir = dir.replace("/temp", "");
+        await copyFile(dir, newDir);
+        data.content = data.content.replace(dir, newDir);
+      }
     }
 
     const newPost = await create(data);

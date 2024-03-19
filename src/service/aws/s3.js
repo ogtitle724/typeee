@@ -2,6 +2,7 @@ import {
   S3Client,
   PutObjectCommand,
   CopyObjectCommand,
+  DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
 
 const s3Client = new S3Client({
@@ -42,9 +43,25 @@ export async function copyFile(source, destination) {
   const copyCommand = new CopyObjectCommand(copyParams);
 
   try {
-    const data = await s3Client.send(copyCommand);
-    console.log(data);
+    await s3Client.send(copyCommand);
+    return;
   } catch (err) {
     console.error("ERROR(service/aws/s3 > copyFile):", err.message);
+  }
+}
+
+export async function deleteFile(targetKey) {
+  const params = {
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
+    Key: targetKey,
+  };
+
+  const deleteCommand = new DeleteObjectCommand(params);
+
+  try {
+    await s3Client.send(deleteCommand);
+    return;
+  } catch (err) {
+    console.error("ERROR(service/aws/s3 > deleteFile):", err.message);
   }
 }

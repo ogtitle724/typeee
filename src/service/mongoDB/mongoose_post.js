@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Post from "./model/model_post";
+import { getImgDirs } from "@/lib/text";
+import { deleteFile, copyFile } from "@/service/aws/s3";
 
 mongoose.connect(process.env.CONN_STRING);
 
@@ -26,6 +28,24 @@ export async function read(id) {
 export async function update(id, data, key) {
   try {
     let post = await Post.findById(id);
+
+    //detect change image
+    const prevImgDirs = getImgDirs(post.content);
+    const updatedImgDirs = getImgDirs(data.content);
+
+    for (const dir of prevImgDirs) {
+      if (!updatedImgDirs.includes(dir)) {
+        await deleteFile(dir);
+      }
+    }
+
+    for (const dir of updatedImgDirs) {
+      if (dir.indexOf("/temp") !== -1) {
+        const newDir = dir.replace("/temp", "");
+        await copyFile(dir, newDir);
+        data.content = data.content.replace(dir, newDir);
+      }
+    }
 
     if (key === post.author.uid) {
       Object.keys(data).forEach((key) => {
