@@ -67,6 +67,7 @@ export function WritePage() {
   };
 
   const handleChangeContent = (event, editor) => {
+    console.log(editor.getData());
     setData((data) => ({
       ...data,
       content: editor.getData(),

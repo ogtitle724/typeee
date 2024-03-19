@@ -1,6 +1,6 @@
 "use client";
 
-import { signInHandler } from "./handler";
+import { signInHandler } from "@/lib/sign_handler";
 import { FcGoogle } from "react-icons/fc";
 import { signOut } from "next-auth/react";
 import styles from "./auth_btns.module.css";
@@ -21,11 +21,15 @@ export function GoogleSignIn() {
   );
 }
 
-export function SignOut() {
+export function SignOut(props) {
   const router = useRouter();
   const handleClkSignOut = () => {
     signOut({ redirect: false });
-    setTimeout(() => router.refresh(), 500);
+
+    setTimeout(() => {
+      props.closeMenu();
+      router.refresh();
+    }, 300);
   };
 
   return (

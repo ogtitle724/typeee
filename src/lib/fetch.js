@@ -7,7 +7,6 @@ class Fetch {
       mode: "cors",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json",
         Accept: "application/json, text/plain, */*",
       },
     };

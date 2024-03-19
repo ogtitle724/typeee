@@ -13,7 +13,7 @@ import { GoogleSignIn, SignOut } from "@comps/btn/auth/auth_btns";
 
 export default function Header() {
   const [isSearch, setIsSearch] = useState(false);
-  const [isTopic, setIsTopic] = useState(false);
+  const [isMenu, setIsMenu] = useState(false);
   const [searchParam, setSearchParam] = useState("");
   const path = usePathname();
   const router = useRouter();
@@ -46,7 +46,7 @@ export default function Header() {
 
   useEffect(() => {
     setIsSearch(false);
-    setIsTopic(false);
+    setIsMenu(false);
     setSearchParam("");
   }, [path]);
 
@@ -55,7 +55,7 @@ export default function Header() {
       if (searchParam) {
         router.push(`/search?param=${searchParam}&page=1`);
         setIsSearch(false);
-        setIsTopic(false);
+        setIsMenu(false);
         setSearchParam("");
       }
     } else {
@@ -65,20 +65,19 @@ export default function Header() {
 
   const handleClkBtnMenu = useCallback(
     (e) => {
-      console.log(e);
       e.stopPropagation();
 
-      if (!isTopic && !isSearch) {
-        setIsTopic(true);
+      if (!isMenu && !isSearch) {
+        setIsMenu(true);
       } else {
-        if (isTopic) setIsTopic(false);
+        if (isMenu) setIsMenu(false);
         if (isSearch) {
           setIsSearch(false);
           setSearchParam("");
         }
       }
     },
-    [isTopic, isSearch]
+    [isMenu, isSearch]
   );
 
   return (
@@ -92,7 +91,7 @@ export default function Header() {
             placeholder="Search..."
           />
         ) : (
-          <Link href="/" onClick={() => setIsTopic(false)}>
+          <Link href="/" onClick={() => setIsMenu(false)}>
             <h3>{process.env.NEXT_PUBLIC_SITE_NAME}</h3>
           </Link>
         )}
@@ -104,9 +103,9 @@ export default function Header() {
               <IoSearchOutline size={22} />
             )}
           </button>
-          <ToggleBtn isClk={isSearch || isTopic} onClick={handleClkBtnMenu} />
+          <ToggleBtn isClk={isSearch || isMenu} onClick={handleClkBtnMenu} />
         </div>
-        {isTopic && <Menu setIsTopic={setIsTopic} />}
+        {isMenu && <Menu setIsMenu={setIsMenu} />}
       </header>
     </>
   );
@@ -126,7 +125,7 @@ function Menu(props) {
         menuRef.current.getBoundingClientRect();
 
       if (!(mY > top && mY < bottom && mX > left && mX < right)) {
-        props.setIsTopic(false);
+        props.setIsMenu(false);
       }
     };
 
@@ -145,7 +144,7 @@ function Menu(props) {
         router.push("/api/auth/signin");
       }
     } else {
-      props.setIsTopic(false);
+      props.setIsMenu(false);
       router.push("/write");
     }
   };
@@ -157,7 +156,7 @@ function Menu(props) {
         className={
           styles.menu_item + (targetParam ? "" : " " + styles.menu_item_focus)
         }
-        onClick={() => props.setIsTopic(false)}
+        onClick={() => props.setIsMenu(false)}
       >
         {"Home"}
       </Link>
@@ -172,14 +171,18 @@ function Menu(props) {
                 ? " " + styles.menu_item_focus
                 : "")
             }
-            onClick={() => props.setIsTopic(false)}
+            onClick={() => props.setIsMenu(false)}
           >
             {topic}
           </Link>
         );
       })}
       <div className={styles.menu_btnWrapper}>
-        {session.status !== "authenticated" ? <GoogleSignIn /> : <SignOut />}
+        {session.status !== "authenticated" ? (
+          <GoogleSignIn />
+        ) : (
+          <SignOut closeMenu={() => props.setIsMenu(false)} />
+        )}
         <button
           className={styles.btn_write}
           onClick={handleClkBtnCreate}
