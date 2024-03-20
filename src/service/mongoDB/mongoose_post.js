@@ -33,17 +33,28 @@ export async function update(id, data, key) {
     const prevImgDirs = getImgDirs(post.content);
     const updatedImgDirs = getImgDirs(data.content);
 
-    for (const dir of prevImgDirs) {
-      if (!updatedImgDirs.includes(dir)) {
-        await deleteFile(dir);
+    if (prevImgDirs) {
+      for (const dir of prevImgDirs) {
+        if (!updatedImgDirs.includes(dir)) {
+          await deleteFile(dir);
+        }
       }
     }
 
-    for (const dir of updatedImgDirs) {
-      if (dir.indexOf("/temp") !== -1) {
-        const newDir = dir.replace("/temp", "");
-        await copyFile(dir, newDir);
-        data.content = data.content.replace(dir, newDir);
+    if (updatedImgDirs) {
+      data.thumnail = "";
+
+      for (const dir of updatedImgDirs) {
+        let newDir = dir;
+
+        if (dir.indexOf("/temp") !== -1) {
+          newDir = dir.replace("/temp", "");
+          await copyFile(dir, newDir);
+          data.content = data.content.replace(dir, newDir);
+        }
+
+        if (!data.thumnail)
+          data.thumnail = process.env.AWS_S3_BUCKET_UR + `${newDir}`;
       }
     }
 

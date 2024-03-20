@@ -6,12 +6,17 @@ export const delTags = (content) => {
 export const getImgDirs = (content) => {
   const regex = /<img.*?src=["'](.*?)["']/g;
   const imgTags = content.match(regex);
-  const imgSrcs = imgTags.map((tag) => {
-    const regex = /image[^\s"']+/g;
-    const match = tag.match(regex);
 
-    return match[0];
-  });
+  if (imgTags) {
+    const imgSrcs = imgTags.map((tag) => {
+      const regex = /image[^\s"']+/g;
+      const match = tag.match(regex);
 
-  return imgSrcs;
+      return match[0];
+    });
+
+    return imgSrcs;
+  } else {
+    return null;
+  }
 };
