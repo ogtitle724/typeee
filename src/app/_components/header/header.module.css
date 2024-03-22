@@ -14,6 +14,19 @@
   z-index: 2;
 }
 
+.title_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 5px;
+}
+
+.topic {
+  font-size: var(--font-m);
+  font-weight: var(--weight-t);
+  cursor: default;
+}
+
 .btn_wrapper {
   display: flex;
   justify-content: space-between;

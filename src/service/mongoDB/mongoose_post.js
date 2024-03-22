@@ -19,7 +19,7 @@ export async function create(data) {
 export async function read(id) {
   try {
     let post = await Post.findById(id);
-    return JSON.parse(JSON.stringify(post));
+    return post;
   } catch (err) {
     console.error(err.message);
   }
@@ -31,7 +31,7 @@ export async function update(id, data, key) {
 
     //detect change image
     const prevImgDirs = getImgDirs(post.content);
-    const updatedImgDirs = getImgDirs(data.content);
+    const updatedImgDirs = getImgDirs(data.content).reverse();
 
     if (prevImgDirs) {
       for (const dir of prevImgDirs) {
@@ -42,8 +42,6 @@ export async function update(id, data, key) {
     }
 
     if (updatedImgDirs) {
-      data.thumnail = "";
-
       for (const dir of updatedImgDirs) {
         let newDir = dir;
 
@@ -53,8 +51,7 @@ export async function update(id, data, key) {
           data.content = data.content.replace(dir, newDir);
         }
 
-        if (!data.thumnail)
-          data.thumnail = process.env.AWS_S3_BUCKET_UR + `${newDir}`;
+        data.thumbnail = process.env.AWS_S3_BUCKET_URL + `/${newDir}`;
       }
     }
 
@@ -85,25 +82,39 @@ export async function del(id) {
   }
 }
 
-export async function paging(topic, page, select, size) {
+export async function paging(
+  query = null,
+  page = 1,
+  select = "_id title summary topic thumbnail",
+  size = 30
+) {
   try {
-    let pagingData;
+    let pagingData = await Post.find(query)
+      .select(select)
+      .sort({ wr_date: -1 })
+      .skip(size * (page - 1))
+      .limit(size);
 
-    if (topic) {
-      pagingData = await Post.find({ topic })
-        .select(select)
-        .sort({ wr_date: -1 })
-        .skip(size * (page - 1))
-        .limit(size);
-    } else {
-      pagingData = await Post.find()
-        .select(select)
-        .sort({ wr_date: -1 })
-        .skip(size * (page - 1))
-        .limit(size);
-    }
+    const newPagingData = pagingData.map((post) => {
+      const newPost = {
+        id: post._id.toString(),
+        title: post.title,
+        summary: post.summary,
+        topic: post.topic,
+        thumbnail: post.thumbnail,
+      };
 
-    return JSON.parse(JSON.stringify(pagingData));
+      return newPost;
+    });
+
+    const totalCnt = await Post.countDocuments(query);
+
+    const returnValue = {
+      posts: newPagingData,
+      totalCnt,
+      totalPage: ~~((totalCnt - 1) / size) + 1,
+    };
+    return returnValue;
   } catch (err) {
     console.error(err.message);
   }
@@ -125,7 +136,7 @@ export async function relate(date, id, topic) {
       .sort({ wr_date: 1 })
       .limit(6);
 
-    return JSON.parse(JSON.stringify({ prevPosts, nextPosts }));
+    return { prevPosts, nextPosts };
   } catch (err) {
     console.error(err.message);
   }

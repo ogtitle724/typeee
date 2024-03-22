@@ -24,15 +24,15 @@
 .li {
   width: 100%;
   height: fit-content;
-  padding: 5px 0;
   border-radius: 3px;
   background-color: rgb(var(--ui-bg-rgb));
-  transition: scale 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: var(--strong-shadow);
 }
 
 .li:hover {
-  scale: 0.96;
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: var(--strong-shadow-hover);
 }
 
 .img_wrapper {
@@ -40,11 +40,16 @@
   aspect-ratio: 16/9;
   position: relative;
   background-color: rgb(225, 221, 221);
+  filter: brightness(0.95);
+}
+
+.img_wrapper > img {
+  object-fit: cover;
 }
 
 .title_wrapper {
   max-height: calc(var(--item-width) / 2);
-  padding: 10px 15px;
+  padding: 8px 12px;
   overflow: hidden;
 }
 
@@ -54,7 +59,7 @@
   position: relative;
   border-radius: 4px;
   font-size: var(--font-m);
-  text-transform: capitalize;
+  text-transform: uppercase;
   background-color: rgb(var(--highlight-rgb));
 }
 
@@ -74,7 +79,7 @@
 .content_wrapper {
   width: 100%;
   height: fit-content;
-  padding: 10px 15px;
+  padding: 10px;
   position: relative;
 }
 
@@ -98,7 +103,7 @@
 
 .board_list .title_wrapper,
 .board_list .content_wrapper {
-  padding: 10px 20px;
+  padding: 10px;
 }
 
 .board_list .title,
@@ -118,9 +123,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 1px solid rgb(var(--highlight-rgb));
-  border-radius: var(--border-radius);
-  background-color: rgb(var(--background-rgb));
   font-size: var(--font-t);
   font-weight: var(--weight-t);
 }
@@ -129,6 +131,39 @@
   border-radius: var(--border-radius);
   padding: 20px;
   background-color: rgb(var(--border-rgb));
+  transition: 0.3s ease;
+}
+
+.empty a:hover {
+  scale: 1.05;
+}
+
+.pageNav {
+  width: var(--header-width);
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  position: fixed;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-size: var(--font-l);
+  background-color: white;
+}
+
+.pageNav_dir {
+  width: 17px;
+  height: 17px;
+}
+.pageNav_num {
+  font-size: var(--font-m);
+}
+
+.pageNav_num_cur {
+  transform: translateY(-1px);
+  font-weight: var(--weight-l);
 }
 
 @media screen and (max-width: 769px) {

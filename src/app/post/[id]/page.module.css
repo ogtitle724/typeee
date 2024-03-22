@@ -34,6 +34,11 @@
   font-size: var(--font-m);
 }
 
+.content img {
+  display: block;
+  margin: 17px auto;
+}
+
 .btn_wrapper {
   width: 100%;
   margin-top: 10px;

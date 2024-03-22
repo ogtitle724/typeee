@@ -1,0 +1,7 @@
+.title {
+  padding: 13px;
+  width: 100%;
+  font-size: var(--font-l);
+  text-align: start;
+  border-radius: 5px;
+}

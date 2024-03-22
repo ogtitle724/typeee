@@ -15,6 +15,7 @@ export default function Header() {
   const [isSearch, setIsSearch] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
   const [searchParam, setSearchParam] = useState("");
+  const params = useParams();
   const path = usePathname();
   const router = useRouter();
   const headerRef = useRef();
@@ -91,9 +92,14 @@ export default function Header() {
             placeholder="Search..."
           />
         ) : (
-          <Link href="/" onClick={() => setIsMenu(false)}>
-            <h3>{process.env.NEXT_PUBLIC_SITE_NAME}</h3>
-          </Link>
+          <div className={styles.title_wrapper}>
+            <Link href="/" onClick={() => setIsMenu(false)}>
+              <h3>{process.env.NEXT_PUBLIC_SITE_NAME}</h3>
+            </Link>
+            {params.topic && (
+              <span className={styles.topic}>{` › ${params.topic}`}</span>
+            )}
+          </div>
         )}
         <div className={styles.btn_wrapper}>
           <button onClick={handleClkBtnSearch} aria-label="search button">
@@ -164,7 +170,7 @@ function Menu(props) {
         return (
           <Link
             key={`menuItem_${topic.toLowerCase()}`}
-            href={`/topic/${topic.toLowerCase()}`}
+            href={`/topic/${topic.toLowerCase()}?page=1`}
             className={
               styles.menu_item +
               (topic.toLowerCase() === targetParam

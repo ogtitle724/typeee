@@ -10,11 +10,10 @@ export async function POST(req) {
     if (imgDir) {
       for (const dir of imgDir) {
         const newDir = dir.replace("/temp", "");
+
         await copyFile(dir, newDir);
         data.content = data.content.replace(dir, newDir);
-
-        if (!data.thumbnail)
-          data.thumbnail = process.env.AWS_S3_BUCKET_UR + `${newDir}`;
+        data.thumbnail = process.env.AWS_S3_BUCKET_URl + `/${newDir}`;
       }
     }
 
