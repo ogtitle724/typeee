@@ -1,6 +1,6 @@
-.post {
+.main {
   width: 100%;
-  padding: 15px;
+  padding: 20px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -9,43 +9,38 @@
   border-radius: var(--border-radius);
 }
 
-.data_wrapper {
+.main h1 {
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: start;
+  font-size: var(--font-t);
+  font-weight: var(--weight-t);
+}
+
+.dataWrapper {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.metadata {
+  width: fit-content;
+  padding-left: 1px;
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
   font-size: 13px;
   color: rgb(var(--border-rgb));
   text-transform: capitalize;
 }
 
-.post h1 {
-  width: 100%;
-  padding: 0 10px;
-  text-align: start;
-  font-size: var(--font-l);
-  font-weight: var(--weight-l);
-}
-
-.content {
-  width: 100%;
-  min-height: 160px;
-  padding: 20px 10px 0 10px;
-  padding-top: 20px;
-  font-size: var(--font-m);
-}
-
-.content img {
-  display: block;
-  margin: 17px auto;
-}
-
-.btn_wrapper {
-  width: 100%;
-  margin-top: 10px;
+.btns {
+  width: fit-content;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .btn {
@@ -56,7 +51,37 @@
   filter: brightness(0.4);
 }
 
-.related {
+.main h2 {
+  margin-bottom: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dotted rgb(var(--border-rgb));
+  font-size: var(--font-l);
+}
+
+.main h3 {
+  font-size: var(--font-m);
+  font-weight: var(--weight-l);
+  padding: 6px 0;
+}
+
+.main p {
+  padding: 3px 0;
+}
+
+.content {
+  width: 100%;
+  min-height: 160px;
+  padding: 20px 0;
+  padding-top: 20px;
+  font-size: var(--font-m);
+}
+
+.content img {
+  display: block;
+  margin: 17px auto;
+}
+
+.relatePosts {
   width: 100%;
   height: fit-content;
   margin-top: 30px;
@@ -64,7 +89,7 @@
   border-radius: var(--border-radius);
 }
 
-.related h3 {
+.relatePosts h3 {
   width: 100%;
   padding: 10px;
   padding-bottom: 0;
@@ -72,12 +97,12 @@
   font-weight: var(--weight-l);
 }
 
-.related ul {
+.relatePosts ul {
   padding: 15px;
   list-style: none;
 }
 
-.related li {
+.relatePosts li {
   padding: 7px 10px;
   font-size: var(--font-m);
   white-space: nowrap;
@@ -88,16 +113,16 @@
   transition: filter 0.2s ease;
 }
 
-.related a {
+.relatePosts a {
   width: 100%;
   display: block;
 }
 
-.related li:hover {
+.relatePosts li:hover {
   filter: brightness(0.97);
 }
 
-.related li:last-child {
+.relatePosts li:last-child {
   margin-bottom: 10px;
   border: none;
 }

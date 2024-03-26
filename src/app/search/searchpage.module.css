@@ -1,7 +1,16 @@
 .title {
   padding: 13px;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--border-radius);
+  background: rgb(var(--highlight-rgb));
   font-size: var(--font-l);
   text-align: start;
-  border-radius: 5px;
+  color: rgb(var(--card-rgb));
+}
+
+.title span:nth-child(1) {
+  text-transform: capitalize;
 }

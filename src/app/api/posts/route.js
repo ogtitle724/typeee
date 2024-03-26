@@ -7,8 +7,6 @@ export async function GET(req, { params }) {
     const query = JSON.parse(url.searchParams.get("query"));
 
     const pagingData = await paging(query, page);
-    console.log(pagingData);
-
     return new Response(JSON.stringify(pagingData), {
       status: 200,
     });

@@ -30,7 +30,6 @@ export default function Editor({
             { next: { revalidate: 0 } }
           );
           const body = await res.json();
-          console.log(body);
           return {
             default: body.src,
           };
@@ -57,6 +56,9 @@ export default function Editor({
       config={{
         ...config,
         extraPlugins: [uploadPlugin],
+        mediaEmbed: {
+          previewsInData: true,
+        },
       }}
       onReady={onReady}
       onChange={onChange}

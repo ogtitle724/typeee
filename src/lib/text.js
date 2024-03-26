@@ -20,3 +20,19 @@ export const getImgDirs = (content) => {
     return null;
   }
 };
+
+export const isJson = (target) => {
+  if (typeof target !== "string") return false;
+
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+
+  return true;
+};
+
+export function copyToClipboard(text) {
+  navigator.clipboard.writeText(text);
+}

@@ -1,14 +1,32 @@
-import sanitizeHtml from "sanitize-html-react";
+import sanitizeHtml from "sanitize-html";
 
-export const sanitize = (content) => {
-  const sanitized = sanitizeHtml(content, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["span", "img"]),
-    allowedAttributes: {
-      ...sanitizeHtml.defaults.allowedAttributes,
-      img: ["src", "alt", "width", "height"],
-      iframe: ["src", "width", "height"],
-    },
-  });
+export const sanitize = (dirty) => {
+  return sanitizeHtml(dirty, sanitizeOptions);
+};
 
-  return sanitized;
+const sanitizeOptions = {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "oembed"]),
+  allowedAttributes: {
+    ...sanitizeHtml.defaults.allowedAttributes,
+    img: ["src", "srcset", "alt", "title", "width", "height", "loading"],
+    iframe: ["src", "width", "height"],
+    span: ["style"],
+    p: ["style"],
+    code: ["class"],
+    oembed: ["width", "height"],
+  },
+  allowedClasses: {
+    code: [
+      "language-c",
+      "language-cpp",
+      "language-css",
+      "language-html",
+      "language-java",
+      "language-javascript",
+      "language-python",
+      "language-typescript",
+      "language-plaintext",
+    ],
+  },
+  allowedIframeHostnames: ["www.youtube.com"],
 };

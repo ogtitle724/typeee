@@ -14,28 +14,30 @@ export default function Board({ pagingData, type, isPagination, query }) {
   const lastItemRef = useRef();
 
   useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach(async (entry) => {
-          if (entry.isIntersecting) {
-            const res = await fetchIns.get(
-              process.env.NEXT_PUBLIC_URL_PAGING +
-                `?query=${query}&page=${nextPosts.length / 30 + 2}`
-            );
+    if (!isPagination) {
+      const io = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+              const res = await fetchIns.get(
+                process.env.NEXT_PUBLIC_URL_PAGING +
+                  `?query=${query}&page=${nextPosts.length / 30 + 2}`
+              );
 
-            const pagingData = await res.json();
-            setNextPosts((nextPosts) => [...nextPosts, ...pagingData.posts]);
-            observer.disconnect(entry.target);
-          }
-        });
-      },
-      { rootMargin: "300px 0px" }
-    );
+              const pagingData = await res.json();
+              setNextPosts((nextPosts) => [...nextPosts, ...pagingData.posts]);
+              observer.disconnect(entry.target);
+            }
+          });
+        },
+        { rootMargin: "300px 0px" }
+      );
 
-    if (lastItemRef.current) {
-      io.observe(lastItemRef.current);
+      if (lastItemRef.current) {
+        io.observe(lastItemRef.current);
+      }
     }
-  }, []);
+  }, [isPagination, nextPosts.length, query]);
 
   return (
     <section
@@ -60,7 +62,7 @@ export default function Board({ pagingData, type, isPagination, query }) {
           {!isPagination &&
             nextPosts.map((post, idx) => {
               const isLast = nextPosts.length - 1 === idx;
-              console.log(isLast && lastItemRef);
+
               if (isLast) {
                 return (
                   <Item
@@ -75,7 +77,7 @@ export default function Board({ pagingData, type, isPagination, query }) {
             })}
         </ul>
       ) : (
-        <div className={styles.empty + " card"}>
+        <div className={styles.empty}>
           <Link href={"/write"}>
             <IoCreateOutline size={30} color={"white"} strokeWidth={20} />
           </Link>
@@ -91,16 +93,19 @@ export default function Board({ pagingData, type, isPagination, query }) {
 }
 
 function Item({ itemRef, post }) {
+  const path = usePathname();
+  const isSearch = path.includes("/search");
+
   return (
     <li ref={itemRef} className={styles.li}>
-      <Link href={`/post/${post._id}`}>
+      <Link href={`/post/${post.id}`}>
         <div className={styles.title_wrapper}>
           <span className={styles.title}>
             <span className={styles.topic}>{post.topic}</span>
             {" • " + post.title}
           </span>
         </div>
-        {post.thumbnail && (
+        {!isSearch && post.thumbnail && (
           <div className={styles.img_wrapper}>
             <Image
               alt={`thumbnail of article "${post.title}"`}
@@ -111,17 +116,11 @@ function Item({ itemRef, post }) {
           </div>
         )}
 
-        <div className={styles.content_wrapper}>
-          <p
-            className={
-              styles.content +
-              " " +
-              (post.thumbnail ? styles.content_short : styles.content_long)
-            }
-          >
-            {post.summary || "test"}
-          </p>
-        </div>
+        {!isSearch && (
+          <div className={styles.content_wrapper}>
+            <p className={styles.content}>{post.summary || "test"}</p>
+          </div>
+        )}
       </Link>
     </li>
   );
@@ -132,7 +131,7 @@ function PageNav({ totalPage, unit }) {
   const params = useSearchParams();
   const [page, setPage] = useState();
   const [pages, setPages] = useState([]);
-  let query = useRef("");
+  const query = useRef("");
 
   useEffect(() => {
     const curPage = +params.get("page") || 1;

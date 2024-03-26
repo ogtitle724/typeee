@@ -11,6 +11,7 @@ import { delTags } from "@/lib/text";
 import { Suspense } from "react";
 import { useSession } from "next-auth/react";
 import styles from "./write.module.css";
+import { sanitize } from "@/lib/secure";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 
@@ -67,7 +68,6 @@ export function WritePage() {
   };
 
   const handleChangeContent = (event, editor) => {
-    console.log(editor.getData());
     setData((data) => ({
       ...data,
       content: editor.getData(),
@@ -94,8 +94,6 @@ export function WritePage() {
     }
 
     setIsUploading(true);
-
-    //TODO: check whether image included. if image exist extract it and store it to S3 bucket and then use the url
 
     try {
       let res;

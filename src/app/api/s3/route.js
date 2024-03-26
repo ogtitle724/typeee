@@ -26,7 +26,7 @@ export async function POST(request) {
       src,
     });
   } catch (err) {
-    console.log("ERROR(/api/s3 > POST):", err.message);
+    console.error("ERROR(/api/s3 > POST):", err.message);
     return NextResponse.json({ err });
   }
 }

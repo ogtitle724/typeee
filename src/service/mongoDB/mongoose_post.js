@@ -31,7 +31,11 @@ export async function update(id, data, key) {
 
     //detect change image
     const prevImgDirs = getImgDirs(post.content);
-    const updatedImgDirs = getImgDirs(data.content).reverse();
+    let updatedImgDirs = getImgDirs(data.content);
+
+    if (updatedImgDirs) {
+      updatedImgDirs = updatedImgDirs.reverse();
+    }
 
     if (prevImgDirs) {
       for (const dir of prevImgDirs) {

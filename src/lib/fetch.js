@@ -1,5 +1,6 @@
 import revalidate from "./revalidate";
 import debounce from "./debounce";
+import { isJson } from "./text";
 
 class Fetch {
   constructor() {
@@ -25,6 +26,10 @@ class Fetch {
     Object.keys(options).forEach((attr) => {
       if (attr === "body") {
         newOptions.body = options[attr];
+
+        if (isJson(options.body)) {
+          options.headers["Content-Type"] = "application/json";
+        }
       } else if (typeof options[attr] === "object") {
         newOptions[attr] = { ...newOptions[attr], ...options[attr] };
       } else {

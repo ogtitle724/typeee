@@ -15,9 +15,10 @@ export default async function Topic({ searchParams }) {
 
     return (
       <>
-        <h1
-          className={styles.title}
-        >{`${pagingData.totalCnt} search results for '${searchParams.param}'`}</h1>
+        <h1 className={styles.title}>
+          <span>search result</span>
+          <span>{searchParams.param + ` (${pagingData.totalCnt})`}</span>
+        </h1>
         <Board
           pagingData={pagingData}
           type={"list"}
