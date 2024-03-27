@@ -2,8 +2,8 @@ export const metadata = {
   metadataBase: new URL(process.env.DOMAIN),
   title: {
     //title of doc. consisited with default, template, absolute(ignore other)
-    default: process.env.TITLE, // fallback title
-    template: `%s | ${process.env.TITLE}`, //prefix or suffix to titles defined in 'child' route segments
+    default: process.env.SITE_NAME, // fallback title
+    template: `%s | ${process.env.SITE_NAME}`, //prefix or suffix to titles defined in 'child' route segments
   },
   description: process.env.DESCRIPTION,
   alternates: {
@@ -13,22 +13,22 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: process.env.TITLE,
+    title: process.env.SITE_NAME,
     description: process.env.DESCRIPTION,
     url: "/",
-    siteName: process.env.SITENAME,
+    siteName: process.env.SITE_NAME,
     images: [
       {
         url: process.env.LOGO_URL,
         width: 800,
         height: 600,
-        alt: `${process.env.TITLE} logo image`,
+        alt: `${process.env.SITE_NAME} logo image`,
       },
       {
         url: process.env.LOGO_URL,
         width: 1800,
         height: 1600,
-        alt: `${process.env.TITLE} logo image`,
+        alt: `${process.env.SITE_NAME} logo image`,
       },
     ],
     locale: ["en-US", "ko-KR"],
@@ -49,7 +49,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: process.env.TITLE,
+    title: process.env.SITE_NAME,
     description: process.env.DESCRIPTION,
     images: [process.env.LOGO_URL],
   },

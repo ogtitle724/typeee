@@ -14,7 +14,7 @@ export default function Board({ pagingData, type, isPagination, query }) {
   const lastItemRef = useRef();
 
   useEffect(() => {
-    if (!isPagination) {
+    if (!isPagination && pagingData.totalPage > 1) {
       const io = new IntersectionObserver(
         (entries, observer) => {
           entries.forEach(async (entry) => {
@@ -37,7 +37,7 @@ export default function Board({ pagingData, type, isPagination, query }) {
         io.observe(lastItemRef.current);
       }
     }
-  }, [isPagination, nextPosts.length, query]);
+  }, [isPagination, nextPosts.length, pagingData.totalPage, query]);
 
   return (
     <section
@@ -85,8 +85,8 @@ export default function Board({ pagingData, type, isPagination, query }) {
         </div>
       )}
 
-      {isPagination && pagingData.totalCnt / 30 > 1 && (
-        <PageNav totalPage={~~(pagingData.totalCnt / 30)} unit={11} />
+      {isPagination && totalPage > 1 && (
+        <PageNav totalPage={pagingData.totalPage} unit={11} />
       )}
     </section>
   );
