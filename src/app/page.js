@@ -19,6 +19,7 @@ import { paging } from "@/service/mongoDB/mongoose_post";
 export default async function Home() {
   try {
     const pagingData = await paging();
+
     return (
       <Board
         pagingData={pagingData}

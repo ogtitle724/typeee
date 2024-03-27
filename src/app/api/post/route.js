@@ -6,6 +6,9 @@ import { sanitize } from "@/lib/secure";
 export async function POST(req) {
   try {
     const data = await req.json();
+
+    if (!data.author.name) throw new Error("no author name");
+
     data.title = sanitize(data.title);
     data.content = sanitize(data.content);
     const imgDir = getImgDirs(data.content);
