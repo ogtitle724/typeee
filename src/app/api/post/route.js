@@ -1,10 +1,13 @@
 import { create } from "@/service/mongoDB/mongoose_post";
 import { copyFile } from "@/service/aws/s3";
 import { getImgDirs } from "@/lib/text";
+import { sanitize } from "@/lib/secure";
 
 export async function POST(req) {
   try {
     const data = await req.json();
+    data.title = sanitize(data.title);
+    data.content = sanitize(data.content);
     const imgDir = getImgDirs(data.content);
 
     if (imgDir) {

@@ -140,7 +140,7 @@ function Menu(props) {
     }
 
     return () => window.removeEventListener("click", touchClose);
-  }, []);
+  }, [props]);
 
   const handleClkBtnCreate = () => {
     if (session.status === "unauthenticated") {

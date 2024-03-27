@@ -1,5 +1,6 @@
 import { update, read, del } from "@/service/mongoDB/mongoose_post";
 import { auth } from "@/auth";
+import { sanitize } from "@/lib/secure";
 
 export async function GET(req, { params }) {
   try {
@@ -22,6 +23,9 @@ export async function PATCH(req, { params }) {
     const id = params.id;
     const data = await req.json();
     const session = await auth(); //이거 미들웨어에서 받은담에 req에 포함시키고 싶다
+
+    data.title = sanitize(data.title);
+    data.content = sanitize(data.content);
     const updatedPost = await update(id, data, session.user.uid);
 
     return new Response(JSON.stringify(updatedPost), {

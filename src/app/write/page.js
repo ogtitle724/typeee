@@ -11,7 +11,6 @@ import { delTags } from "@/lib/text";
 import { Suspense } from "react";
 import { useSession } from "next-auth/react";
 import styles from "./write.module.css";
-import { sanitize } from "@/lib/secure";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 
