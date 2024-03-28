@@ -80,9 +80,8 @@ export default async function PostDetail({ params }) {
 function Metadata({ name, topic, date }) {
   return (
     <section className={styles.metadata}>
-      <span>{` ${name} • ${topic} • ${new Date(date)
-        .toString()
-        .slice(0, 21)}`}</span>
+      <span>{name}</span>
+      <span>{` • ${topic} • ${new Date(date).toString().slice(0, 21)}`}</span>
     </section>
   );
 }

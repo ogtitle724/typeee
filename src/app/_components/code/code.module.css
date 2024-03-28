@@ -21,6 +21,7 @@
   font-size: var(--font-vs);
   font-weight: var(--weight-m);
   text-transform: capitalize;
+  color: black;
 }
 
 .code pre {

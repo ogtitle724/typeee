@@ -6,7 +6,7 @@ import { IoCopy } from "react-icons/io5";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import styles from "./copy.module.css";
 
-export default function BtnCopy({ text }) {
+export default function BtnCopy({ text, color }) {
   const [isCopy, setIsCopy] = useState(false);
   const handleClkBtnCopy = (text) => {
     copyToClipboard(text);
@@ -26,7 +26,7 @@ export default function BtnCopy({ text }) {
           aria-label="copy code"
           onClick={() => handleClkBtnCopy(text)}
         >
-          <IoCopy size={18} />
+          {color ? <IoCopy size={18} color={color} /> : <IoCopy size={18} />}
         </button>
       )}
     </>

@@ -32,6 +32,10 @@
   justify-content: flex-start;
   font-size: 13px;
   color: rgb(var(--border-rgb));
+}
+
+.metadata > span:nth-child(2) {
+  margin-left: 5px;
   text-transform: capitalize;
 }
 

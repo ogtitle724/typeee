@@ -183,7 +183,7 @@ function Menu(props) {
           </Link>
         );
       })}
-      <div className={styles.menu_btn_Wrapper}>
+      <div className={styles.menu_btn_wrapper}>
         {session.status !== "authenticated" ? (
           <GoogleSignIn />
         ) : (
