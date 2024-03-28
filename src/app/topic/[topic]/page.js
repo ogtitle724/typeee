@@ -19,6 +19,6 @@ export default async function Topic({ params, searchParams }) {
     );
   } catch (err) {
     console.error(err.message);
-    return <span>There is an error during fetching Articles</span>;
+    return <span>There is an error during fetching Posts</span>;
   }
 }

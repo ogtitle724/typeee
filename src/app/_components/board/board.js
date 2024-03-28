@@ -40,14 +40,11 @@ export default function Board({ pagingData, type, isPagination, query }) {
   }, [isPagination, nextPosts.length, pagingData.totalPage, query]);
 
   return (
-    <section
-      className={
-        styles.board + " " + (type === "list" ? styles.board_list : "")
-      }
-      aria-label="board"
-    >
+    <section className={styles.pre} aria-label="board">
       {pagingData.posts.length ? (
-        <ul className={styles.ul}>
+        <ul
+          className={styles.ul + " " + (type === "list" ? styles.ul_list : "")}
+        >
           {pagingData.posts.map((post, idx) => {
             const isLast =
               pagingData.posts.length - 1 === idx && nextPosts.length === 0;
@@ -81,7 +78,7 @@ export default function Board({ pagingData, type, isPagination, query }) {
           <Link href={"/write"}>
             <IoCreateOutline size={30} color={"white"} strokeWidth={20} />
           </Link>
-          <p>Write the first Article!</p>
+          <p>Write the first Posts!</p>
         </div>
       )}
 
@@ -97,18 +94,19 @@ function Item({ itemRef, post }) {
   const isSearch = path.includes("/search");
 
   return (
-    <li ref={itemRef} className={styles.li}>
+    <li ref={itemRef} className={styles.item}>
       <Link href={`/post/${post.id}`}>
-        <div className={styles.title_wrapper}>
-          <span className={styles.title}>
-            <span className={styles.topic}>{post.topic}</span>
+        <div className={styles.item_title_wrapper}>
+          <span className={styles.item_title}>
+            <span className={styles.item_topic}>{post.topic}</span>
             {" • " + post.title}
           </span>
         </div>
         {!isSearch && post.thumbnail && (
-          <div className={styles.img_wrapper}>
+          <div className={styles.item_img_wrapper}>
             <Image
-              alt={`thumbnail of article "${post.title}"`}
+              className={styles.item_img}
+              alt={`thumbnail of "${post.title}"`}
               src={post.thumbnail}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               fill={true}
@@ -117,8 +115,8 @@ function Item({ itemRef, post }) {
         )}
 
         {!isSearch && (
-          <div className={styles.content_wrapper}>
-            <p className={styles.content}>{post.summary || "test"}</p>
+          <div className={styles.item_content_wrapper}>
+            <p className={styles.item_content}>{post.summary || "test"}</p>
           </div>
         )}
       </Link>

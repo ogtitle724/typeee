@@ -71,7 +71,7 @@ export default async function PostDetail({ params }) {
     console.error("Error(/app/post/[id]/page.js) :", err.message);
     return (
       <section>
-        <span>There is an error during fetching article</span>
+        <span>There is an error during fetching Post</span>
       </section>
     );
   }
@@ -117,7 +117,7 @@ async function BtnWrapper({ postData }) {
 function RelatedPosts({ nextPosts, prevPosts, title }) {
   return (
     <section id="here" className={styles.relatePosts}>
-      <h3>Related ARTICLEs</h3>
+      <h3>Related Posts</h3>
       <ul>
         {nextPosts.map((nextPost, idx) => {
           return (

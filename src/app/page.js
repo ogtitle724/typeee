@@ -30,6 +30,6 @@ export default async function Home() {
     );
   } catch (err) {
     console.error(err.message);
-    return <span>There is an error during fetching Articles</span>;
+    return <span>There is an error during fetching Posts</span>;
   }
 }

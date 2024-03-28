@@ -1,4 +1,4 @@
-.board {
+.pre {
   --item-width: 31%;
   width: 100%;
   padding: 10px 0;
@@ -11,17 +11,17 @@
   grid-auto-rows: auto;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 14px;
   list-style: none;
 }
 
-.board_list .ul {
+.ul_list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
 }
 
-.li {
+.item {
   width: 100%;
   height: fit-content;
   border-radius: var(--border-radius);
@@ -29,12 +29,12 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.li:hover {
-  transform: translateY(-10px) scale(1.01);
+.item:hover {
+  transform: translateY(-7px) scale(1.01);
   box-shadow: var(--strong-shadow-hover);
 }
 
-.img_wrapper {
+.item_img_wrapper {
   width: 100%;
   aspect-ratio: 16/9;
   position: relative;
@@ -42,17 +42,17 @@
   filter: brightness(0.95);
 }
 
-.img_wrapper > img {
+.item_img {
   object-fit: cover;
 }
 
-.title_wrapper {
+.item_title_wrapper {
   max-height: calc(var(--item-width) / 2);
-  padding: 12px 12px 0 12px;
+  padding: 10px;
   overflow: hidden;
 }
 
-.topic {
+.item_topic {
   margin-right: 2px;
   padding: 3px 7px;
   position: relative;
@@ -64,7 +64,7 @@
   color: black;
 }
 
-.title {
+.item_title {
   max-height: calc(var(--item-width) / 2);
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -77,14 +77,14 @@
   font-weight: var(--weight-t);
 }
 
-.content_wrapper {
+.item_content_wrapper {
   width: 100%;
   height: fit-content;
-  padding: 8px 12px 12px 12px;
+  padding: 5px 12px 12px 12px;
   position: relative;
 }
 
-.content {
+.item_content {
   max-height: calc(var(--item-width) / 2);
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -95,13 +95,13 @@
   -webkit-line-clamp: 3;
 }
 
-.board_list .title_wrapper,
-.board_list .content_wrapper {
+.ul_list .title_wrapper,
+.ul_list .content_wrapper {
   padding: 10px;
 }
 
-.board_list .title,
-.board_list .content {
+.ul_list .title,
+.ul_list .content {
   -webkit-line-clamp: 2;
 }
 
@@ -163,7 +163,7 @@
 }
 
 @media screen and (max-width: 769px) {
-  .board {
+  .pre {
     --item-width: 100%;
   }
 }
