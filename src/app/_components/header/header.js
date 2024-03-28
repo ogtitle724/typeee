@@ -83,7 +83,7 @@ export default function Header() {
 
   return (
     <>
-      <header ref={headerRef} className={styles.header + " card"}>
+      <header ref={headerRef} className={styles.pre + " card"}>
         {isSearch ? (
           <input
             className={styles.input_search}
@@ -183,7 +183,7 @@ function Menu(props) {
           </Link>
         );
       })}
-      <div className={styles.menu_btnWrapper}>
+      <div className={styles.menu_btn_Wrapper}>
         {session.status !== "authenticated" ? (
           <GoogleSignIn />
         ) : (

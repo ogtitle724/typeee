@@ -1,11 +1,11 @@
-.header {
+.pre {
   width: var(--header-width);
   height: var(--header-height);
   padding: 10px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 14px;
   position: fixed;
   top: 20px;
   left: 50%;
@@ -30,7 +30,7 @@
 .btn_wrapper {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
 }
 
 .btn_wrapper button {
@@ -40,7 +40,7 @@
 }
 
 .input_search {
-  flex-grow: 1;
+  width: 100%;
   height: 90%;
   padding: 5px 10px;
   border: 1px solid rgba(var(--border-rgb));
@@ -80,7 +80,7 @@
   color: white;
 }
 
-.menu_btnWrapper {
+.menu_btn_wrapper {
   width: 100%;
   margin-top: 10px;
   padding-top: 5px;

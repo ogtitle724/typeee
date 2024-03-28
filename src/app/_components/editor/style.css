@@ -6,8 +6,13 @@
   height: calc(70vh - 40px);
   font-size: var(--font-m);
   font-weight: var(--weight-m);
+  background-color: rgb(var(--ui-bg-rgb)) !important;
   border: none;
   overflow-y: scroll !important;
+}
+
+.ck.ck-editor__editable_inline {
+  padding-bottom: 60px !important;
 }
 
 .ck.ck-editor__editable h2 {
@@ -40,5 +45,4 @@
 .ck.ck-toolbar {
   border: none !important;
   border-bottom: 1px solid rgb(var(--border-rgb)) !important;
-  background-color: rgb(var(--card-rgb)) !important;
 }

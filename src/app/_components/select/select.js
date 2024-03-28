@@ -2,11 +2,7 @@ import styles from "./select.module.css";
 
 export default function Select({ options, value, onChange }) {
   return (
-    <select
-      className={styles.select + " card"}
-      value={value}
-      onChange={onChange}
-    >
+    <select className={styles.pre + " card"} value={value} onChange={onChange}>
       <option value="">--- TOPIC ---</option>
       {options.map((option) => {
         return (
