@@ -8,9 +8,8 @@
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
-  --foreground-rgb: 0, 0, 0;
   --background-rgb: 242, 244, 246;
-  --card-rgb: 250, 250, 252;
+  --card-rgb: 248, 248, 250;
   --font-rgb: 60, 60, 60;
   --border-rgb: 181, 185, 200;
   --focus-rgb: 119, 143, 194;
@@ -18,8 +17,8 @@
   --ui-bg-rgb: 255, 255, 255;
 
   --default-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --strong-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
-  --strong-shadow-hover: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  --strong-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
+  --strong-shadow-hover: 0px 3px 3px 1px rgba(0, 0, 0, 0.2);
   --primary-glow: conic-gradient(
     from 180deg at 50% 50%,
     #16abff33 0deg,
@@ -46,12 +45,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-rgb: 35, 35, 35;
-    --card-rgb: 40, 40, 45;
-    --font-rgb: 255, 255, 255;
-    --border-rgb: 70, 70, 70;
+    --background-rgb: 43, 43, 43;
+    --card-rgb: 73, 74, 76;
+    --font-rgb: 240, 240, 240;
+    --border-rgb: 185, 185, 185;
     --focus-rgb: 119, 143, 194;
+    --ui-bg-rgb: 63, 63, 65;
 
     --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
     --secondary-glow: linear-gradient(
@@ -92,7 +91,6 @@ body {
 body {
   min-height: 100vh;
   background: rgb(var(--background-rgb));
-  /* background: rgb(242, 244, 246); */
   color: rgb(var(--font-rgb));
 }
 
@@ -119,10 +117,9 @@ button {
 }
 
 .card {
-  border: 1.5px solid rgb(var(--border-rgb));
   border-radius: var(--border-radius);
   background: rgb(var(--card-rgb));
-  box-shadow: var(--default-shadow);
+  box-shadow: var(--strong-shadow);
 }
 
 @media (prefers-color-scheme: dark) {

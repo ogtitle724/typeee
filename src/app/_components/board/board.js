@@ -12,7 +12,7 @@ import fetchIns from "@/lib/fetch";
 export default function Board({ pagingData, type, isPagination, query }) {
   const [nextPosts, setNextPosts] = useState([]);
   const lastItemRef = useRef();
-
+  console.log("BOARD DATA", pagingData);
   useEffect(() => {
     if (!isPagination && pagingData.totalPage > 1) {
       const io = new IntersectionObserver(

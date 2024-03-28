@@ -48,11 +48,12 @@
 
 .title_wrapper {
   max-height: calc(var(--item-width) / 2);
-  padding: 8px 12px;
+  padding: 12px 12px 0 12px;
   overflow: hidden;
 }
 
 .topic {
+  margin-right: 2px;
   padding: 3px 7px;
   position: relative;
   border-radius: 8px;
@@ -60,6 +61,7 @@
   font-weight: var(--weight-t);
   text-transform: uppercase;
   background-color: rgb(var(--highlight-rgb));
+  color: black;
 }
 
 .title {
@@ -78,7 +80,7 @@
 .content_wrapper {
   width: 100%;
   height: fit-content;
-  padding: 10px;
+  padding: 8px 12px 12px 12px;
   position: relative;
 }
 
