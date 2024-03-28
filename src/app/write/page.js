@@ -27,11 +27,29 @@ export function WritePage() {
     summary: "",
     thumbnail: "",
     author: {
-      uid: session?.data?.user?.uid,
-      name: session?.data?.user?.name,
-      email: session?.data?.user?.email,
+      uid: "",
+      name: "",
+      email: "",
     },
   });
+
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      setData((data) => ({
+        ...data,
+        author: {
+          uid: session?.data?.user?.uid,
+          name: session?.data?.user?.name,
+          email: session?.data?.user?.email,
+        },
+      }));
+    }
+  }, [
+    session?.data?.user?.email,
+    session?.data?.user?.name,
+    session?.data?.user?.uid,
+    session.status,
+  ]);
 
   useEffect(() => {
     const id = query.get("id");
@@ -55,7 +73,7 @@ export function WritePage() {
 
       getData();
     }
-  }, [query, router, session?.data?.user?.uid]);
+  }, [query, session?.data?.user?.uid]);
 
   const handleChangeTitle = (e) => {
     if (e.target.value.length <= process.env.NEXT_PUBLIC_MAX_TITLE_LEN) {
