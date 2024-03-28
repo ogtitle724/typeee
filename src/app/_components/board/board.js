@@ -10,22 +10,23 @@ import { IoChevronForwardOutline, IoChevronBackOutline } from "react-icons/io5";
 import fetchIns from "@/lib/fetch";
 
 export default function Board({ pagingData, type, isPagination, query }) {
-  const [nextPosts, setNextPosts] = useState([]);
-  const lastItemRef = useRef();
+  const [posts, setPosts] = useState(pagingData.posts);
+  const lastRef = useRef();
+  const io = useRef();
 
   useEffect(() => {
-    if (!isPagination && pagingData.totalPage > 1) {
-      const io = new IntersectionObserver(
+    if (lastRef.current && !isPagination && pagingData.totalPage > 1) {
+      io.current = new IntersectionObserver(
         (entries, observer) => {
           entries.forEach(async (entry) => {
             if (entry.isIntersecting) {
               const res = await fetchIns.get(
                 process.env.NEXT_PUBLIC_URL_PAGING +
-                  `?query=${query}&page=${nextPosts.length / 30 + 2}`
+                  `?query=${query}&page=${post.length / 30 + 2}`
               );
 
               const pagingData = await res.json();
-              setNextPosts((nextPosts) => [...nextPosts, ...pagingData.posts]);
+              setPosts((post) => [...post, ...pagingData.posts]);
               observer.disconnect(entry.target);
             }
           });
@@ -33,45 +34,33 @@ export default function Board({ pagingData, type, isPagination, query }) {
         { rootMargin: "300px 0px" }
       );
 
-      if (lastItemRef.current) {
-        io.observe(lastItemRef.current);
+      if (lastRef.current && !isPagination && pagingData.totalPage > 1) {
+        io.observe(lastRef.current);
       }
     }
-  }, [isPagination, nextPosts.length, pagingData.totalPage, query]);
+  }, [isPagination, pagingData.totalPage, query]);
+
+  useEffect(() => {
+    if (lastRef.current && !isPagination && pagingData.totalPage > 1) {
+      io.observe(lastRef.current);
+    }
+  }, [isPagination, pagingData.totalPage, posts]);
 
   return (
     <section className={styles.pre} aria-label="board">
-      {pagingData.posts.length ? (
+      {posts.length ? (
         <ul
           className={styles.ul + " " + (type === "list" ? styles.ul_list : "")}
         >
           {pagingData.posts.map((post, idx) => {
-            const isLast =
-              pagingData.posts.length - 1 === idx && nextPosts.length === 0;
-            if (isLast) {
-              return (
-                <Item itemRef={lastItemRef} key={"post_" + idx} post={post} />
-              );
+            const isLast = posts.length - 1 === idx;
+
+            if (isLast && !isPagination) {
+              return <Item itemRef={lastRef} key={"post_" + idx} post={post} />;
             } else {
               return <Item key={"post_" + idx} post={post} />;
             }
           })}
-          {!isPagination &&
-            nextPosts.map((post, idx) => {
-              const isLast = nextPosts.length - 1 === idx;
-
-              if (isLast) {
-                return (
-                  <Item
-                    itemRef={lastItemRef}
-                    key={"nextPost_" + idx}
-                    post={post}
-                  />
-                );
-              } else {
-                return <Item key={"nextPost_" + idx} post={post} />;
-              }
-            })}
         </ul>
       ) : (
         <div className={styles.empty}>

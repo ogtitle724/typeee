@@ -1,5 +1,5 @@
 :root {
-  --header-width: min(450px, 94vw);
+  --header-width: min(450px, 90vw);
   --header-height: 50px;
   --content-width: min(1000px, 94vw);
   --max-width: 1100px;
