@@ -66,7 +66,7 @@ export const metadata = {
     telephone: false,
   },
   other: {
-    "google-site-verification": null,
+    "google-site-verification": "5D4yc6zMocQx2ZOFtT_uH57wACrmwmlckyXRtYndbIc",
     "naver-site-verification": null,
   },
 };
