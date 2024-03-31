@@ -67,6 +67,6 @@ export const metadata = {
   },
   other: {
     "google-site-verification": "5D4yc6zMocQx2ZOFtT_uH57wACrmwmlckyXRtYndbIc",
-    "naver-site-verification": null,
+    "naver-site-verification": "629aea8a7118ed3809b2e498f08e000668b1ea89",
   },
 };
