@@ -1,12 +1,17 @@
 import Board from "@comps/board/board";
-import { paging } from "@/service/mongoDB/mongoose_post";
+import fetchIns from "@/lib/fetch";
 
 export default async function Topic({ params, searchParams }) {
   const query = { topic: params.topic };
   const page = searchParams.page;
 
   try {
-    const pagingData = await paging(query, page);
+    const res = await fetchIns.get(
+      process.env.NEXT_PUBLIC_URL_PAGING +
+        `?page=${page}&query=${JSON.stringify(query)}`
+    );
+    const pagingData = await res.json();
+
     return (
       <>
         <Board

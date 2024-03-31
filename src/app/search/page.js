@@ -1,8 +1,9 @@
 import Board from "@comps/board/board";
-import { paging } from "@/service/mongoDB/mongoose_post";
 import styles from "./searchpage.module.css";
+import fetchIns from "@/lib/fetch";
 
 export default async function Topic({ searchParams }) {
+  const page = searchParams.page;
   const query = {
     $or: [
       { content: { $regex: searchParams.param, $options: "i" } },
@@ -11,7 +12,11 @@ export default async function Topic({ searchParams }) {
   };
 
   try {
-    const pagingData = await paging(query);
+    const res = await fetchIns.get(
+      process.env.NEXT_PUBLIC_URL_PAGING +
+        `?page=${page}&query=${JSON.stringify(query)}`
+    );
+    const pagingData = await res.json();
 
     return (
       <>
