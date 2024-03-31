@@ -3,6 +3,13 @@ export const delTags = (content) => {
   return deleted;
 };
 
+export const getFirstP = (content) => {
+  const regex = /<p[^>]*>(.*?)<\/p>/s;
+  const match = regex.exec(content);
+
+  return match && match[1].trim();
+};
+
 export const getImgDirs = (content) => {
   const regex = /<img.*?src=["'](.*?)["']/g;
   const imgTags = content.match(regex);
