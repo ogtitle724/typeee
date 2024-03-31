@@ -10,7 +10,7 @@ const sanitizeOptions = {
     ...sanitizeHtml.defaults.allowedAttributes,
     img: ["src", "srcset", "alt", "title", "width", "height", "loading"],
     iframe: ["src", "width", "height"],
-    span: ["style"],
+    span: ["style", "class"],
     p: ["style"],
     code: ["class"],
     oembed: ["width", "height"],

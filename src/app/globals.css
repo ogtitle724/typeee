@@ -8,6 +8,15 @@
   --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+  --font-t: 28px;
+  --font-l: 21px;
+  --font-m: 18px;
+  --font-s: 16px;
+  --font-vs: 14px;
+
+  --weight-t: 700;
+  --weight-l: 600;
+  --weight-m: 500;
 
   --background-rgb: 242, 244, 246;
   --card-rgb: 248, 248, 250;
@@ -20,28 +29,8 @@
   --default-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   --strong-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
   --strong-shadow-hover: 0px 3px 3px 1px rgba(0, 0, 0, 0.15);
-  --primary-glow: conic-gradient(
-    from 180deg at 50% 50%,
-    #16abff33 0deg,
-    #0885ff33 55deg,
-    #54d6ff33 120deg,
-    #0071ff33 160deg,
-    transparent 360deg
-  );
-  --secondary-glow: radial-gradient(
-    rgba(255, 255, 255, 1),
-    rgba(255, 255, 255, 0)
-  );
 
-  --font-t: 26px;
-  --font-l: 21px;
-  --font-m: 18px;
-  --font-s: 16px;
-  --font-vs: 14px;
-
-  --weight-t: 700;
-  --weight-l: 600;
-  --weight-m: 500;
+  --hover-bright: 0.95;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -54,13 +43,7 @@
     --focus-rgb: 119, 143, 194;
     --ui-bg-rgb: 41, 41, 47;
 
-    --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(
-      to bottom right,
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0.3)
-    );
+    --hover-bright: 1.2;
   }
 }
 
@@ -110,6 +93,15 @@ button {
   cursor: pointer;
 }
 
+blockquote {
+  padding: 5px 16px !important;
+  border-radius: var(--border-radius);
+  border: none !important;
+  background-color: rgb(var(--highlight-rgb));
+  font-style: italic;
+  font-weight: var(--weight-m);
+}
+
 .main {
   width: var(--content-width);
   margin: 0 auto;
@@ -124,6 +116,22 @@ button {
   border-radius: var(--border-radius);
   background: rgb(var(--card-rgb));
   box-shadow: var(--strong-shadow);
+}
+
+.text-tiny {
+  font-size: var(--font-vs) !important;
+}
+
+.text-small {
+  font-size: var(--font-s) !important;
+}
+
+.text-big {
+  font-size: var(--font-l) !important;
+}
+
+.text-huge {
+  font-size: var(--font-t) !important;
 }
 
 @media (prefers-color-scheme: dark) {

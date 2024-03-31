@@ -14,6 +14,8 @@ import styles from "./write.module.css";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 
+//TODO: add loading page before load or route
+
 export function WritePage() {
   const session = useSession();
   const router = useRouter();
@@ -61,6 +63,8 @@ export function WritePage() {
             process.env.NEXT_PUBLIC_URL_POST + `/${id}`
           );
           const resData = await res.json();
+
+          if (resData === null) return router.push("/");
           const newData = structuredClone(resData);
 
           setData(newData);
@@ -73,7 +77,7 @@ export function WritePage() {
 
       getData();
     }
-  }, [query, session?.data?.user?.uid]);
+  }, [query, router, session.data.user.uid]);
 
   const handleChangeTitle = (e) => {
     if (e.target.value.length <= process.env.NEXT_PUBLIC_MAX_TITLE_LEN) {

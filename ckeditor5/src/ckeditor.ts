@@ -6,16 +6,27 @@
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 
 import { Alignment } from '@ckeditor/ckeditor5-alignment';
-import { Bold, Subscript, Superscript, Underline } from '@ckeditor/ckeditor5-basic-styles';
+import { Autosave } from '@ckeditor/ckeditor5-autosave';
+import {
+	Bold,
+	Code,
+	Italic,
+	Strikethrough,
+	Subscript,
+	Superscript,
+	Underline
+} from '@ckeditor/ckeditor5-basic-styles';
 import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
 import { CodeBlock } from '@ckeditor/ckeditor5-code-block';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { Essentials } from '@ckeditor/ckeditor5-essentials';
-import { FontBackgroundColor, FontColor } from '@ckeditor/ckeditor5-font';
+import { FontBackgroundColor, FontColor, FontFamily, FontSize } from '@ckeditor/ckeditor5-font';
 import { Heading } from '@ckeditor/ckeditor5-heading';
 import { HorizontalLine } from '@ckeditor/ckeditor5-horizontal-line';
 import { HtmlEmbed } from '@ckeditor/ckeditor5-html-embed';
+import { DataSchema, FullPage, GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
 import {
+	AutoImage,
 	Image,
 	ImageCaption,
 	ImageInsert,
@@ -27,9 +38,11 @@ import {
 import { Indent, IndentBlock } from '@ckeditor/ckeditor5-indent';
 import { TextPartLanguage } from '@ckeditor/ckeditor5-language';
 import { AutoLink, Link, LinkImage } from '@ckeditor/ckeditor5-link';
-import { List } from '@ckeditor/ckeditor5-list';
+import { LegacyList, LegacyListProperties } from '@ckeditor/ckeditor5-list';
 import { MediaEmbed, MediaEmbedToolbar } from '@ckeditor/ckeditor5-media-embed';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
+import { PasteFromOffice } from '@ckeditor/ckeditor5-paste-from-office';
+import { ShowBlocks } from '@ckeditor/ckeditor5-show-blocks';
 import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
 import {
 	Table,
@@ -47,13 +60,21 @@ import { Undo } from '@ckeditor/ckeditor5-undo';
 class Editor extends ClassicEditor {
 	public static override builtinPlugins = [
 		Alignment,
+		AutoImage,
 		AutoLink,
+		Autosave,
 		BlockQuote,
 		Bold,
+		Code,
 		CodeBlock,
+		DataSchema,
 		Essentials,
 		FontBackgroundColor,
 		FontColor,
+		FontFamily,
+		FontSize,
+		FullPage,
+		GeneralHtmlSupport,
 		Heading,
 		HorizontalLine,
 		HtmlEmbed,
@@ -66,13 +87,18 @@ class Editor extends ClassicEditor {
 		ImageUpload,
 		Indent,
 		IndentBlock,
+		Italic,
+		LegacyList,
+		LegacyListProperties,
 		Link,
 		LinkImage,
-		List,
 		MediaEmbed,
 		MediaEmbedToolbar,
 		Paragraph,
+		PasteFromOffice,
+		ShowBlocks,
 		SourceEditing,
+		Strikethrough,
 		Subscript,
 		Superscript,
 		Table,
@@ -91,6 +117,7 @@ class Editor extends ClassicEditor {
 			items: [
 				'heading',
 				'|',
+				'fontSize',
 				'fontColor',
 				'fontBackgroundColor',
 				'bold',
@@ -104,14 +131,12 @@ class Editor extends ClassicEditor {
 				'blockQuote',
 				'link',
 				'bulletedList',
-				'|',
 				'imageInsert',
-				'insertTable',
 				'mediaEmbed',
+				'insertTable',
 				'codeBlock',
 				'htmlEmbed',
 				'sourceEditing',
-				'|',
 				'textPartLanguage',
 				'subscript',
 				'superscript'

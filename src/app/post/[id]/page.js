@@ -34,8 +34,8 @@ export default async function PostDetail({ params }) {
 
     return (
       <>
-        <section className={styles.main}>
-          <h1>{postData.title}</h1>
+        <section className={styles.pre}>
+          <h1 className={styles.title}>{postData.title}</h1>
           <div className={styles.dataWrapper}>
             <Metadata
               name={postData.author.name}
@@ -125,7 +125,7 @@ function RelatedPosts({ nextPosts, prevPosts, title }) {
             </li>
           );
         })}
-        {<li>{title}</li>}
+        {<li className={styles.related_cur}>{title}</li>}
         {prevPosts.map((prevPost, idx) => {
           return (
             <li key={`prev post ${idx}`}>
