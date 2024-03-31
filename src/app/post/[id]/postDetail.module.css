@@ -59,17 +59,32 @@
   margin-bottom: 10px;
   padding: 10px 0;
   border-bottom: 1px dotted rgb(var(--border-rgb));
+  font-weight: var(--weight-t);
   font-size: var(--font-l);
 }
 
 .main h3 {
   font-size: var(--font-m);
-  font-weight: var(--weight-l);
+  font-weight: var(--weight-t);
   padding: 6px 0;
+}
+
+.main h4 {
+  font-size: var(--font-s);
+  font-weight: var(--weight-t);
+  padding: 4px 0;
 }
 
 .main p {
   padding: 3px 0;
+}
+
+.main ul {
+  padding: 5px 0 5px 20px;
+}
+
+.main a {
+  color: rgb(var(--focus-rgb));
 }
 
 .content {

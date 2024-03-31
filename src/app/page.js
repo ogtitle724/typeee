@@ -1,5 +1,5 @@
 import Board from "@comps/board/board";
-import { paging } from "@/service/mongoDB/mongoose_post";
+import fetchIns from "@/lib/fetch";
 
 /* export const generateMetadata = async (props) => {
   const topic = props.params.topic;
@@ -18,7 +18,10 @@ import { paging } from "@/service/mongoDB/mongoose_post";
 
 export default async function Home() {
   try {
-    const pagingData = await paging();
+    const res = await fetchIns.get(
+      process.env.NEXT_PUBLIC_URL_PAGING + `?page=1`
+    );
+    const pagingData = await res.json();
 
     return (
       <Board

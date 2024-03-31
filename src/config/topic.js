@@ -13,5 +13,6 @@ export const topics = [
   "Improve",
   "Performance",
   "Security",
+  "SEO",
   "Error",
 ];

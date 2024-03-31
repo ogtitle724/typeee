@@ -22,11 +22,11 @@ export default function Board({ pagingData, type, isPagination, query }) {
             if (entry.isIntersecting) {
               const res = await fetchIns.get(
                 process.env.NEXT_PUBLIC_URL_PAGING +
-                  `?query=${query}&page=${post.length / 30 + 2}`
+                  `?query=${query}&page=${posts.length / 30 + 2}`
               );
 
               const pagingData = await res.json();
-              setPosts((post) => [...post, ...pagingData.posts]);
+              setPosts((posts) => [...posts, ...pagingData.posts]);
               observer.disconnect(entry.target);
             }
           });
@@ -38,7 +38,7 @@ export default function Board({ pagingData, type, isPagination, query }) {
         io.observe(lastRef.current);
       }
     }
-  }, [isPagination, pagingData.totalPage, query]);
+  }, [isPagination, pagingData.totalPage, posts.length, query]);
 
   useEffect(() => {
     if (lastRef.current && !isPagination && pagingData.totalPage > 1) {
