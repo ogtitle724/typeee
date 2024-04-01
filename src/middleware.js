@@ -1,14 +1,27 @@
 import { NextResponse } from "next/server";
 
 const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
-const cspOptions = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'strict-dynamic'; style-src 'self' 'nonce-${nonce}'; img-src 'self' blob: data:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';`;
+const reportingGroup = {
+  group: "csp-endpoint",
+  max_age: 10886400,
+  endpoints: [
+    {
+      url: "/csp-report-endpoint",
+      priority: 1,
+    },
+  ],
+};
+const cspOptions = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'strict-dynamic'; style-src 'self' 'nonce-${nonce}'; img-src 'self' blob: data:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; report-to csp-endpoint;`;
+
 const allowedOrigins = [process.env.DOMAIN, process.env.AUTH_GOOGLE_DOMAIN];
+
 const headerOptions = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
   "Access-Control-Allow-Headers":
     "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Authorization, Content-Security-Policy, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
   "Access-Control-Allow-Credentials": "true",
   "Content-Security-Policy": cspOptions.trim(),
+  "Report-To": JSON.stringify(reportingGroup),
 };
 
 export function middleware(request) {

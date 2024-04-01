@@ -83,7 +83,7 @@ export default function Header() {
 
   return (
     <>
-      <header ref={headerRef} className={styles.pre + " card"}>
+      <section ref={headerRef} className={styles.pre + " card"}>
         {isSearch ? (
           <input
             className={styles.input_search}
@@ -112,7 +112,7 @@ export default function Header() {
           <ToggleBtn isClk={isSearch || isMenu} onClick={handleClkBtnMenu} />
         </div>
         {isMenu && <Menu setIsMenu={setIsMenu} />}
-      </header>
+      </section>
     </>
   );
 }

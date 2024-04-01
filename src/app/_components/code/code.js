@@ -16,8 +16,8 @@ export default function CodeBlock(props) {
     .replaceAll("&gt;", ">");
 
   return (
-    <section className={styles.code}>
-      <div className={styles.code_header}>
+    <section className={styles.pre}>
+      <div className={styles.header}>
         <span>{lang}</span>
         <BtnCopy text={str} color={"black"} />
       </div>
