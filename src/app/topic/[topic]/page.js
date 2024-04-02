@@ -15,7 +15,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
 
     let [description, idx] = ["", 1];
 
-    if (pagingData.length) {
+    if (pagingData.posts.length) {
       for (const post of pagingData.posts) {
         description += `(${idx})${post.title} `;
 

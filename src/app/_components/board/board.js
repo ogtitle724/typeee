@@ -84,33 +84,31 @@ function Item({ itemRef, post }) {
 
   return (
     <li ref={itemRef} className={styles.item}>
-      <h2>
-        <Link href={`/post/${post.id}`}>
-          <div className={styles.item_title_wrapper}>
-            <span className={styles.item_title}>
-              <span className={styles.item_topic}>{post.topic}</span>
-              {" • " + post.title}
-            </span>
+      <Link href={`/post/${post.id}`}>
+        <div className={styles.item_title_wrapper}>
+          <span className={styles.item_title}>
+            <span className={styles.item_topic}>{post.topic}</span>
+            {" • " + post.title}
+          </span>
+        </div>
+        {!isSearch && post.thumbnail && (
+          <div className={styles.item_img_wrapper}>
+            <Image
+              className={styles.item_img}
+              alt={`thumbnail of "${post.title}"`}
+              src={post.thumbnail}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              fill={true}
+            />
           </div>
-          {!isSearch && post.thumbnail && (
-            <div className={styles.item_img_wrapper}>
-              <Image
-                className={styles.item_img}
-                alt={`thumbnail of "${post.title}"`}
-                src={post.thumbnail}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                fill={true}
-              />
-            </div>
-          )}
+        )}
 
-          {!isSearch && (
-            <div className={styles.item_content_wrapper}>
-              <p className={styles.item_content}>{post.summary || "test"}</p>
-            </div>
-          )}
-        </Link>
-      </h2>
+        {!isSearch && (
+          <div className={styles.item_content_wrapper}>
+            <p className={styles.item_content}>{post.summary || "test"}</p>
+          </div>
+        )}
+      </Link>
     </li>
   );
 }
