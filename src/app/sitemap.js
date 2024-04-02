@@ -25,7 +25,7 @@ export default async function sitemap() {
       pagingData.posts.forEach((post) => {
         URLs.push({
           url: process.env.URL + `/post/${post.id}`,
-          lastModified: new Date(post.re_date),
+          lastModified: post.re_date,
           changeFrequency: "always",
           priority: 0.8,
         });
