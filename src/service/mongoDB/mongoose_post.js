@@ -91,27 +91,32 @@ export async function del(id) {
 }
 
 export async function paging(
-  query = null,
   page = 1,
+  query = null,
   select = "_id title summary topic thumbnail",
-  size = 30
+  size = process.env.NEXT_PUBLIC_PAGING_SIZE
 ) {
   try {
-    let pagingData = await Post.find(query)
-      .select(select)
-      .sort({ wr_date: -1 })
-      .skip(size * (page - 1))
-      .limit(size);
+    let pagingData;
+
+    if (size !== Infinity) {
+      pagingData = await Post.find(query)
+        .select(select)
+        .sort({ wr_date: -1 })
+        .skip(size * (page - 1))
+        .limit(size);
+    } else {
+      pagingData = await Post.find(query)
+        .select("_id re_date")
+        .sort({ wr_date: -1 });
+    }
 
     const newPagingData = pagingData.map((post) => {
-      const newPost = {
-        id: post._id.toString(),
-        title: post.title,
-        summary: post.summary,
-        topic: post.topic,
-        thumbnail: post.thumbnail,
-      };
-
+      const newPost = Object.entries(post._doc).reduce((acc, [key, value]) => {
+        if (key === "_id") acc.id = value.toString();
+        else acc[key] = value;
+        return acc;
+      }, {});
       return newPost;
     });
 
@@ -120,7 +125,8 @@ export async function paging(
     const returnValue = {
       posts: newPagingData,
       totalCnt,
-      totalPage: ~~((totalCnt - 1) / size) + 1,
+      totalPage:
+        ~~((totalCnt - 1) / (size || process.env.NEXT_PUBLIC_PAGING_SIZE)) + 1,
     };
     return returnValue;
   } catch (err) {

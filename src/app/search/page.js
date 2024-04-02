@@ -32,8 +32,6 @@ export const generateMetadata = async ({ params, searchParams }) => {
           idx++;
         }
       }
-    } else {
-      description = `There is no search result for '${searchParams.param}'`;
     }
 
     return getMetadata(

@@ -73,9 +73,9 @@ export const defaultMetadata = {
       index: true,
       follow: true,
       noimageindex: false,
-      "max-video-preview": 100,
+      "max-video-preview": -1,
       "max-image-preview": "large",
-      "max-snippet": 160,
+      "max-snippet": -1,
     },
   },
   twitter: {

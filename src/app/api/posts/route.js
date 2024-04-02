@@ -5,9 +5,14 @@ export async function GET(req, { params }) {
 
   try {
     const page = searchParams.get("page");
-    const query = searchParams.get("query");
+    const select = searchParams.get("select");
+    const size = +searchParams.get("size");
+    let query = searchParams.get("query");
 
-    const pagingData = await paging(JSON.parse(query), page);
+    if (query) query = JSON.parse(query);
+
+    const params = [page, query, select, size].filter((ele) => ele);
+    const pagingData = await paging(...params);
 
     return new Response(JSON.stringify(pagingData), {
       status: 200,

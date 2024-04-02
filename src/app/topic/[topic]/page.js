@@ -26,8 +26,6 @@ export const generateMetadata = async ({ params, searchParams }) => {
           idx++;
         }
       }
-    } else {
-      description = `There is posts related with ${params.topic}`;
     }
 
     return getMetadata(
@@ -36,7 +34,10 @@ export const generateMetadata = async ({ params, searchParams }) => {
       process.env.URL + `/post/${params.id}`
     );
   } catch (err) {
-    console.error("ERROR(app/search/page.js > generateMetadata):", err.message);
+    console.error(
+      "ERROR(app/topic/[topic]/page.js > generateMetadata):",
+      err.message
+    );
   }
 };
 

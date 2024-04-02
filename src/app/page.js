@@ -2,28 +2,11 @@ import Board from "@comps/board/board";
 import fetchIns from "@/lib/fetch";
 import { getMetadata } from "@/config/metadata";
 
-/* export const generateMetadata = async (props) => {
-  const topic = props.params.topic;
-  const querys = props.searchParams;
-
-  const pagingData = await getPosts({
-    topic: "",
-    page: 1,
-    select: "_id title summary topic",
-    size: 30,
-  });
-
-  return;
-};
- */
-
 export const metadata = getMetadata();
 
 export default async function Home() {
   try {
-    const res = await fetchIns.get(
-      process.env.NEXT_PUBLIC_URL_PAGING + `?page=1`
-    );
+    const res = await fetchIns.get(process.env.NEXT_PUBLIC_URL_PAGING);
     const pagingData = await res.json();
 
     return (

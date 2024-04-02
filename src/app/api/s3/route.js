@@ -17,7 +17,6 @@ export async function POST(request) {
     const d = date.getUTCDate();
 
     const dir = `image/temp/${y}/${m + 1}/${d}/${t}`;
-    console.log(dir);
     const buffer = Buffer.from(await file.arrayBuffer());
     const src = await uploadFileToS3(buffer, dir);
 
