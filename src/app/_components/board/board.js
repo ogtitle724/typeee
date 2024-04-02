@@ -85,28 +85,41 @@ function Item({ itemRef, post }) {
   return (
     <li ref={itemRef} className={styles.item}>
       <Link href={`/post/${post.id}`}>
-        <div className={styles.item_title_wrapper}>
-          <span className={styles.item_title}>
-            <span className={styles.item_topic}>{post.topic}</span>
-            {" • " + post.title}
-          </span>
+        <div className={styles.item_metadata}>
+          <span className={styles.item_topic}>{post.topic}</span>
+          <div className={styles.item_tags_container}>
+            <div className={styles.item_tags}>
+              {post.tags.map((tag) => (
+                <span key={"#" + tag}>{tag}</span>
+              ))}
+            </div>
+          </div>
         </div>
-        {!isSearch && post.thumbnail && (
-          <div className={styles.item_img_wrapper}>
-            <Image
-              className={styles.item_img}
-              alt={`thumbnail of "${post.title}"`}
-              src={post.thumbnail}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              fill={true}
-            />
-          </div>
-        )}
-
+        <h2 className={styles.item_title}>{post.title}</h2>
         {!isSearch && (
-          <div className={styles.item_content_wrapper}>
+          <>
+            {post.thumbnail && (
+              <div className={styles.item_img_wrapper}>
+                <Image
+                  className={styles.item_img}
+                  alt={`thumbnail of "${post.title}"`}
+                  src={post.thumbnail}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  fill={true}
+                />
+              </div>
+            )}
             <p className={styles.item_content}>{post.summary || "test"}</p>
-          </div>
+            <div className={styles.item_profile}>
+              <span>{post.author.name}</span>
+              <Image
+                alt="author profile image"
+                src={post.author.profile_img}
+                width={22}
+                height={22}
+              />
+            </div>
+          </>
         )}
       </Link>
     </li>

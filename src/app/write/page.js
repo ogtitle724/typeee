@@ -14,7 +14,7 @@ import styles from "./write.module.css";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 
-//TODO: add loading page before load or route, session undefined error when refresh, image sizing
+//TODO: add loading page before load or route, session undefined error when refresh, image sizing, tag input
 
 export function WritePage() {
   const session = useSession();
@@ -28,10 +28,12 @@ export function WritePage() {
     topic: "",
     summary: "",
     thumbnail: "",
+    tags: [],
     author: {
       uid: "",
       name: "",
       email: "",
+      profile_img: "",
     },
   });
 
@@ -43,12 +45,14 @@ export function WritePage() {
           uid: session?.data?.user?.uid,
           name: session?.data?.user?.name,
           email: session?.data?.user?.email,
+          profile_img: session?.data?.user?.profile_img,
         },
       }));
     }
   }, [
     session?.data?.user?.email,
     session?.data?.user?.name,
+    session?.data?.user?.profile_img,
     session?.data?.user?.uid,
     session.status,
   ]);
@@ -65,8 +69,8 @@ export function WritePage() {
           const resData = await res.json();
 
           if (resData === null) return router.push("/");
-          const newData = structuredClone(resData);
 
+          const newData = structuredClone(resData);
           setData(newData);
           isEdit.current = true;
         } catch (err) {
@@ -162,6 +166,7 @@ export function WritePage() {
           <Select
             options={topics}
             value={data.topic}
+            placeholder={"--- TOPIC ---"}
             onChange={(e) => {
               const newData = { ...data, topic: e.target.value };
               setData(newData);

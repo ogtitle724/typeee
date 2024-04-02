@@ -93,7 +93,7 @@ export async function del(id) {
 export async function paging(
   page = 1,
   query = null,
-  select = "_id title summary topic thumbnail",
+  select = "_id title summary topic thumbnail tags author",
   size = process.env.NEXT_PUBLIC_PAGING_SIZE
 ) {
   try {

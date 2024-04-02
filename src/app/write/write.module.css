@@ -29,6 +29,7 @@
   bottom: 5px;
   right: 15px;
   border-radius: var(--border-radius);
+  z-index: 2;
 }
 
 .btn {

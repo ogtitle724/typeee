@@ -9,6 +9,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: process.env.GOOGLE_USER_DOMAIN,
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };

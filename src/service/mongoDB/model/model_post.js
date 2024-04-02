@@ -37,6 +37,10 @@ const postSchema = new mongoose.Schema({
       type: String,
       default: "",
     },
+    profile_img: {
+      type: String,
+      default: "",
+    },
   },
   content: {
     type: String,
@@ -67,6 +71,10 @@ const postSchema = new mongoose.Schema({
     type: Date,
     immutable: false,
     default: () => new Date(),
+  },
+  tags: {
+    type: [String],
+    default: [],
   },
   meta: {
     view_cnt: {
