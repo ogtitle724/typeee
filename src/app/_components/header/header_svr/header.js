@@ -2,9 +2,10 @@ import Link from "next/link";
 import { topics } from "@/config/topic";
 import styles from "./header.module.css";
 
-export default function SvrHeader(props) {
+export default function SvrHeader(topic) {
   return (
     <header className={styles.pre + " card"}>
+      <h1>{process.env.SITE_NAME}</h1>
       <Link href={`/`}>{"Home"}</Link>
       {topics.map((topic) => {
         return (

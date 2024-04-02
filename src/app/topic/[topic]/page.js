@@ -31,7 +31,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
     }
 
     return getMetadata(
-      params.topic,
+      `${process.env.SITE_NAME} › ${params.topic}`,
       description,
       process.env.URL + `/post/${params.id}`
     );
