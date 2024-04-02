@@ -1,5 +1,44 @@
 import Board from "@comps/board/board";
 import fetchIns from "@/lib/fetch";
+import { getMetadata } from "@/config/metadata";
+
+export const generateMetadata = async ({ params, searchParams }) => {
+  try {
+    const query = { topic: params.topic };
+    const page = searchParams.page;
+
+    const res = await fetchIns.get(
+      process.env.NEXT_PUBLIC_URL_PAGING +
+        `?page=${page}&query=${JSON.stringify(query)}`
+    );
+    const pagingData = await res.json();
+
+    let [description, idx] = ["", 1];
+
+    if (pagingData.length) {
+      for (const post of pagingData.posts) {
+        description += `(${idx})${post.title} `;
+
+        if (description.length > 160) {
+          description = description.slice(0, 157) + "...";
+          break;
+        } else {
+          idx++;
+        }
+      }
+    } else {
+      description = `There is posts related with ${params.topic}`;
+    }
+
+    return getMetadata(
+      params.topic,
+      description,
+      process.env.URL + `/post/${params.id}`
+    );
+  } catch (err) {
+    console.error("ERROR(app/search/page.js > generateMetadata):", err.message);
+  }
+};
 
 export default async function Topic({ params, searchParams }) {
   const query = { topic: params.topic };

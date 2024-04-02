@@ -16,27 +16,34 @@
 }
 
 .ck.ck-editor__editable h2 {
-  padding: 10px 0;
-  border-bottom: 1px dotted rgb(var(--border-rgb));
+  margin-bottom: 10px;
+  padding: 5px 0;
+  border-bottom: 1px dotted rgb(var(--sub-rgb));
   font-weight: var(--weight-t);
   font-size: var(--font-l);
 }
 
 .ck.ck-editor__editable h3 {
+  margin: 10px 0;
   font-size: var(--font-m);
   font-weight: var(--weight-t);
-  padding: 6px 0;
 }
 
 .ck.ck-editor__editable h4 {
+  margin: 10px 0;
   font-size: var(--font-s);
   font-weight: var(--weight-t);
-  padding: 4px 0;
 }
 
 .ck.ck-editor__editable p {
-  margin: 2px 0;
-  padding: 4px 0;
+  margin: 10px 0;
+  font-size: var(--font-m);
+  line-height: calc(var(--font-m) + 8px);
+}
+
+.ck.ck-editor__editable span {
+  font-size: var(--font-m);
+  line-height: calc(var(--font-m) + 8px);
 }
 
 .ck.ck-editor__editable pre {
@@ -45,6 +52,16 @@
 
 .ck.ck-editor__editable ul {
   padding: 5px 0 5px 20px;
+}
+
+.ck.ck-editor__editable li {
+  line-height: calc(var(--font-m) + 10px);
+}
+
+.ck.ck-editor__editable a {
+  color: rgb(var(--focus-rgb));
+  font-weight: var(--weight-l);
+  text-decoration: underline;
 }
 
 .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {

@@ -19,7 +19,9 @@ export async function POST(req) {
 
         await copyFile(dir, newDir);
         data.content = data.content.replace(dir, newDir);
-        data.thumbnail = process.env.AWS_S3_BUCKET_URl + `/${newDir}`;
+
+        if (!data.thumbnail)
+          data.thumbnail = process.env.AWS_S3_BUCKET_URL + `/${newDir}`;
       }
     }
 

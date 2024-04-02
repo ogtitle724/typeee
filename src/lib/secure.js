@@ -8,12 +8,23 @@ const sanitizeOptions = {
   allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "oembed"]),
   allowedAttributes: {
     ...sanitizeHtml.defaults.allowedAttributes,
-    img: ["src", "srcset", "alt", "title", "width", "height", "loading"],
+    img: [
+      "class",
+      "style",
+      "src",
+      "srcset",
+      "alt",
+      "title",
+      "width",
+      "height",
+      "loading",
+    ],
     iframe: ["src", "width", "height"],
     span: ["style", "class"],
     p: ["style"],
     code: ["class"],
     oembed: ["width", "height"],
+    figure: ["class", "style"],
   },
   allowedClasses: {
     code: [

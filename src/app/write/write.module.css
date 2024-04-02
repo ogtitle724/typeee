@@ -31,20 +31,6 @@
   border-radius: var(--border-radius);
 }
 
-.input_pwd {
-  width: 150px;
-  height: 30px;
-  border: none;
-  border-bottom: 1px solid rgb(var(--border-rgb));
-  font-size: var(--font-);
-  background-color: transparent;
-  text-align: center;
-}
-
-.input_pwd:focus {
-  outline: none;
-}
-
 .btn {
   display: flex;
   flex-direction: column;

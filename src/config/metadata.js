@@ -1,5 +1,35 @@
-export const metadata = {
-  metadataBase: new URL(process.env.DOMAIN),
+export const getMetadata = (title, description, canonical, imgSrc) => {
+  const newMetadata = structuredClone(defaultMetadata);
+
+  if (title) {
+    newMetadata.title = title;
+    newMetadata.openGraph.title = title;
+    newMetadata.twitter.title = title;
+  }
+
+  if (description) {
+    newMetadata.description = description;
+    newMetadata.openGraph.description = description;
+    newMetadata.twitter.description = description;
+  }
+
+  if (canonical) {
+    newMetadata.alternates.canonical = canonical;
+    newMetadata.openGraph.url = canonical;
+  }
+
+  if (imgSrc) {
+    const ogImgs = newMetadata.openGraph.images;
+    newMetadata.openGraph.images = ogImgs.map((ele) => (ele.url = imgSrc));
+
+    const twImgs = newMetadata.twitter.images;
+    newMetadata.twitter.images = twImgs.map((ele) => imgSrc);
+  }
+
+  return newMetadata;
+};
+
+export const defaultMetadata = {
   title: {
     //title of doc. consisited with default, template, absolute(ignore other)
     default: process.env.SITE_NAME, // fallback title
@@ -7,28 +37,29 @@ export const metadata = {
   },
   description: process.env.DESCRIPTION,
   alternates: {
-    canonical: "/",
+    canonical: process.env.URL,
     languages: {
-      "ko-KR": process.env.DOMAIN,
+      "en-US": "/en-US",
+      "ko-KR": "/ko-KR",
     },
   },
   openGraph: {
     title: process.env.SITE_NAME,
     description: process.env.DESCRIPTION,
-    url: "/",
+    url: process.env.URL,
     siteName: process.env.SITE_NAME,
     images: [
       {
-        url: process.env.LOGO_URL,
+        url: process.env.URL + process.env.LOGO_URL,
         width: 800,
         height: 600,
-        alt: `${process.env.SITE_NAME} logo image`,
+        alt: `${process.env.SITE_NAME} logo`,
       },
       {
-        url: process.env.LOGO_URL,
+        url: process.env.URL + process.env.LOGO_URL,
         width: 1800,
         height: 1600,
-        alt: `${process.env.SITE_NAME} logo image`,
+        alt: `${process.env.SITE_NAME} logo`,
       },
     ],
     locale: ["en-US", "ko-KR"],
@@ -41,17 +72,17 @@ export const metadata = {
     googleBot: {
       index: true,
       follow: true,
-      noimageindex: true,
-      "max-video-preview": -1,
+      noimageindex: false,
+      "max-video-preview": 100,
       "max-image-preview": "large",
-      "max-snippet": -1,
+      "max-snippet": 160,
     },
   },
   twitter: {
     card: "summary_large_image",
     title: process.env.SITE_NAME,
     description: process.env.DESCRIPTION,
-    images: [process.env.LOGO_URL],
+    images: [process.env.URL + process.env.LOGO_URL],
   },
   generator: "Next.js",
   applicationName: "Next.js",

@@ -3,13 +3,39 @@ import BtnDelete from "@comps/btn/delete/delete";
 import BtnEdit from "@/app/_components/btn/edit/edit";
 import CodeBlock from "@/app/_components/code/code";
 import { sanitize } from "@/lib/secure";
-import { read, relate } from "@/service/mongoDB/mongoose_post";
+import { relate } from "@/service/mongoDB/mongoose_post";
 import { auth } from "@/auth";
 import styles from "./postDetail.module.css";
+import fetchIns from "@/lib/fetch";
+import { getMetadata } from "@/config/metadata";
+
+export const generateMetadata = async ({ params }) => {
+  try {
+    const res = await fetchIns.get(
+      process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`
+    );
+    const postData = await res.json();
+
+    return getMetadata(
+      postData.title,
+      postData.summary,
+      process.env.URL + `/post/${params.id}`,
+      postData.thumbnail
+    );
+  } catch (err) {
+    console.error(
+      "ERROR(app/post/[id]/page.js > generateMetadata):",
+      err.message
+    );
+  }
+};
 
 export default async function PostDetail({ params }) {
   try {
-    const postData = await read(params.id);
+    const res = await fetchIns.get(
+      process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`
+    );
+    const postData = await res.json();
 
     const regexCode = /(<pre><code.*?>.*?<\/code><\/pre>)/gs;
     const splited = postData.content.split(regexCode);

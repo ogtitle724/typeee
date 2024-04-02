@@ -11,7 +11,6 @@ class Fetch {
         Accept: "application/json, text/plain, */*",
       },
     };
-    this.domain = process.env.NEXT_PUBLIC_DOMAIN;
     this.reqCount = 1000;
   }
 

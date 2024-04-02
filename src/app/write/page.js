@@ -7,14 +7,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IoSave } from "react-icons/io5";
 import { topics } from "@/config/topic";
-import { delTags, getFirstP } from "@/lib/text";
+import { getFirstP } from "@/lib/text";
 import { Suspense } from "react";
 import { useSession } from "next-auth/react";
 import styles from "./write.module.css";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 
-//TODO: add loading page before load or route
+//TODO: add loading page before load or route, session undefined error when refresh, image sizing
 
 export function WritePage() {
   const session = useSession();

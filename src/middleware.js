@@ -13,7 +13,7 @@ const reportingGroup = {
 };
 const cspOptions = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'strict-dynamic'; style-src 'self' 'nonce-${nonce}'; img-src 'self' blob: data:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; report-to csp-endpoint;`;
 
-const allowedOrigins = [process.env.DOMAIN, process.env.AUTH_GOOGLE_DOMAIN];
+const allowedOrigins = [process.env.URL, process.env.AUTH_GOOGLE_URL];
 
 const headerOptions = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",

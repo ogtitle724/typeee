@@ -1,5 +1,5 @@
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { tomorrowNight } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import styles from "./code.module.css";
 import BtnCopy from "../btn/copy/copy";
 
@@ -23,7 +23,7 @@ export default function CodeBlock(props) {
       </div>
       <SyntaxHighlighter
         language={lang}
-        style={tomorrowNight}
+        style={atomOneDark}
         showLineNumbers={true}
       >
         {str}

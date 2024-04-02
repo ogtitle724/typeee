@@ -33,19 +33,17 @@ export async function update(id, data, key) {
     const prevImgDirs = getImgDirs(post.content);
     let updatedImgDirs = getImgDirs(data.content);
 
-    if (updatedImgDirs) {
-      updatedImgDirs = updatedImgDirs.reverse();
-    }
-
     if (prevImgDirs) {
       for (const dir of prevImgDirs) {
-        if (!updatedImgDirs.includes(dir)) {
+        if (updatedImgDirs && !updatedImgDirs.includes(dir)) {
           await deleteFile(dir);
         }
       }
     }
 
     if (updatedImgDirs) {
+      data.thumbnail = null;
+
       for (const dir of updatedImgDirs) {
         let newDir = dir;
 
@@ -55,8 +53,11 @@ export async function update(id, data, key) {
           data.content = data.content.replace(dir, newDir);
         }
 
-        data.thumbnail = process.env.AWS_S3_BUCKET_URL + `/${newDir}`;
+        if (!data.thumbnail)
+          data.thumbnail = process.env.AWS_S3_BUCKET_URL + `/${newDir}`;
       }
+    } else {
+      data.thumbnail = null;
     }
 
     if (key === post.author.uid) {
@@ -74,7 +75,10 @@ export async function update(id, data, key) {
       throw new Error("Unauthorized for update");
     }
   } catch (err) {
-    console.error(err.message);
+    console.error(
+      "ERROR(/service/mongoDB/mongoose_post.js > update):",
+      err.message
+    );
   }
 }
 

@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import { metadata as meta } from "@/config/metadata";
+import { getMetadata } from "@/config/metadata";
 import Header from "@/app/_components/header/header_cli/header";
 import "./globals.css";
 import SessionWrapper from "@/lib/session_provider";
@@ -7,7 +7,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import SvrHeader from "./_components/header/header_svr/header";
 
 const inter = Inter({ subsets: ["latin"] });
-export const metadata = meta;
+export const metadata = getMetadata();
 
 export default function RootLayout({ children }) {
   return (

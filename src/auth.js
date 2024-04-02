@@ -23,7 +23,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (token.id) {
         session.user.uid = token.id;
       }
-
+      console.log("\n\nSESSION UPDATE **********************");
+      console.log(session);
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {

@@ -1,5 +1,6 @@
 import Board from "@comps/board/board";
 import fetchIns from "@/lib/fetch";
+import { getMetadata } from "@/config/metadata";
 
 /* export const generateMetadata = async (props) => {
   const topic = props.params.topic;
@@ -15,6 +16,8 @@ import fetchIns from "@/lib/fetch";
   return;
 };
  */
+
+export const metadata = getMetadata();
 
 export default async function Home() {
   try {
