@@ -50,13 +50,13 @@ export const defaultMetadata = {
     siteName: process.env.SITE_NAME,
     images: [
       {
-        url: process.env.URL + process.env.LOGO_URL,
+        url: process.env.URL + process.env.LOGO_PATH,
         width: 800,
         height: 600,
         alt: `${process.env.SITE_NAME} logo`,
       },
       {
-        url: process.env.URL + process.env.LOGO_URL,
+        url: process.env.URL + process.env.LOGO_PATH,
         width: 1800,
         height: 1600,
         alt: `${process.env.SITE_NAME} logo`,
@@ -82,7 +82,7 @@ export const defaultMetadata = {
     card: "summary_large_image",
     title: process.env.SITE_NAME,
     description: process.env.DESCRIPTION,
-    images: [process.env.URL + process.env.LOGO_URL],
+    images: [process.env.URL + process.env.LOGO_PATH],
   },
   generator: "Next.js",
   applicationName: "Next.js",
