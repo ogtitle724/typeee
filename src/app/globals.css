@@ -8,6 +8,7 @@
   --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+  --font-xt: 43px;
   --font-t: 28px;
   --font-l: 21px;
   --font-m: 18px;
@@ -46,6 +47,17 @@
     --ui-bg-rgb: 41, 41, 47;
 
     --hover-bright: 1.2;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :root {
+    --font-xt: 30px;
+    --font-t: 25px;
   }
 }
 
@@ -141,10 +153,4 @@ blockquote {
 
 .text-huge {
   font-size: var(--font-t) !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 }

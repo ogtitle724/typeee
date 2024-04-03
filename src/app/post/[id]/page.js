@@ -118,11 +118,13 @@ function Metadata({ name, topic, date, profile_img }) {
       <Image
         alt={`profile image of ${name}`}
         src={profile_img}
-        width={20}
-        height={20}
+        width={35}
+        height={35}
       ></Image>
-      <span>{name}</span>
-      <span>{` • ${topic} • ${new Date(date).toString().slice(0, 21)}`}</span>
+      <div>
+        <span>{name}</span>
+        <span>{`${topic} • ${new Date(date).toString().slice(0, 21)}`}</span>
+      </div>
     </section>
   );
 }

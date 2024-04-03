@@ -8,11 +8,29 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
 import { IoChevronForwardOutline, IoChevronBackOutline } from "react-icons/io5";
 import fetchIns from "@/lib/fetch";
+import debounce from "@/lib/debounce";
 
-export default function Board({ pagingData, type, isPagination, query }) {
+export default function Board({ pagingData, isList, isPagination, query }) {
   const [posts, setPosts] = useState(pagingData.posts);
+  const [isGrid, setIsGrid] = useState(!isList);
+  const [width, setWidth] = useState();
+  const [items, setItems] = useState([]);
   const lastRef = useRef();
   const io = useRef();
+
+  useEffect(() => {
+    const handleResize = debounce(() => setWidth(window.innerWidth), 100);
+    if (typeof window) window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window) {
+      if (width < 770 || window.innerWidth < 770) setIsGrid(false);
+      else if (!isList) setIsGrid(true);
+    }
+  }, [isList, width]);
 
   useEffect(() => {
     if (lastRef.current && !isPagination && pagingData.totalPage > 1) {
@@ -22,7 +40,7 @@ export default function Board({ pagingData, type, isPagination, query }) {
             if (entry.isIntersecting) {
               const res = await fetchIns.get(
                 process.env.NEXT_PUBLIC_URL_PAGING +
-                  `?query=${query}&page=${posts.length / 30 + 2}`
+                  `?query=${query}&page=${~~(posts.length / 30) + 2}`
               );
 
               const pagingData = await res.json();
@@ -34,48 +52,58 @@ export default function Board({ pagingData, type, isPagination, query }) {
         { rootMargin: "300px 0px" }
       );
 
-      if (lastRef.current && !isPagination && pagingData.totalPage > 1) {
-        io.observe(lastRef.current);
-      }
+      io.observe(lastRef.current);
     }
   }, [isPagination, pagingData.totalPage, posts.length, query]);
 
   useEffect(() => {
-    if (lastRef.current && !isPagination && pagingData.totalPage > 1) {
-      io.observe(lastRef.current);
+    const tempItems = posts.map((post, idx) => (
+      <Item key={"post_" + idx} post={post} />
+    ));
+    tempItems[tempItems.length - 1] = (
+      <Item key={"post_last"} lastRef={lastRef} post={posts.at(-1)} />
+    );
+
+    setItems([...tempItems]);
+
+    if (io.current) {
+      io.current.observe(tempItems[tempItems.length - 1]);
     }
-  }, [isPagination, pagingData.totalPage, posts]);
+  }, [posts]);
 
-  return (
-    <section className={styles.pre} aria-label="board">
-      {posts.length ? (
-        <ul
-          className={styles.ul + " " + (type === "list" ? styles.ul_list : "")}
-        >
-          {pagingData.posts.map((post, idx) => {
-            const isLast = posts.length - 1 === idx;
-
-            if (isLast && !isPagination) {
-              return <Item lastRef={lastRef} key={"post_" + idx} post={post} />;
-            } else {
-              return <Item key={"post_" + idx} post={post} />;
-            }
-          })}
-        </ul>
-      ) : (
-        <div className={styles.empty}>
-          <Link href={"/write"}>
-            <IoCreateOutline size={30} color={"white"} strokeWidth={20} />
-          </Link>
-          <p>Write the first Posts!</p>
-        </div>
-      )}
-
-      {isPagination && pagingData.totalPage > 1 && (
-        <PageNav totalPage={pagingData.totalPage} unit={11} />
-      )}
-    </section>
-  );
+  if (posts.length) {
+    return (
+      <section className={styles.pre}>
+        {isGrid ? (
+          <>
+            <ul className={styles.grid_col}>
+              {items.filter((ele, idx) => idx % 3 === 0)}
+            </ul>
+            <ul className={styles.grid_col}>
+              {items.filter((ele, idx) => idx % 3 === 1)}
+            </ul>
+            <ul className={styles.grid_col}>
+              {items.filter((ele, idx) => idx % 3 === 2)}
+            </ul>
+          </>
+        ) : (
+          <ul className={styles.list}>{items}</ul>
+        )}
+        {isPagination && pagingData.totalPage > 1 && (
+          <PageNav totalPage={pagingData.totalPage} unit={11} />
+        )}
+      </section>
+    );
+  } else {
+    return (
+      <div className={styles.empty}>
+        <Link href={"/write"}>
+          <IoCreateOutline size={30} color={"white"} strokeWidth={20} />
+        </Link>
+        <p>Write the first Posts!</p>
+      </div>
+    );
+  }
 }
 
 function Item({ lastRef, post }) {

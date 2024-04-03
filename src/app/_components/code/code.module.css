@@ -41,4 +41,5 @@
 
 .pre span {
   font-size: var(--font-vs) !important;
+  line-height: calc((var(--font-vs) + 6px)) !important;
 }
