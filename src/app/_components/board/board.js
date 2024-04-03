@@ -27,7 +27,7 @@ export default function Board({ pagingData, isList, isPagination, query }) {
 
   useEffect(() => {
     if (typeof window) {
-      if (width < 770 || window.innerWidth < 770) setIsGrid(false);
+      if (isList || width < 770 || window.innerWidth < 770) setIsGrid(false);
       else if (!isList) setIsGrid(true);
     }
   }, [isList, width]);
