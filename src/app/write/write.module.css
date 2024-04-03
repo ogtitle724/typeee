@@ -19,14 +19,62 @@
   overflow: hidden;
 }
 
+.btn_hash {
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  font-size: var(--font-l);
+  font-weight: var(--weight-l);
+  line-height: 23px;
+  box-shadow: var(--strong-shadow);
+  border: 1px solid rgb(var(--border-rgb));
+}
+
+.hash_input_wrapper {
+  width: calc(100% - 30px);
+  height: 35px;
+  padding: 3px 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  bottom: 12px;
+  left: 15px;
+  z-index: 3;
+  border: 1px solid rgb(var(--border-rgb));
+}
+
+.hash_input_wrapper > input {
+  width: 100%;
+  padding-left: 6px;
+  outline: none;
+  border: none;
+  font-size: var(--font-s);
+  font-weight: var(--weight-m);
+  background-color: transparent;
+}
+
+.hash_input_wrapper > input::placeholder {
+  font-size: var(--font-s);
+  font-weight: var(--weight-m);
+}
+
+.hash_input_wrapper > button {
+  width: 28px;
+  height: 28px;
+}
+
 .btn_wrapper {
-  height: 50px;
+  height: fit-content;
   display: flex;
   padding: 0 5px;
   align-items: center;
   gap: 10px;
   position: absolute;
-  bottom: 5px;
+  bottom: 15px;
   right: 15px;
   border-radius: var(--border-radius);
   z-index: 2;

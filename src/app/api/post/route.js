@@ -11,6 +11,8 @@ export async function POST(req) {
 
     data.title = sanitize(data.title);
     data.content = sanitize(data.content);
+    data.tags = data.tags.map((tag) => sanitize(tag));
+
     const imgDir = getImgDirs(data.content);
 
     if (imgDir) {

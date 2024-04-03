@@ -70,10 +70,13 @@
   display: flex;
   gap: 8px;
   position: relative;
-  font-size: var(--font-vs);
-  font-weight: var(--weight-l);
-  text-transform: lowercase;
+  font-size: var(--font-xvs);
+  font-weight: var(--weight-m);
   color: rgb(var(--border-rgb));
+}
+
+.item_tags span {
+  white-space: nowrap;
 }
 
 .ul:not(.ul_list) .item a:hover .item_tags {

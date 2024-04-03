@@ -90,7 +90,10 @@ function Item({ itemRef, post }) {
           <div className={styles.item_tags_container}>
             <div className={styles.item_tags}>
               {post.tags.map((tag) => (
-                <span key={"#" + tag}>{tag}</span>
+                <span key={"#" + tag}>{"#" + tag}</span>
+              ))}
+              {post.tags.map((tag) => (
+                <span key={"#" + tag}>{"#" + tag}</span>
               ))}
             </div>
           </div>

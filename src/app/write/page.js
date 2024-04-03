@@ -10,6 +10,7 @@ import { topics } from "@/config/topic";
 import { getFirstP } from "@/lib/text";
 import { Suspense } from "react";
 import { useSession } from "next-auth/react";
+import { IoCaretBackCircle } from "react-icons/io5";
 import styles from "./write.module.css";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
@@ -22,6 +23,8 @@ export function WritePage() {
   const query = useSearchParams();
   const isEdit = useRef(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [hashTags, setHashTags] = useState("");
+  const [isHashInputShow, seetIsHashInputShow] = useState(false);
   const [data, setData] = useState({
     title: "",
     content: "",
@@ -73,6 +76,7 @@ export function WritePage() {
 
           const newData = structuredClone(resData);
           setData(newData);
+          setHashTags(newData.tags.join(" "));
           isEdit.current = true;
         } catch (err) {
           console.error(err.message);
@@ -100,6 +104,14 @@ export function WritePage() {
     }));
   };
 
+  const handleClkBtnHash = () => {
+    seetIsHashInputShow((cur) => !cur);
+  };
+
+  const handleChangeHashInput = (e) => {
+    setHashTags(e.target.value);
+  };
+
   const handleClkBtnUpload = async () => {
     if (session.status !== "authenticated") {
       return alert(
@@ -111,6 +123,15 @@ export function WritePage() {
       return alert(
         "Please make sure you have entered all the title, content, and topic."
       );
+    }
+
+    if (hashTags) {
+      data.tags = hashTags.trim().split(" ");
+      const longTags = data.tags.filter((tag) => tag.length > 20);
+
+      if (longTags.length)
+        return alert("Set the hashtag to 20 characters or less.");
+      if (data.tags.length > 6) return alert("Up to 20 hashtags are allowed.");
     }
 
     const plainText = getFirstP(data.content);
@@ -163,6 +184,26 @@ export function WritePage() {
             removePlugins: ["MediaEmbedToolbar"],
           }}
         />
+        {!isHashInputShow && (
+          <button
+            className={styles.btn_hash + " card"}
+            onClick={handleClkBtnHash}
+          >
+            #
+          </button>
+        )}
+        {isHashInputShow && (
+          <div className={styles.hash_input_wrapper + " card"}>
+            <input
+              value={hashTags}
+              placeholder="Separate keywords with spaces"
+              onChange={handleChangeHashInput}
+            />
+            <button onClick={handleClkBtnHash} aria-label="close input">
+              <IoCaretBackCircle size={28} />
+            </button>
+          </div>
+        )}
         <div className={styles.btn_wrapper}>
           <Select
             options={topics}

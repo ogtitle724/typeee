@@ -26,6 +26,8 @@ export async function PATCH(req, { params }) {
 
     data.title = sanitize(data.title);
     data.content = sanitize(data.content);
+    data.tags = data.tags.map((tag) => sanitize(tag));
+
     const updatedPost = await update(id, data, session.user.uid);
 
     return new Response(JSON.stringify(updatedPost), {

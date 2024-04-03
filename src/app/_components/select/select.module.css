@@ -5,13 +5,15 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  font-size: var(--font-m);
+  font-size: var(--font-s);
+  font-weight: var(--weight-m);
   text-align: center;
   border-radius: var(--border-radius);
   z-index: 2;
 }
 
 .select > option {
-  font-size: var(--font-m);
+  font-size: var(--font-s);
+  font-weight: var(--weight-m);
   text-align: center;
 }

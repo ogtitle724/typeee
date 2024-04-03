@@ -104,6 +104,18 @@
   margin: 17px auto;
 }
 
+.hashtags {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  color: rgb(var(--font-sub-rgb));
+}
+
+.hashtags span {
+  white-space: nowrap;
+}
+
 .relatePosts {
   width: 100%;
   height: fit-content;
