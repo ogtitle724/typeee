@@ -20,7 +20,8 @@ export const generateMetadata = async ({ params }) => {
       postData.title,
       postData.summary,
       process.env.URL + `/post/${params.id}`,
-      postData.thumbnail
+      postData.thumbnail,
+      postData.tags
     );
   } catch (err) {
     console.error(

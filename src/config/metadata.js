@@ -1,4 +1,4 @@
-export const getMetadata = (title, description, canonical, imgSrc) => {
+export const getMetadata = (title, description, canonical, imgSrc, tags) => {
   const newMetadata = structuredClone(defaultMetadata);
 
   if (title) {
@@ -24,6 +24,10 @@ export const getMetadata = (title, description, canonical, imgSrc) => {
 
     const twImgs = newMetadata.twitter.images;
     newMetadata.twitter.images = twImgs.map((ele) => imgSrc);
+  }
+
+  if (tags && tags.length) {
+    newMetadata.keywords = tags.slice();
   }
 
   return newMetadata;
@@ -87,7 +91,7 @@ export const defaultMetadata = {
   generator: "Next.js",
   applicationName: "Next.js",
   referrer: "origin-when-cross-origin",
-  keywords: ["Next.js", "React", "JavaScript"],
+  keywords: ["Web develop", "blog", "Next.js", "React", "JavaScript"],
   authors: [{ name: "Wonje Jang" }],
   creator: "Wonje Jang",
   publisher: "Wonje Jang",

@@ -35,7 +35,7 @@
   gap: 5px;
 }
 
-.item:hover {
+.item_hover {
   transform: translateY(-7px) scale(1.01);
   box-shadow: var(--strong-shadow-hover);
 }
@@ -79,7 +79,7 @@
   white-space: nowrap;
 }
 
-.ul:not(.ul_list) .item a:hover .item_tags {
+.ul:not(.ul_list) .item_hover .item_tags {
   animation: rotate 8s linear infinite;
 }
 

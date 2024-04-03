@@ -56,7 +56,7 @@ export default function Board({ pagingData, type, isPagination, query }) {
             const isLast = posts.length - 1 === idx;
 
             if (isLast && !isPagination) {
-              return <Item itemRef={lastRef} key={"post_" + idx} post={post} />;
+              return <Item lastRef={lastRef} key={"post_" + idx} post={post} />;
             } else {
               return <Item key={"post_" + idx} post={post} />;
             }
@@ -78,13 +78,37 @@ export default function Board({ pagingData, type, isPagination, query }) {
   );
 }
 
-function Item({ itemRef, post }) {
+function Item({ lastRef, post }) {
   const path = usePathname();
   const isSearch = path.includes("/search");
+  const [isHover, setIsHover] = useState(false);
+  const itemRef = useRef();
+
+  useEffect(() => {
+    const item = itemRef.current;
+    const touchHover = () => setIsHover((cur) => !cur);
+
+    if (item) {
+      item.addEventListener("touchstart", touchHover);
+      item.addEventListener("touchend", touchHover);
+      item.addEventListener("mouseover", touchHover);
+      item.addEventListener("mouseout", touchHover);
+    }
+
+    return () => {
+      item.removeEventListener("touchstart", touchHover);
+      item.removeEventListener("touchend", touchHover);
+      item.removeEventListener("mouseover", touchHover);
+      item.removeEventListener("mouseout", touchHover);
+    };
+  }, []);
 
   return (
-    <li ref={itemRef} className={styles.item}>
-      <Link href={`/post/${post.id}`}>
+    <li
+      ref={itemRef}
+      className={styles.item + (isHover ? " " + styles.item_hover : "")}
+    >
+      <Link ref={lastRef} href={`/post/${post.id}`}>
         <div className={styles.item_metadata}>
           <span className={styles.item_topic}>{post.topic}</span>
           <div className={styles.item_tags_container}>
