@@ -33,12 +33,16 @@
   justify-content: flex-start;
   align-items: center;
   gap: 5px;
-  font-size: 13px;
+  font-size: 10px;
   color: rgb(var(--sub-rgb));
 }
 
 .metadata > img {
   border-radius: 100%;
+}
+
+.metadata > span {
+  white-space: nowrap;
 }
 
 .metadata > span:nth-child(2) {
@@ -48,10 +52,14 @@
 
 .btns {
   width: fit-content;
+  padding: 6px 13px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
+  position: fixed;
+  bottom: 30px;
+  right: 5vw;
 }
 
 .content {
@@ -115,6 +123,7 @@
   width: 100%;
   display: flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 10px;
   color: rgb(var(--font-sub-rgb));
 }
@@ -158,6 +167,9 @@
 .relatePosts a {
   width: 100%;
   display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .relatePosts li:not(.related_cur):hover {

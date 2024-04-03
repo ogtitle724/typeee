@@ -93,7 +93,7 @@ function Item({ lastRef, post }) {
     if (containerWidth * 0.8 < tagsWidth) {
       setIsTagRotate(true);
     }
-    console.log(containerWidth * 0.8 < tagsWidth);
+
     const item = itemRef.current;
     const over = () => setIsHover(true);
     const out = () => setIsHover(false);

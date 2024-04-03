@@ -59,11 +59,7 @@ export default async function PostDetail({ params }) {
       prevPosts = prevPosts.slice(0, 3);
       nextPosts = nextPosts.slice(-3);
     }
-    console.log(postData);
-    console.log("SPLITTED", splited);
-    console.log("TAGS", postData.tags);
-    console.log("NEXT", nextPosts);
-    console.log("PREV", prevPosts);
+
     return (
       <>
         <section className={styles.pre}>
@@ -122,8 +118,8 @@ function Metadata({ name, topic, date, profile_img }) {
       <Image
         alt={`profile image of ${name}`}
         src={profile_img}
-        width={25}
-        height={25}
+        width={20}
+        height={20}
       ></Image>
       <span>{name}</span>
       <span>{` • ${topic} • ${new Date(date).toString().slice(0, 21)}`}</span>
@@ -135,14 +131,14 @@ async function BtnWrapper({ postData }) {
   const session = await auth();
 
   return (
-    <div className={styles.btns}>
+    <div className={styles.btns + " card"}>
       {session && session.user.uid === postData.author.uid && (
         <>
           <BtnEdit
             isAnnonymous={!postData.author.uid}
             comparePwd={postData.author.pwd}
             targetId={postData._id.toString()}
-            size={17}
+            size={22}
           />
           <BtnDelete
             isAnnonymous={!postData.author.uid}
@@ -150,7 +146,7 @@ async function BtnWrapper({ postData }) {
             url={
               process.env.NEXT_PUBLIC_URL_POST + `/${postData._id.toString()}`
             }
-            size={15}
+            size={20}
           />
         </>
       )}

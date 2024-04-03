@@ -127,12 +127,13 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
   line-height: calc(var(--font-s) + 4px);
   font-size: var(--font-s);
-  -webkit-line-clamp: 3;
 }
 
 .item_profile {
+  margin-top: 3px;
   padding: 0 10px;
   display: flex;
   justify-content: flex-end;
