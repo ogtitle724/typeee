@@ -59,7 +59,11 @@ export default async function PostDetail({ params }) {
       prevPosts = prevPosts.slice(0, 3);
       nextPosts = nextPosts.slice(-3);
     }
-
+    console.log(postData);
+    console.log("SPLITTED", splited);
+    console.log("TAGS", postData.tags);
+    console.log("NEXT", nextPosts);
+    console.log("PREV", prevPosts);
     return (
       <>
         <section className={styles.pre}>
