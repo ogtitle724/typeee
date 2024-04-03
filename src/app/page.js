@@ -14,7 +14,7 @@ export default async function Home() {
         <h1 className="hide">Typeee home page</h1>
         <Board
           pagingData={pagingData}
-          type={""}
+          isList={false}
           isPagination={false}
           query={null}
         />

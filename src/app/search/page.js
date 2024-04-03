@@ -70,7 +70,7 @@ export default async function Topic({ searchParams }) {
           <>
             <Board
               pagingData={pagingData}
-              type={"list"}
+              isList={true}
               isPagination={true}
               query={JSON.stringify(query)}
             />

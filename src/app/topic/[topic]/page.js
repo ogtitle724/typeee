@@ -57,7 +57,7 @@ export default async function Topic({ params, searchParams }) {
         <h1 className="hide">{`${params.topic} related posts page ${page}`}</h1>
         <Board
           pagingData={pagingData}
-          type={"list"}
+          isList={true}
           isPagination={true}
           query={JSON.stringify(query)}
         />
