@@ -29,7 +29,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
     }
 
     return getMetadata(
-      `${process.env.SITE_NAME} › ${params.topic}`,
+      `${params.topic} related posts page ${page}`,
       description,
       process.env.URL + `/post/${params.id}`
     );
@@ -54,6 +54,7 @@ export default async function Topic({ params, searchParams }) {
 
     return (
       <>
+        <h1 className="hide">{`${params.topic} related posts page ${page}`}</h1>
         <Board
           pagingData={pagingData}
           type={"list"}

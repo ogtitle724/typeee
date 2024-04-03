@@ -120,6 +120,13 @@ blockquote {
   box-shadow: var(--strong-shadow);
 }
 
+.hide {
+  width: 0;
+  height: 0;
+  position: absolute;
+  overflow: hidden;
+}
+
 .text-tiny {
   font-size: var(--font-vs) !important;
 }

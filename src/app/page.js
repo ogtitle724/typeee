@@ -10,12 +10,15 @@ export default async function Home() {
     const pagingData = await res.json();
 
     return (
-      <Board
-        pagingData={pagingData}
-        type={""}
-        isPagination={false}
-        query={null}
-      />
+      <>
+        <h1 className="hide">Typeee home page</h1>
+        <Board
+          pagingData={pagingData}
+          type={""}
+          isPagination={false}
+          query={null}
+        />
+      </>
     );
   } catch (err) {
     console.error(err.message);
