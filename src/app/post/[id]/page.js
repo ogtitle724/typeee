@@ -1,6 +1,7 @@
 import Link from "next/link";
 import BtnDelete from "@comps/btn/delete/delete";
 import BtnEdit from "@/app/_components/btn/edit/edit";
+import Image from "next/image";
 import CodeBlock from "@/app/_components/code/code";
 import { sanitize } from "@/lib/secure";
 import { relate } from "@/service/mongoDB/mongoose_post";
@@ -68,6 +69,7 @@ export default async function PostDetail({ params }) {
               name={postData.author.name}
               topic={postData.topic}
               date={postData.wr_date}
+              profile_img={postData.author.profile_img}
             />
             <BtnWrapper postData={postData} />
           </div>
@@ -109,9 +111,15 @@ export default async function PostDetail({ params }) {
   }
 }
 
-function Metadata({ name, topic, date }) {
+function Metadata({ name, topic, date, profile_img }) {
   return (
     <section className={styles.metadata}>
+      <Image
+        alt={`profile image of ${name}`}
+        src={profile_img}
+        width={25}
+        height={25}
+      ></Image>
       <span>{name}</span>
       <span>{` • ${topic} • ${new Date(date).toString().slice(0, 21)}`}</span>
     </section>

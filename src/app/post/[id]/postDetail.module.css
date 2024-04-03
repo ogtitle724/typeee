@@ -26,12 +26,19 @@
 
 .metadata {
   width: fit-content;
+  margin: 3px 0 10px 0px;
   padding-left: 1px;
   position: relative;
   display: flex;
   justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
   font-size: 13px;
   color: rgb(var(--sub-rgb));
+}
+
+.metadata > img {
+  border-radius: 100%;
 }
 
 .metadata > span:nth-child(2) {
