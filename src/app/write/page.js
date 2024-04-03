@@ -45,14 +45,15 @@ export function WritePage() {
           uid: session?.data?.user?.uid,
           name: session?.data?.user?.name,
           email: session?.data?.user?.email,
-          profile_img: session?.data?.user?.profile_img,
+          profile_img: session?.data?.user?.image,
         },
       }));
     }
   }, [
+    session,
     session?.data?.user?.email,
     session?.data?.user?.name,
-    session?.data?.user?.profile_img,
+    session?.data?.user.profile_img,
     session?.data?.user?.uid,
     session.status,
   ]);
@@ -81,7 +82,7 @@ export function WritePage() {
 
       getData();
     }
-  }, [query, router, session.data.user.uid]);
+  }, [query, router, session?.data?.user?.uid]);
 
   const handleChangeTitle = (e) => {
     if (e.target.value.length <= process.env.NEXT_PUBLIC_MAX_TITLE_LEN) {
