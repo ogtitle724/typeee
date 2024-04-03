@@ -82,26 +82,36 @@ function Item({ lastRef, post }) {
   const path = usePathname();
   const isSearch = path.includes("/search");
   const [isHover, setIsHover] = useState(false);
+  const [isTagRotate, setIsTagRotate] = useState(false);
   const itemRef = useRef();
+  const tagContainerRef = useRef();
 
   useEffect(() => {
+    const containerWidth = tagContainerRef.current.offsetWidth;
+    const tagsWidth = tagContainerRef.current.children[0].offsetWidth;
+
+    if (containerWidth * 0.8 < tagsWidth) {
+      setIsTagRotate(true);
+    }
+    console.log(containerWidth * 0.8 < tagsWidth);
     const item = itemRef.current;
-    const touchHover = () => setIsHover((cur) => !cur);
+    const over = () => setIsHover(true);
+    const out = () => setIsHover(false);
 
     if (item) {
-      item.addEventListener("touchstart", touchHover);
-      item.addEventListener("touchend", touchHover);
-      item.addEventListener("mouseover", touchHover);
-      item.addEventListener("mouseout", touchHover);
+      item.addEventListener("touchstart", over);
+      item.addEventListener("touchend", out);
+      item.addEventListener("mouseover", over);
+      item.addEventListener("mouseout", out);
     }
 
     return () => {
-      item.removeEventListener("touchstart", touchHover);
-      item.removeEventListener("touchend", touchHover);
-      item.removeEventListener("mouseover", touchHover);
-      item.removeEventListener("mouseout", touchHover);
+      item.removeEventListener("touchstart", over);
+      item.removeEventListener("touchend", out);
+      item.removeEventListener("mouseover", over);
+      item.removeEventListener("mouseout", out);
     };
-  }, []);
+  }, [isTagRotate]);
 
   return (
     <li
@@ -111,14 +121,20 @@ function Item({ lastRef, post }) {
       <Link ref={lastRef} href={`/post/${post.id}`}>
         <div className={styles.item_metadata}>
           <span className={styles.item_topic}>{post.topic}</span>
-          <div className={styles.item_tags_container}>
-            <div className={styles.item_tags}>
+          <div ref={tagContainerRef} className={styles.item_tags_container}>
+            <div
+              className={
+                styles.item_tags +
+                (isTagRotate ? " " + styles.item_tags_rotate : "")
+              }
+            >
               {post.tags.map((tag) => (
                 <span key={"#" + tag}>{"#" + tag}</span>
               ))}
-              {post.tags.map((tag) => (
-                <span key={"#" + tag}>{"#" + tag}</span>
-              ))}
+              {isTagRotate &&
+                post.tags.map((tag) => (
+                  <span key={"#" + tag}>{"#" + tag}</span>
+                ))}
             </div>
           </div>
         </div>

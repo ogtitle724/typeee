@@ -79,8 +79,8 @@
   white-space: nowrap;
 }
 
-.ul:not(.ul_list) .item_hover .item_tags {
-  animation: rotate 8s linear infinite;
+.item_hover .item_tags_rotate {
+  animation: rotate 6s linear infinite;
 }
 
 @keyframes rotate {
