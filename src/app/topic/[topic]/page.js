@@ -4,7 +4,7 @@ import { getMetadata } from "@/config/metadata";
 
 export const generateMetadata = async ({ params, searchParams }) => {
   try {
-    const query = { topic: params.topic };
+    const query = { topic: params.topic, is_public: true };
     const page = searchParams.page;
 
     const res = await fetchIns.get(
@@ -42,7 +42,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
 };
 
 export default async function Topic({ params, searchParams }) {
-  const query = { topic: params.topic };
+  const query = { topic: params.topic, is_public: true };
   const page = searchParams.page;
 
   try {

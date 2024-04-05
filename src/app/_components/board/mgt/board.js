@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "./board.module.css";
 import { NavState } from "../nav/nav_state/nav_state";
 import { useState, useRef, useEffect } from "react";
+import { IoLockClosed } from "react-icons/io5";
 import fetchIns from "@/lib/fetch";
 
 export default function Board({ title, pagingData, curPage, setCurPage }) {
@@ -95,6 +96,7 @@ export default function Board({ title, pagingData, curPage, setCurPage }) {
                     {idx + 1 + (curPage - 1) * 30}
                   </span>
                   <span className={styles.item_title}>{post.title}</span>
+                  {!post.is_public && <IoLockClosed size={15} />}
                   <span className={styles.item_date}>
                     {post.wr_date.slice(0, -14)}
                   </span>

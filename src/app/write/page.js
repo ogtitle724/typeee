@@ -10,7 +10,7 @@ import { topics } from "@/config/topic";
 import { getFirstP } from "@/lib/text";
 import { Suspense } from "react";
 import { useSession } from "next-auth/react";
-import { IoCaretBackCircle } from "react-icons/io5";
+import { IoCaretBackCircle, IoLockClosed, IoLockOpen } from "react-icons/io5";
 import styles from "./write.module.css";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
@@ -29,6 +29,7 @@ export function WritePage() {
     title: "",
     content: "",
     topic: "",
+    is_public: true,
     summary: "",
     thumbnail: "",
     tags: [],
@@ -110,6 +111,13 @@ export function WritePage() {
 
   const handleChangeHashInput = (e) => {
     setHashTags(e.target.value);
+  };
+
+  const handleClkBtnLock = () => {
+    setData((data) => ({
+      ...data,
+      is_public: !data.is_public,
+    }));
   };
 
   const handleClkBtnUpload = async () => {
@@ -214,6 +222,15 @@ export function WritePage() {
               setData(newData);
             }}
           />
+          {data.is_public ? (
+            <button onClick={handleClkBtnLock} className={styles.btn}>
+              <IoLockOpen size={28} />
+            </button>
+          ) : (
+            <button onClick={handleClkBtnLock} className={styles.btn}>
+              <IoLockClosed size={28} />
+            </button>
+          )}
           {isUploading ? (
             <div className={styles.loader}></div>
           ) : (

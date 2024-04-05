@@ -7,6 +7,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
   try {
     const page = searchParams.page;
     const query = {
+      is_public: true,
       $or: [
         { content: { $regex: searchParams.param, $options: "i" } },
         { title: { $regex: searchParams.param, $options: "i" } },

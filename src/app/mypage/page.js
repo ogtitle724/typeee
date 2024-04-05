@@ -24,7 +24,7 @@ export default function MyPage({ params }) {
   useEffect(() => {
     const fetchMyPosts = async () => {
       try {
-        const select = "_id topic title wr_date";
+        const select = "_id topic title wr_date is_public";
         const query = {
           "author.uid": session.data.user.uid,
         };

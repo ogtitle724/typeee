@@ -6,7 +6,11 @@ export const metadata = getMetadata();
 
 export default async function Home() {
   try {
-    const res = await fetchIns.get(process.env.NEXT_PUBLIC_URL_PAGING);
+    const query = { is_public: true };
+    const res = await fetchIns.get(
+      process.env.NEXT_PUBLIC_URL_PAGING +
+        `?page=${1}&query=${JSON.stringify(query)}`
+    );
     const pagingData = await res.json();
 
     return (

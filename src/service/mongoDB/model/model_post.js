@@ -42,6 +42,14 @@ const postSchema = new mongoose.Schema({
       default: "",
     },
   },
+  topic: {
+    type: String,
+    minLength: 1,
+  },
+  is_public: {
+    type: Boolean,
+    default: true,
+  },
   content: {
     type: String,
     minLength: 1,
@@ -53,10 +61,6 @@ const postSchema = new mongoose.Schema({
   comments: {
     type: [commentSchema],
     default: [],
-  },
-  topic: {
-    type: String,
-    minLength: 1,
   },
   thumbnail: {
     type: String,
