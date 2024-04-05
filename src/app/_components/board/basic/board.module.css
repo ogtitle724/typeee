@@ -154,7 +154,7 @@
 .item_profile span {
   font-size: var(--font-xvs);
   font-weight: var(--weight-l);
-  color: rgb(var(--font-sub-rgb));
+  color: rgb(var(--sub-rgb));
 }
 
 .ul_list .title_wrapper,
@@ -194,32 +194,4 @@
 
 .empty a:hover {
   scale: 1.05;
-}
-
-.pageNav {
-  width: var(--header-width);
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  position: fixed;
-  left: 50%;
-  bottom: 10px;
-  transform: translateX(-50%);
-  font-size: var(--font-l);
-  background-color: white;
-}
-
-.pageNav_dir {
-  width: 17px;
-  height: 17px;
-}
-.pageNav_num {
-  font-size: var(--font-m);
-}
-
-.pageNav_num_cur {
-  transform: translateY(-1px);
-  font-weight: var(--weight-l);
 }

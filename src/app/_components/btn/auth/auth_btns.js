@@ -39,7 +39,7 @@ export function SignOut(props) {
       aria-label="sign out button"
       onClick={handleClkSignOut}
     >
-      <span>sign out</span>
+      <span>SignOut</span>
     </button>
   );
 }

@@ -5,10 +5,10 @@ import Image from "next/image";
 import styles from "./board.module.css";
 import { IoCreateOutline } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
-import { IoChevronForwardOutline, IoChevronBackOutline } from "react-icons/io5";
+import { usePathname } from "next/navigation";
 import fetchIns from "@/lib/fetch";
 import debounce from "@/lib/debounce";
+import { NavRouter } from "../nav/nav_router.js/nav_router";
 
 export default function Board({ pagingData, isList, isPagination, query }) {
   const [posts, setPosts] = useState(pagingData.posts);
@@ -90,7 +90,7 @@ export default function Board({ pagingData, isList, isPagination, query }) {
           <ul className={styles.list}>{items}</ul>
         )}
         {isPagination && pagingData.totalPage > 1 && (
-          <PageNav totalPage={pagingData.totalPage} unit={11} />
+          <NavRouter totalPage={pagingData.totalPage} unit={11} />
         )}
       </section>
     );
@@ -194,107 +194,5 @@ function Item({ lastRef, post }) {
         )}
       </Link>
     </li>
-  );
-}
-
-function PageNav({ totalPage, unit }) {
-  const pathname = usePathname();
-  const params = useSearchParams();
-  const [page, setPage] = useState();
-  const [pages, setPages] = useState([]);
-  const query = useRef("");
-
-  useEffect(() => {
-    const curPage = +params.get("page") || 1;
-    setPage(curPage);
-
-    const start = Math.min(
-      Math.max(curPage - (unit - 1) / 2, 1),
-      Math.max(totalPage - unit, 1)
-    );
-
-    let tempPages = [];
-
-    for (let i = start; i < start + 11; i++) {
-      if (i > totalPage) break;
-      tempPages.push(i);
-    }
-
-    setPages([...tempPages]);
-    query.current = "";
-
-    for (const [key, value] of params) {
-      query.current += `${key}=${value}&`;
-    }
-
-    query.current = query.current.slice(0, -1);
-  }, [params, totalPage, unit]);
-
-  useEffect(() => {
-    const start = Math.min(
-      Math.max(page - (unit - 1) / 2, 1),
-      Math.max(totalPage - unit, 1)
-    );
-
-    let tempPages = [];
-
-    for (let i = start; i < start + 11; i++) {
-      if (i > totalPage) break;
-      tempPages.push(i);
-    }
-
-    setPages([...tempPages]);
-  }, [page, totalPage, unit]);
-
-  const handleClkBtnRotateNav = (dir) => {
-    if (dir) {
-      setPage((page) => Math.min(page + unit, totalPage));
-    } else {
-      setPage((page) => Math.max(page - unit, 1));
-    }
-  };
-
-  return (
-    <section className={styles.pageNav + " card"}>
-      <button
-        className={styles.pageNav_dir}
-        onClick={() => handleClkBtnRotateNav(0)}
-      >
-        <IoChevronBackOutline size={17} />
-      </button>
-      {pages.map((next) => {
-        if (next === +params.get("page")) {
-          return (
-            <span
-              className={styles.pageNav_num + " " + styles.pageNav_num_cur}
-              key={"page nav (current page)"}
-            >
-              {next}
-            </span>
-          );
-        } else {
-          const regex = /(page=)\d+/;
-          let newQuery = query.current.slice();
-          newQuery = newQuery.replace(regex, `page=${next}`);
-
-          if (!params.get("page")) newQuery += `page=${next}`;
-
-          return (
-            <Link
-              href={pathname + `?${newQuery}`}
-              key={"page nav button " + next}
-            >
-              <span className={styles.pageNav_num}>{next}</span>
-            </Link>
-          );
-        }
-      })}
-      <button
-        className={styles.pageNav_dir}
-        onClick={() => handleClkBtnRotateNav(1)}
-      >
-        <IoChevronForwardOutline size={17} />
-      </button>
-    </section>
   );
 }

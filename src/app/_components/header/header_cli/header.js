@@ -12,6 +12,7 @@ import styles from "./header.module.css";
 import { GoogleSignIn, SignOut } from "@comps/btn/auth/auth_btns";
 
 export default function Header() {
+  console.log("HEADER CLI");
   const [isSearch, setIsSearch] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
   const [searchParam, setSearchParam] = useState("");
@@ -118,6 +119,7 @@ export default function Header() {
 }
 
 function Menu(props) {
+  console.log("HEADER MENU");
   const targetParam = useParams().topic;
   const session = useSession();
   const router = useRouter();
@@ -187,7 +189,12 @@ function Menu(props) {
         {session.status !== "authenticated" ? (
           <GoogleSignIn />
         ) : (
-          <SignOut closeMenu={() => props.setIsMenu(false)} />
+          <div className={styles.menu_sign_wrapper}>
+            <Link href={"/mypage"} className={styles.menu_a_mypage}>
+              MyPage
+            </Link>
+            <SignOut closeMenu={() => props.setIsMenu(false)} />
+          </div>
         )}
         <button
           className={styles.btn_write}
