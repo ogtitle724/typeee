@@ -5,7 +5,7 @@ import styles from "./nav_state.module.css";
 export function NavState({ curPage, setCurPage, totalPage, unit }) {
   const [page, setPage] = useState(curPage);
   const [pages, setPages] = useState([]);
-  console.log(page);
+
   const setNextPages = useCallback(
     (nextPage) => {
       const start = Math.min(
@@ -57,7 +57,7 @@ export function NavState({ curPage, setCurPage, totalPage, unit }) {
             className={styles.dir}
             onClick={() => handleClkBtnRotateNav(0)}
           >
-            <IoChevronBackOutline size={17} />
+            <IoChevronBackOutline size={14} />
           </button>
         </li>
         {pages.map((next) => {
@@ -84,7 +84,7 @@ export function NavState({ curPage, setCurPage, totalPage, unit }) {
             className={styles.dir}
             onClick={() => handleClkBtnRotateNav(1)}
           >
-            <IoChevronForwardOutline size={17} />
+            <IoChevronForwardOutline size={14} />
           </button>
         </li>
       </ul>

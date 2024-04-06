@@ -1,8 +1,7 @@
 .pre {
+  --nav-height: 14px;
   width: 100%;
-  padding: 5px;
-  position: absolute;
-  bottom: 0;
+  height: fit-content;
   background-color: inherit;
   border-radius: inherit;
 }
@@ -12,22 +11,21 @@
   align-items: center;
   justify-content: center;
   gap: 15px;
-
-  font-size: var(--font-l);
+  font-size: var(--font-s);
 }
 
 .pre li {
+  height: fit-content;
   list-style: none;
 }
 
 .dir {
-  width: 17px;
-  height: 17px;
+  width: var(--nav-height);
+  height: var(--nav-height);
 }
 
 .page {
   width: 20px;
-  font-size: var(--font-m);
   text-align: center;
 }
 

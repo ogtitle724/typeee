@@ -75,17 +75,11 @@ export default function Board({ title, pagingData, curPage, setCurPage }) {
 
   return (
     <section className={styles.pre}>
-      <header className={styles.header}>
-        <h2>{title}</h2>
-        <div className={styles.btn_wrapper}>
-          <button className={styles.btn} onClick={handleClkBtnSelectAll}>
-            select all
-          </button>
-          <button className={styles.btn} onClick={handleClkBtnDel}>
-            delete
-          </button>
-        </div>
-      </header>
+      {title && (
+        <header className={styles.header}>
+          <h2>{title}</h2>
+        </header>
+      )}
       <ul className={styles.ul}>
         {pagingData.posts &&
           pagingData.posts.map((post, idx) => {
@@ -115,16 +109,21 @@ export default function Board({ title, pagingData, curPage, setCurPage }) {
               </li>
             );
           })}
-
-        {pagingData.totalPage > 1 && (
-          <NavState
-            curPage={curPage}
-            setCurPage={setCurPage}
-            totalPage={pagingData.totalPage}
-            unit={9}
-          />
-        )}
       </ul>
+      <div className={styles.btn_wrapper}>
+        <NavState
+          curPage={curPage}
+          setCurPage={setCurPage}
+          totalPage={pagingData.totalPage}
+          unit={9}
+        />
+        <button className={styles.btn} onClick={handleClkBtnSelectAll}>
+          select all
+        </button>
+        <button className={styles.btn} onClick={handleClkBtnDel}>
+          delete
+        </button>
+      </div>
     </section>
   );
 }

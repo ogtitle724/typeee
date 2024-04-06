@@ -71,7 +71,6 @@ export default function MyPage({ params }) {
             topics={topics}
           />
           <Board
-            title={"My Posts"}
             curPage={curPage}
             setCurPage={setCurPage}
             pagingData={pagingData}
@@ -115,7 +114,9 @@ function TopicNav({ curTopic, setCurTopic, topics }) {
       const horizontalScroll = (e) => {
         if (e.deltaY > 0 && left.current - step > -Math.abs(diff) - 40)
           left.current -= step;
-        if (e.deltaY < 0 && left.current + step < 10) left.current += step;
+        if (e.deltaY < 0 && left.current + step < 10) {
+          left.current += step;
+        }
 
         topics.children[0].style.left = `${left.current}px`;
       };
@@ -146,7 +147,7 @@ function TopicNav({ curTopic, setCurTopic, topics }) {
           <button
             className={
               styles.btn_topic +
-              " type_a " +
+              " " +
               (curTopic === ele ? styles.btn_topic_focus : "")
             }
             key={"mypage_nav_" + ele}
