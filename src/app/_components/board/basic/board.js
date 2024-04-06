@@ -15,8 +15,40 @@ export default function Board({ pagingData, isList, isPagination, query }) {
   const [isGrid, setIsGrid] = useState(!isList);
   const [width, setWidth] = useState();
   const [items, setItems] = useState([]);
-  const lastRef = useRef();
-  const io = useRef();
+  const sectionRef = useRef();
+
+  useEffect(() => {
+    /* if (sectionRef.current) {
+      const io = new IntersectionObserver(
+        (entries, io) => {
+          entries.forEach((entry) => {
+            console.log(entry.target);
+            if (entry.isIntersecting) {
+              console.log("i");
+              entry.target.style.top = "0px";
+              io.unobserve(entry.target);
+            } else {
+              console.log("o");
+              entry.target.style.top = "-100px";
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      const children = sectionRef.current.children;
+
+      for (const child of children) {
+        const leafs = child.children;
+
+        if (leafs) {
+          for (const leaf of leafs) {
+            io.observe(leaf);
+          }
+        }
+      }
+    } */
+  }, []);
 
   useEffect(() => {
     const handleResize = debounce(() => setWidth(window.innerWidth), 100);
@@ -32,62 +64,39 @@ export default function Board({ pagingData, isList, isPagination, query }) {
     }
   }, [isList, width]);
 
-  useEffect(() => {
-    if (lastRef.current && !isPagination && pagingData.totalPage > 1) {
-      io.current = new IntersectionObserver(
-        (entries, observer) => {
-          entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-              const res = await fetchIns.get(
-                process.env.NEXT_PUBLIC_URL_PAGING +
-                  `?query=${query}&page=${~~(posts.length / 30) + 2}`
-              );
-
-              const pagingData = await res.json();
-              setPosts((posts) => [...posts, ...pagingData.posts]);
-              observer.disconnect(entry.target);
-            }
-          });
-        },
-        { rootMargin: "300px 0px" }
-      );
-
-      io.observe(lastRef.current);
-    }
-  }, [isPagination, pagingData.totalPage, posts.length, query]);
-
-  useEffect(() => {
-    const tempItems = posts.map((post, idx) => (
-      <Item key={"post_" + idx} post={post} />
-    ));
-    tempItems[tempItems.length - 1] = (
-      <Item key={"post_last"} lastRef={lastRef} post={posts.at(-1)} />
-    );
-
-    setItems([...tempItems]);
-
-    if (io.current) {
-      io.current.observe(tempItems[tempItems.length - 1]);
-    }
-  }, [posts]);
-
   if (posts.length) {
     return (
-      <section className={styles.pre}>
+      <section ref={sectionRef} className={styles.pre}>
         {isGrid ? (
           <>
             <ul className={styles.grid_col}>
-              {items.filter((ele, idx) => idx % 3 === 0)}
+              {posts
+                .filter((post, idx) => idx % 3 === 0)
+                .map((post, idx) => (
+                  <Item key={"post_" + idx} post={post} />
+                ))}
             </ul>
             <ul className={styles.grid_col}>
-              {items.filter((ele, idx) => idx % 3 === 1)}
+              {posts
+                .filter((post, idx) => idx % 3 === 1)
+                .map((post, idx) => (
+                  <Item key={"post_" + idx} post={post} />
+                ))}
             </ul>
             <ul className={styles.grid_col}>
-              {items.filter((ele, idx) => idx % 3 === 2)}
+              {posts
+                .filter((post, idx) => idx % 3 === 2)
+                .map((post, idx) => (
+                  <Item key={"post_" + idx} post={post} />
+                ))}
             </ul>
           </>
         ) : (
-          <ul className={styles.list}>{items}</ul>
+          <ul className={styles.list}>
+            {posts.map((post, idx) => (
+              <Item key={"post_" + idx} post={post} />
+            ))}
+          </ul>
         )}
         {isPagination && pagingData.totalPage > 1 && (
           <NavRouter totalPage={pagingData.totalPage} unit={11} />

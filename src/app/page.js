@@ -1,4 +1,4 @@
-import Board from "@/app/_components/board/basic/board";
+import Board from "./_components/board/basic/board";
 import fetchIns from "@/lib/fetch";
 import { getMetadata } from "@/config/metadata";
 

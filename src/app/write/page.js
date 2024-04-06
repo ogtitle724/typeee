@@ -11,6 +11,7 @@ import { getFirstP } from "@/lib/text";
 import { Suspense } from "react";
 import { useSession } from "next-auth/react";
 import { IoCaretBackCircle, IoLockClosed, IoLockOpen } from "react-icons/io5";
+import { FaHashtag } from "react-icons/fa6";
 import styles from "./write.module.css";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
@@ -194,14 +195,14 @@ export function WritePage() {
         />
         {!isHashInputShow && (
           <button
-            className={styles.btn_hash + " card"}
+            className={styles.btn_hash + " type_a"}
             onClick={handleClkBtnHash}
           >
-            #
+            <FaHashtag size={16} />
           </button>
         )}
         {isHashInputShow && (
-          <div className={styles.hash_input_wrapper + " card"}>
+          <div className={styles.hash_input_wrapper + " type_a"}>
             <input
               value={hashTags}
               placeholder="Separate keywords with spaces"

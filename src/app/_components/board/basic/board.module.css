@@ -12,14 +12,6 @@
   gap: 10px;
 }
 
-.grid_col:nth-child(1) {
-  padding-top: 30px;
-}
-
-.grid_col:nth-child(3) {
-  padding-top: 50px;
-}
-
 .list {
   width: 100%;
   display: flex;
@@ -31,10 +23,13 @@
   width: 100%;
   height: fit-content;
   padding: 10px 0;
+  position: relative;
+  top: 10px;
   border-radius: var(--border-radius);
-  background-color: rgb(var(--ui-bg-rgb));
+  background-color: rgb(var(--bg-a-rgb));
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   list-style: none;
+  transition: 0.3s;
 }
 
 .item a {
@@ -80,7 +75,7 @@
   position: relative;
   font-size: var(--font-xvs);
   font-weight: var(--weight-m);
-  color: rgb(var(--border-rgb));
+  color: rgb(var(--font-sub-rgb));
 }
 
 .item_tags span {
@@ -154,7 +149,6 @@
 .item_profile span {
   font-size: var(--font-xvs);
   font-weight: var(--weight-l);
-  color: rgb(var(--sub-rgb));
 }
 
 .ul_list .title_wrapper,
@@ -182,13 +176,13 @@
   font-size: var(--font-t);
   font-weight: var(--weight-t);
   border-radius: var(--border-radius);
-  background: rgb(var(--ui-bg-rgb));
+  background: rgb(var(--bg-a-rgb));
 }
 
 .empty a {
   border-radius: var(--border-radius);
   padding: 20px;
-  background-color: rgb(var(--border-rgb));
+  background-color: rgb(var(--highlight-rgb));
   transition: 0.3s ease;
 }
 

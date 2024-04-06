@@ -13,10 +13,10 @@
   width: 100%;
   height: 70vh;
   position: relative;
-  border: 1px solid rgb(var(--border-rgb));
   border-radius: var(--border-radius);
-  background-color: rgb(var(--card-rgb));
+  background-color: rgb(var(--bg-a-rgb));
   overflow: hidden;
+  box-shadow: var(--strong-shadow);
 }
 
 .btn_hash {
@@ -29,8 +29,6 @@
   font-size: var(--font-l);
   font-weight: var(--weight-l);
   line-height: 23px;
-  box-shadow: var(--strong-shadow);
-  border: 1px solid rgb(var(--border-rgb));
 }
 
 .hash_input_wrapper {
@@ -44,7 +42,6 @@
   bottom: 12px;
   left: 15px;
   z-index: 3;
-  border: 1px solid rgb(var(--border-rgb));
 }
 
 .hash_input_wrapper > input {

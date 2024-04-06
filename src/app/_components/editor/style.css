@@ -6,7 +6,7 @@
   height: calc(70vh - 40px);
   font-size: var(--font-m);
   font-weight: var(--weight-m);
-  background-color: rgb(var(--ui-bg-rgb)) !important;
+  background-color: rgb(var(--bg-a-rgb)) !important;
   border: none;
   overflow-y: scroll !important;
 }
@@ -18,7 +18,7 @@
 .ck.ck-editor__editable h2 {
   margin-bottom: 15px;
   padding: 10px 0;
-  border-bottom: 1px dotted rgb(var(--sub-rgb));
+  border-bottom: 1px dotted rgb(var(--border-rgb));
   font-weight: var(--weight-t);
   font-size: var(--font-t);
 }
@@ -74,5 +74,5 @@
 
 .ck.ck-toolbar {
   border: none !important;
-  border-bottom: 1px solid rgb(var(--border-rgb)) !important;
+  border-bottom: 1px dotted rgb(var(--border-sub-rgb)) !important;
 }

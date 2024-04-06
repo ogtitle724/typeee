@@ -1,16 +1,19 @@
 .pre {
   width: 100%;
   height: fit-content;
+  padding: 10px;
   border-radius: var(--border-radius);
+  background-color: rgb(var(--bg-a-rgb));
 }
 
 .profile {
+  width: 100%;
   padding: 10px;
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
-  border-radius: var(--border-radius);
-  background-color: rgb(var(--ui-bg-rgb));
+  border-bottom: 1px solid rgb(var(--border-sub-rgb));
 }
 
 .profile > img {
@@ -18,45 +21,67 @@
 }
 
 .profile > span {
-  font-size: var(--font-s);
+  font-size: var(--font-m);
   font-weight: var(--weight-l);
 }
 
 .profile > button {
-  justify-self: flex-end;
   width: 20px;
   height: 20px;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
 }
 
 .my_posts {
   width: 100%;
   height: fit-content;
-  margin-top: 20px;
   padding: 10px;
-  background-color: rgb(var(--ui-bg-rgb));
+  background-color: rgb(var(--bg-a-rgb));
+}
+
+.nav_container {
+  padding: 7px 0px;
+  position: relative;
+  display: flex;
   border-radius: var(--border-radius);
+  overflow-y: scroll;
+}
+
+.nav_container::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
 }
 
 .nav {
-  width: 100%;
+  width: fit-content;
   height: fit-content;
-  padding: 10px;
+  position: relative;
+  left: 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  background-color: whitesmoke;
-  border-radius: var(--border-radius);
+  gap: 12px;
+  flex-wrap: nowrap;
+  transition: 0.5s ease;
 }
 
 .btn_topic {
-  padding: 4px 8px;
-  font-size: var(--font-s);
-  background-color: rgb(var(--highlight-rgb));
-  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: var(--font-vs);
+  font-weight: var(--weight-l);
+  cursor: default;
+  color: rgb(var(--font-sub-rgb));
+  transition: 0.3s;
+  box-shadow: none;
+}
+
+.btn_topic:hover:not(:nth-child(1)) {
+  color: rgb(var(--font-rgb));
+  transform: translateY(-2px);
 }
 
 .btn_topic_focus {
-  background-color: rgb(var(--focus-rgb));
+  color: rgb(var(--font-rgb));
 }

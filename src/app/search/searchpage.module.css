@@ -8,7 +8,7 @@
   background: rgb(var(--highlight-rgb));
   font-size: var(--font-l);
   text-align: start;
-  color: rgb(var(--card-rgb));
+  color: rgb(var(--font-reverse-rgb));
 }
 
 .title span:nth-child(1) {

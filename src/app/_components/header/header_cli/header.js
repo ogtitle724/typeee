@@ -84,7 +84,7 @@ export default function Header() {
 
   return (
     <>
-      <section ref={headerRef} className={styles.pre + " card"}>
+      <section ref={headerRef} className={styles.pre + " type_a"}>
         {isSearch ? (
           <input
             className={styles.input_search}
@@ -158,7 +158,7 @@ function Menu(props) {
   };
 
   return (
-    <div ref={menuRef} className={styles.menu + " card"}>
+    <div ref={menuRef} className={styles.menu + " type_a"}>
       <Link
         href={`/`}
         className={

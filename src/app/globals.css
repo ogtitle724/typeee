@@ -1,6 +1,7 @@
 :root {
   --header-width: min(450px, 91vw);
   --header-height: 50px;
+  --main-width: 94vw;
   --content-width: min(1020px, 94vw);
   --max-width: 1100px;
   --border-radius: 12px;
@@ -20,16 +21,20 @@
   --weight-l: 600;
   --weight-m: 500;
 
-  --background-rgb: 242, 244, 246;
-  --card-rgb: 248, 248, 250;
   --font-rgb: 60, 60, 60;
-  --sub-rgb: 84, 86, 105;
+  --font-sub-rgb: 181, 185, 200;
+  --font-reverse-rgb: 255, 255, 255;
+
   --border-rgb: 181, 185, 200;
+  --border-sub-rgb: 220, 222, 224;
+  --border-reverse-rgb: 255, 255, 255;
+
   --focus-rgb: 119, 143, 194;
   --highlight-rgb: 199, 203, 218;
-  --ui-bg-rgb: 255, 255, 255;
+  --bg-a-rgb: 255, 255, 255;
+  --bg-b-rgb: 242, 244, 246;
+  --bg-c-rgb: 248, 248, 250;
 
-  --default-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   --strong-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
   --strong-shadow-hover: 0px 3px 3px 1px rgba(0, 0, 0, 0.15);
 
@@ -38,14 +43,19 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background-rgb: 43, 43, 43;
-    --background-rgb: 53, 53, 58;
-    --card-rgb: 59, 59, 66;
     --font-rgb: 240, 240, 240;
+    --font-sub-rgb: 181, 185, 200;
+    --font-reverse-rgb: 255, 255, 255;
+
     --border-rgb: 185, 185, 185;
+    --border-sub-rgb: 220, 222, 224;
+    --border-reverse-rgb: 255, 255, 255;
+
     --focus-rgb: 119, 143, 194;
-    --ui-bg-rgb: 41, 41, 47;
-    --sub-rgb: 184, 186, 195;
+    --highlight-rgb: 199, 203, 218;
+    --bg-a-rgb: 41, 41, 47;
+    --bg-b-rgb: 53, 53, 58;
+    --bg-c-rgb: 59, 59, 66;
 
     --hover-bright: 1.2;
   }
@@ -92,8 +102,15 @@ body {
 
 body {
   min-height: 100vh;
-  background: rgb(var(--background-rgb));
+  background: rgb(var(--bg-b-rgb));
   color: rgb(var(--font-rgb));
+  background: radial-gradient(
+      circle at 45% 90%,
+      rgb(241, 237, 254),
+      transparent 50%
+    ),
+    radial-gradient(circle at 90% 45%, rgb(255, 242, 249), transparent 40%),
+    rgb(var(--bg-b-rgb));
 }
 
 a {
@@ -118,7 +135,7 @@ blockquote {
 }
 
 .main {
-  width: var(--content-width);
+  width: var(--main-width);
   margin: 0 auto;
   padding: 100px 0px 30px 0px;
   position: relative;
@@ -127,10 +144,11 @@ blockquote {
   align-items: center;
 }
 
-.card {
-  border-radius: var(--border-radius);
-  background: rgb(var(--card-rgb));
-  box-shadow: var(--strong-shadow);
+.type_a {
+  border-radius: 30px;
+  background: rgb(var(--bg-c-rgb));
+  border: 2px solid rgb(var(--border-reverse-rgb));
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), inset 0 0 3px rgba(0, 0, 0, 0.06);
 }
 
 .hide {

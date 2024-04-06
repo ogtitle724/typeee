@@ -34,7 +34,7 @@ export default function Board({ title, pagingData, curPage, setCurPage }) {
     setDelTargets(newSet);
   };
 
-  const handleOverCheckbox = (e) => {
+  const handleOutCheckbox = (e) => {
     if (!isMouseDown.current) return;
 
     const targetId = e.target.dataset.id;
@@ -74,7 +74,7 @@ export default function Board({ title, pagingData, curPage, setCurPage }) {
   };
 
   return (
-    <section>
+    <section className={styles.pre}>
       <header className={styles.header}>
         <h2>{title}</h2>
         <div className={styles.btn_wrapper}>
@@ -108,7 +108,7 @@ export default function Board({ title, pagingData, curPage, setCurPage }) {
                     (delTargets.has(post.id) ? styles.checkbox_active : "")
                   }
                   onClick={handleClkCheckbox}
-                  onMouseOver={handleOverCheckbox}
+                  onMouseOut={handleOutCheckbox}
                   data-id={post.id}
                   role="radio-button"
                 ></div>

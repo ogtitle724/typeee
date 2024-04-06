@@ -1,11 +1,11 @@
 .pre {
-  width: 100%;
+  width: var(--content-width);
   padding: 20px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(var(--ui-bg-rgb));
+  background-color: rgb(var(--bg-a-rgb));
   border-radius: var(--border-radius);
 }
 
@@ -34,7 +34,6 @@
   align-items: center;
   gap: 8px;
   font-size: 10px;
-  color: rgb(var(--sub-rgb));
 }
 
 .metadata > img {
@@ -84,7 +83,7 @@
 .content h2 {
   margin-bottom: 15px;
   padding: 10px 0;
-  border-bottom: 1px dotted rgb(var(--sub-rgb));
+  border-bottom: 1px dotted rgb(var(--border-rgb));
   font-weight: var(--weight-t);
   font-size: var(--font-t);
 }
@@ -137,7 +136,6 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 10px;
-  color: rgb(var(--sub-rgb));
 }
 
 .hashtags span {
@@ -145,10 +143,10 @@
 }
 
 .relatePosts {
-  width: 100%;
+  width: var(--content-width);
   height: fit-content;
   margin-top: 30px;
-  background-color: rgb(var(--ui-bg-rgb));
+  background-color: rgb(var(--bg-a-rgb));
   border-radius: var(--border-radius);
 }
 
@@ -171,8 +169,8 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  border-bottom: 1px solid rgb(var(--background-rgb));
-  background-color: rgb(var(--ui-bg-rgb));
+  border-bottom: 1px dotted rgb(var(--border-rgb));
+  background-color: rgb(var(--bg-a-rgb));
   transition: filter 0.2s ease;
 }
 

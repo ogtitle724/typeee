@@ -133,7 +133,7 @@ async function BtnWrapper({ postData }) {
   const session = await auth();
 
   return (
-    <div className={styles.btns + " card"}>
+    <div className={styles.btns + " type_a"}>
       {session && session.user.uid === postData.author.uid && (
         <>
           <BtnEdit

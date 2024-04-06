@@ -52,7 +52,7 @@ export function NavRouter({ totalPage, unit }) {
   };
 
   return (
-    <nav className={styles.pre + " card"}>
+    <nav className={styles.pre + " type_a"}>
       <ul>
         <li>
           <button

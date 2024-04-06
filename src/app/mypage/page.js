@@ -1,13 +1,16 @@
 "use client";
+
 import { IoSettings } from "react-icons/io5";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { topics } from "@/config/topic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Board from "../_components/board/mgt/board";
 import fetchIns from "@/lib/fetch";
 import styles from "./mypage.module.css";
+import { disableScroll } from "@/lib/scroll";
+import { isMobileBrowser } from "@/lib/browser";
 
 export default function MyPage({ params }) {
   console.log("MYPAGE");
@@ -53,8 +56,8 @@ export default function MyPage({ params }) {
           <Image
             alt="my page profile image"
             src={session.data.user.image}
-            width={30}
-            height={30}
+            width={26}
+            height={26}
           />
           <span>{session.data.user.name}</span>
           <button className={styles.btn_edit_profile}>
@@ -82,32 +85,78 @@ export default function MyPage({ params }) {
 }
 
 function TopicNav({ curTopic, setCurTopic, topics }) {
+  const topicsRef = useRef();
+  const left = useRef(0);
+  const [width, setWidth] = useState();
+
+  useEffect(() => {
+    if (typeof window) {
+      console.log("set resize");
+      window.addEventListener("resize", (e) => {
+        console.log("resize", e);
+        setWidth(e.target.innerWidth);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("effect");
+    const topics = topicsRef.current;
+    const isHorizontalScroll = typeof window && !isMobileBrowser() && topics;
+
+    if (isHorizontalScroll) {
+      topics.style.overflow = "hidden";
+      disableScroll(topics, false);
+
+      const containerWidth = topics.offsetWidth;
+      const itemWidth = topics.children[0].offsetWidth;
+      const diff = containerWidth - itemWidth;
+      const step = 45;
+      const horizontalScroll = (e) => {
+        if (e.deltaY > 0 && left.current - step > -Math.abs(diff) - 40)
+          left.current -= step;
+        if (e.deltaY < 0 && left.current + step < 10) left.current += step;
+
+        topics.children[0].style.left = `${left.current}px`;
+      };
+
+      if (diff < 0) {
+        topics.addEventListener("wheel", horizontalScroll);
+      }
+
+      return () => topics.removeEventListener("wheel", horizontalScroll);
+    }
+  }, [width]);
+
   const handleClkBtnTopic = (e) => setCurTopic(e.target.dataset.topic);
 
   return (
-    <nav className={styles.nav}>
-      <button
-        className={
-          styles.btn_topic + (curTopic ? "" : " " + styles.btn_topic_focus)
-        }
-        data-topic=""
-        onClick={handleClkBtnTopic}
-      >
-        ALL
-      </button>
-      {topics.map((ele) => (
+    <section ref={topicsRef} className={styles.nav_container}>
+      <nav className={styles.nav}>
         <button
           className={
-            styles.btn_topic +
-            (curTopic === ele ? " " + styles.btn_topic_focus : "")
+            styles.btn_topic + (curTopic ? "" : " " + styles.btn_topic_focus)
           }
-          key={"mypage_nav_" + ele}
+          data-topic=""
           onClick={handleClkBtnTopic}
-          data-topic={ele}
         >
-          {ele}
+          ALL
         </button>
-      ))}
-    </nav>
+        {topics.map((ele) => (
+          <button
+            className={
+              styles.btn_topic +
+              " type_a " +
+              (curTopic === ele ? styles.btn_topic_focus : "")
+            }
+            key={"mypage_nav_" + ele}
+            onClick={handleClkBtnTopic}
+            data-topic={ele}
+          >
+            {ele}
+          </button>
+        ))}
+      </nav>
+    </section>
   );
 }
