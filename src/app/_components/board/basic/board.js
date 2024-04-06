@@ -6,54 +6,21 @@ import styles from "./board.module.css";
 import { IoCreateOutline } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import fetchIns from "@/lib/fetch";
 import debounce from "@/lib/debounce";
 import { NavRouter } from "../nav/nav_router.js/nav_router";
 
 export default function Board({ pagingData, isList, isPagination, query }) {
   const [posts, setPosts] = useState(pagingData.posts);
   const [isGrid, setIsGrid] = useState(!isList);
-  const [width, setWidth] = useState();
-  const [items, setItems] = useState([]);
+  const [width, setWidth] = useState(null);
   const sectionRef = useRef();
 
   useEffect(() => {
-    /* if (sectionRef.current) {
-      const io = new IntersectionObserver(
-        (entries, io) => {
-          entries.forEach((entry) => {
-            console.log(entry.target);
-            if (entry.isIntersecting) {
-              console.log("i");
-              entry.target.style.top = "0px";
-              io.unobserve(entry.target);
-            } else {
-              console.log("o");
-              entry.target.style.top = "-100px";
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-
-      const children = sectionRef.current.children;
-
-      for (const child of children) {
-        const leafs = child.children;
-
-        if (leafs) {
-          for (const leaf of leafs) {
-            io.observe(leaf);
-          }
-        }
-      }
-    } */
-  }, []);
-
-  useEffect(() => {
     const handleResize = debounce(() => setWidth(window.innerWidth), 100);
-    if (typeof window) window.addEventListener("resize", handleResize);
-
+    if (typeof window) {
+      setWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+    }
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -65,44 +32,48 @@ export default function Board({ pagingData, isList, isPagination, query }) {
   }, [isList, width]);
 
   if (posts.length) {
-    return (
-      <section ref={sectionRef} className={styles.pre}>
-        {isGrid ? (
-          <>
-            <ul className={styles.grid_col}>
-              {posts
-                .filter((post, idx) => idx % 3 === 0)
-                .map((post, idx) => (
-                  <Item key={"post_" + idx} post={post} />
-                ))}
+    if (width === null) {
+      return;
+    } else {
+      return (
+        <section ref={sectionRef} className={styles.pre}>
+          {isGrid ? (
+            <>
+              <ul className={styles.grid_col}>
+                {posts
+                  .filter((post, idx) => idx % 3 === 0)
+                  .map((post, idx) => (
+                    <Item key={"post_" + idx} post={post} />
+                  ))}
+              </ul>
+              <ul className={styles.grid_col}>
+                {posts
+                  .filter((post, idx) => idx % 3 === 1)
+                  .map((post, idx) => (
+                    <Item key={"post_" + idx} post={post} />
+                  ))}
+              </ul>
+              <ul className={styles.grid_col}>
+                {posts
+                  .filter((post, idx) => idx % 3 === 2)
+                  .map((post, idx) => (
+                    <Item key={"post_" + idx} post={post} />
+                  ))}
+              </ul>
+            </>
+          ) : (
+            <ul className={styles.list}>
+              {posts.map((post, idx) => (
+                <Item key={"post_" + idx} post={post} />
+              ))}
             </ul>
-            <ul className={styles.grid_col}>
-              {posts
-                .filter((post, idx) => idx % 3 === 1)
-                .map((post, idx) => (
-                  <Item key={"post_" + idx} post={post} />
-                ))}
-            </ul>
-            <ul className={styles.grid_col}>
-              {posts
-                .filter((post, idx) => idx % 3 === 2)
-                .map((post, idx) => (
-                  <Item key={"post_" + idx} post={post} />
-                ))}
-            </ul>
-          </>
-        ) : (
-          <ul className={styles.list}>
-            {posts.map((post, idx) => (
-              <Item key={"post_" + idx} post={post} />
-            ))}
-          </ul>
-        )}
-        {isPagination && pagingData.totalPage > 1 && (
-          <NavRouter totalPage={pagingData.totalPage} unit={11} />
-        )}
-      </section>
-    );
+          )}
+          {isPagination && pagingData.totalPage > 1 && (
+            <NavRouter totalPage={pagingData.totalPage} unit={11} />
+          )}
+        </section>
+      );
+    }
   } else {
     return (
       <div className={styles.empty}>
