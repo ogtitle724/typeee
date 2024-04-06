@@ -31,6 +31,8 @@
 
   --focus-rgb: 119, 143, 194;
   --highlight-rgb: 199, 203, 218;
+  --radial-g-a-rgb: 241, 237, 254;
+  --radial-g-b-rgb: 255, 242, 249;
   --bg-a-rgb: 255, 255, 255;
   --bg-b-rgb: 242, 244, 246;
   --bg-c-rgb: 248, 248, 250;
@@ -44,15 +46,17 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --font-rgb: 240, 240, 240;
-    --font-sub-rgb: 181, 185, 200;
+    --font-sub-rgb: 193, 192, 192;
     --font-reverse-rgb: 255, 255, 255;
 
-    --border-rgb: 185, 185, 185;
-    --border-sub-rgb: 220, 222, 224;
-    --border-reverse-rgb: 255, 255, 255;
+    --border-rgb: 220, 222, 224;
+    --border-sub-rgb: 63, 65, 67;
+    --border-reverse-rgb: 62, 64, 66;
 
-    --focus-rgb: 119, 143, 194;
-    --highlight-rgb: 199, 203, 218;
+    --focus-rgb: 137, 43, 43;
+    --highlight-rgb: 181, 86, 81;
+    --radial-g-a-rgb: 57, 53, 67;
+    --radial-g-b-rgb: 53, 49, 49;
     --bg-a-rgb: 41, 41, 47;
     --bg-b-rgb: 53, 53, 58;
     --bg-c-rgb: 59, 59, 66;
@@ -106,10 +110,14 @@ body {
   color: rgb(var(--font-rgb));
   background: radial-gradient(
       circle at 45% 90%,
-      rgb(241, 237, 254),
+      rgb(var(--radial-g-a-rgb)),
       transparent 50%
     ),
-    radial-gradient(circle at 90% 45%, rgb(255, 242, 249), transparent 40%),
+    radial-gradient(
+      circle at 90% 45%,
+      rgb(var(--radial-g-b-rgb)),
+      transparent 40%
+    ),
     rgb(var(--bg-b-rgb));
 }
 
