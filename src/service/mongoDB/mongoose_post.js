@@ -130,7 +130,10 @@ export async function paging(
     };
     return returnValue;
   } catch (err) {
-    console.error(err.message);
+    console.error(
+      "ERROR(app/service/mongoDB/mongoose_post.js > paging):",
+      err.message
+    );
   }
 }
 

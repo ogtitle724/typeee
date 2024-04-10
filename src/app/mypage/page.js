@@ -17,7 +17,7 @@ export default function MyPage({ params }) {
   const session = useSession();
   const [curTopic, setCurTopic] = useState("");
   const [curPage, setCurPage] = useState(1);
-  const [pagingData, setPagingData] = useState({});
+  const [pagingData, setPagingData] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -70,6 +70,7 @@ export default function MyPage({ params }) {
             setCurTopic={setCurTopic}
             topics={topics}
           />
+
           <Board
             curPage={curPage}
             setCurPage={setCurPage}

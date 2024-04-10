@@ -5,6 +5,7 @@ import { NavState } from "../nav/nav_state/nav_state";
 import { useState, useRef, useEffect } from "react";
 import { IoLockClosed } from "react-icons/io5";
 import fetchIns from "@/lib/fetch";
+import Loader from "@/app/_components/loader/loader";
 
 export default function Board({ title, pagingData, curPage, setCurPage }) {
   const [delTargets, setDelTargets] = useState(new Set());
@@ -81,40 +82,49 @@ export default function Board({ title, pagingData, curPage, setCurPage }) {
         </header>
       )}
       <ul className={styles.ul}>
-        {pagingData.posts &&
-          pagingData.posts.map((post, idx) => {
-            return (
-              <li key={"post_" + idx}>
-                <Link href={`/post/${post.id}`}>
-                  <span className={styles.item_idx}>
-                    {idx + 1 + (curPage - 1) * 30}
-                  </span>
-                  <span className={styles.item_title}>{post.title}</span>
-                  {!post.is_public && <IoLockClosed size={15} />}
-                  <span className={styles.item_date}>
-                    {post.wr_date.slice(0, -14)}
-                  </span>
-                </Link>
-                <div
-                  className={
-                    styles.checkbox +
-                    " " +
-                    (delTargets.has(post.id) ? styles.checkbox_active : "")
-                  }
-                  onClick={handleClkCheckbox}
-                  onMouseOut={handleOutCheckbox}
-                  data-id={post.id}
-                  role="radio-button"
-                ></div>
-              </li>
-            );
-          })}
+        {pagingData ? (
+          pagingData.posts.length ? (
+            pagingData.posts.map((post, idx) => {
+              return (
+                <li key={"post_" + idx}>
+                  <Link href={`/post/${post.id}`}>
+                    <span className={styles.item_idx}>
+                      {idx + 1 + (curPage - 1) * 30}
+                    </span>
+                    <span className={styles.item_title}>{post.title}</span>
+                    {!post.is_public && <IoLockClosed size={15} />}
+                    <span className={styles.item_date}>
+                      {post.wr_date.slice(0, -14)}
+                    </span>
+                  </Link>
+                  <div
+                    className={
+                      styles.checkbox +
+                      " " +
+                      (delTargets.has(post.id) ? styles.checkbox_active : "")
+                    }
+                    onClick={handleClkCheckbox}
+                    onMouseOut={handleOutCheckbox}
+                    data-id={post.id}
+                    role="radio-button"
+                  ></div>
+                </li>
+              );
+            })
+          ) : (
+            <span className={styles.empty}>no data</span>
+          )
+        ) : (
+          <div className={styles.loader_pre}>
+            <Loader />
+          </div>
+        )}
       </ul>
       <div className={styles.btn_wrapper}>
         <NavState
           curPage={curPage}
           setCurPage={setCurPage}
-          totalPage={pagingData.totalPage}
+          totalPage={pagingData?.totalPage}
           unit={9}
         />
         <button className={styles.btn} onClick={handleClkBtnSelectAll}>

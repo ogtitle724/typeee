@@ -12,7 +12,6 @@ import styles from "./header.module.css";
 import { GoogleSignIn, SignOut } from "@comps/btn/auth/auth_btns";
 
 export default function Header() {
-  console.log("HEADER CLI");
   const [isSearch, setIsSearch] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
   const [searchParam, setSearchParam] = useState("");

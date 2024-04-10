@@ -4,10 +4,15 @@ export const delTags = (content) => {
 };
 
 export const getFirstP = (content) => {
-  const regex = /<p[^>]*>(.*?)<\/p>/s;
-  const match = regex.exec(content);
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = content;
 
-  return match && match[1].trim();
+  // Extract text content from each <p> element
+  const paragraphs = Array.from(tempDiv.querySelectorAll("p"))
+    .map((p) => p.textContent.trim())
+    .join(" ");
+  console.log(paragraphs);
+  return paragraphs;
 };
 
 export const getImgDirs = (content) => {

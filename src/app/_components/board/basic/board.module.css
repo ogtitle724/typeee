@@ -189,3 +189,13 @@
 .empty a:hover {
   scale: 1.05;
 }
+
+.loader_pre {
+  width: fit-content;
+  height: fit-content;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}

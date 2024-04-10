@@ -1,0 +1,39 @@
+.loader {
+  --spinner-color-a: #4d4d4d;
+  --spinner-color-b: rgba(71, 71, 71, 0.133);
+  --spinner-r: 10px;
+  width: var(--spinner-r);
+  height: var(--spinner-r);
+  display: inline-block;
+  border-radius: 50%;
+  background-color: var(--spinner-color-a);
+  box-shadow: calc(var(--spinner-r) * 2) 0 var(--spinner-color-a),
+    calc(var(--spinner-r) * -2) 0 var(--spinner-color-a);
+  position: relative;
+  animation: flash 0.5s ease-out infinite alternate;
+}
+
+@media (prefers-color-scheme: dark) {
+  .loader {
+    --spinner-color-a: #fff;
+    --spinner-color-b: #fff2;
+  }
+}
+
+@keyframes flash {
+  0% {
+    background-color: var(--spinner-color-b);
+    box-shadow: calc(var(--spinner-r) * 2) 0 var(--spinner-color-b),
+      calc(var(--spinner-r) * -2) 0 var(--spinner-color-a);
+  }
+  50% {
+    background-color: var(--spinner-color-a);
+    box-shadow: calc(var(--spinner-r) * 2) 0 var(--spinner-color-b),
+      calc(var(--spinner-r) * -2) 0 var(--spinner-color-b);
+  }
+  100% {
+    background-color: var(--spinner-color-b);
+    box-shadow: calc(var(--spinner-r) * 2) 0 var(--spinner-color-a),
+      calc(var(--spinner-r) * -2) 0 var(--spinner-color-b);
+  }
+}

@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+/* export const runtime = "experimental-edge"; */
+
 const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 const reportingGroup = {
   group: "csp-endpoint",
@@ -12,7 +14,6 @@ const reportingGroup = {
   ],
 };
 const cspOptions = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'strict-dynamic'; style-src 'self' https://authjs.dev 'nonce-${nonce}'; img-src 'self' https://authjs.dev; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://accounts.google.com/; frame-ancestors 'none'; report-to csp-endpoint;`;
-
 const allowedOrigins = [process.env.URL, process.env.AUTH_GOOGLE_URL];
 
 const headerOptions = {
@@ -25,6 +26,10 @@ const headerOptions = {
 };
 
 export function middleware(request) {
+  if (typeof EdgeRuntime !== "string") {
+    console.log("edge runtime");
+  }
+
   // Check the origin from the request
   const origin = request.headers.get("origin") ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);

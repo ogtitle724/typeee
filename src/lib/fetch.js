@@ -10,6 +10,7 @@ class Fetch {
       headers: {
         Accept: "application/json, text/plain, */*",
       },
+      next: { revalidate: 0 },
     };
     this.reqCount = 1000;
   }

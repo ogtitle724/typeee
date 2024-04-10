@@ -8,6 +8,8 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import debounce from "@/lib/debounce";
 import { NavRouter } from "../nav/nav_router.js/nav_router";
+import Loader from "@/app/_components/loader/loader";
+import { topicColor } from "@/config/topic";
 
 export default function Board({ pagingData, isList, isPagination, query }) {
   const [posts, setPosts] = useState(pagingData.posts);
@@ -33,7 +35,11 @@ export default function Board({ pagingData, isList, isPagination, query }) {
 
   if (posts.length) {
     if (width === null) {
-      return;
+      return (
+        <div className={styles.loader_pre}>
+          <Loader />
+        </div>
+      );
     } else {
       return (
         <section ref={sectionRef} className={styles.pre}>
@@ -93,6 +99,15 @@ function Item({ lastRef, post }) {
   const [isTagRotate, setIsTagRotate] = useState(false);
   const itemRef = useRef();
   const tagContainerRef = useRef();
+  const topicRef = useRef();
+
+  useEffect(() => {
+    if (topicRef.current) {
+      /* topicRef.current.style.borderLeft = `3px solid ${
+        topicColor[post.topic.toLowerCase()]
+      }`; */
+    }
+  }, [post.topic]);
 
   useEffect(() => {
     const containerWidth = tagContainerRef.current.offsetWidth;
@@ -128,7 +143,9 @@ function Item({ lastRef, post }) {
     >
       <Link ref={lastRef} href={`/post/${post.id}`}>
         <div className={styles.item_metadata}>
-          <span className={styles.item_topic}>{post.topic}</span>
+          <span ref={topicRef} className={styles.item_topic}>
+            {post.topic}
+          </span>
           <div ref={tagContainerRef} className={styles.item_tags_container}>
             <div
               className={
@@ -160,7 +177,9 @@ function Item({ lastRef, post }) {
                 />
               </div>
             )}
-            <p className={styles.item_content}>{post.summary || "test"}</p>
+            {!post.thumbnail && (
+              <p className={styles.item_content}>{post.summary || "test"}</p>
+            )}
             <div className={styles.item_profile}>
               <span>{post.author.name}</span>
               <Image

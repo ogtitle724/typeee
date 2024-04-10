@@ -16,3 +16,22 @@ export const topics = [
   "SEO",
   "Error",
 ];
+
+export const topicColor = {
+  html: "",
+  css: "#ADD9F4",
+  javascript: "#F9F871",
+  react: "#F9F871",
+  threejs: "#C7CBDA",
+  nextjs: "#A39AB2",
+  mongodb: "#ACFEA5",
+  server: "#caa12f",
+  aws: "#D4949D",
+  blender: "#D6A319",
+  effect: "#c5d8d0",
+  improve: "#D4949D",
+  performance: "#2f9aca",
+  security: "#ca2f2f",
+  seo: "#DAC9B0",
+  error: "#896984",
+};
