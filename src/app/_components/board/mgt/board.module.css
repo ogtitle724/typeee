@@ -97,6 +97,7 @@
   padding: 5px 8px;
   background-color: rgb(var(--highlight-rgb));
   border-radius: var(--border-radius);
+  color: black;
 }
 
 .empty {

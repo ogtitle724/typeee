@@ -88,7 +88,7 @@
   border-radius: var(--border-radius);
 }
 
-.btn_topic:hover {
+.btn_topic:hover:not(.btn_topic_focus) {
   transform: translateY(-2px);
   color: rgb(var(--font-rgb));
 }
@@ -96,5 +96,5 @@
 .btn_topic_focus {
   transform: translateY(-2px);
   background-color: rgb(var(--highlight-rgb));
-  color: rgb(var(--font-rgb));
+  color: black;
 }

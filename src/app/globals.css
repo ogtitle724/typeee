@@ -31,6 +31,7 @@
 
   --focus-rgb: 119, 143, 194;
   --highlight-rgb: 199, 203, 218;
+  --highlight-rgb: 217, 222, 236;
   --radial-g-a-rgb: 241, 237, 254;
   --radial-g-b-rgb: 255, 242, 249;
   --bg-a-rgb: 255, 255, 255;
@@ -47,14 +48,14 @@
   :root {
     --font-rgb: 230, 230, 230;
     --font-sub-rgb: 193, 192, 192;
-    --font-reverse-rgb: 255, 255, 255;
+    --font-reverse-rgb: 0, 0, 0;
 
     --border-rgb: 220, 222, 224;
     --border-sub-rgb: 63, 65, 67;
     --border-reverse-rgb: 62, 64, 66;
 
-    --focus-rgb: 137, 43, 43;
-    --highlight-rgb: 181, 86, 81;
+    --focus-rgb: 176, 117, 60;
+    --highlight-rgb: 139, 97, 56;
     --radial-g-a-rgb: 57, 53, 67;
     --radial-g-b-rgb: 53, 49, 49;
     --bg-a-rgb: 41, 41, 47;
@@ -108,17 +109,17 @@ body {
   min-height: 100vh;
   background: rgb(var(--bg-b-rgb));
   color: rgb(var(--font-rgb));
-  background: radial-gradient(
+  /* background: radial-gradient(
       circle at 45% 90%,
       rgb(var(--radial-g-a-rgb)),
       transparent 50%
     ),
     radial-gradient(
-      circle at 90% 45%,
+      circle at 83% 45%,
       rgb(var(--radial-g-b-rgb)),
-      transparent 40%
+      transparent 35%
     ),
-    rgb(var(--bg-b-rgb));
+    rgb(var(--bg-b-rgb)); */
 }
 
 a {

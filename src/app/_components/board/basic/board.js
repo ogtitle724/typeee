@@ -102,11 +102,10 @@ function Item({ lastRef, post }) {
   const topicRef = useRef();
 
   useEffect(() => {
-    if (topicRef.current) {
-      /* topicRef.current.style.borderLeft = `3px solid ${
-        topicColor[post.topic.toLowerCase()]
-      }`; */
-    }
+    /* if (topicRef.current) {
+      topicRef.current.style.backgroundColor =
+        topicColor[post.topic.toLowerCase()];
+    } */
   }, [post.topic]);
 
   useEffect(() => {
