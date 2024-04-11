@@ -1,28 +1,33 @@
 "use client";
 
-import fetchIns from "@/lib/fetch";
 import dynamic from "next/dynamic";
-import Select from "@comps/select/select";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { IoSave } from "react-icons/io5";
-import { topics } from "@/config/topic";
-import { getFirstP } from "@/lib/text";
-import { Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSession } from "next-auth/react";
-import { IoCaretBackCircle, IoLockClosed, IoLockOpen } from "react-icons/io5";
 import { FaHashtag } from "react-icons/fa6";
+import {
+  IoCaretBackCircle,
+  IoLockClosed,
+  IoLockOpen,
+  IoArrowBackOutline,
+  IoSave,
+} from "react-icons/io5";
+import { topics } from "@/config/topic";
+import fetchIns from "@/lib/fetch";
+import { getFirstP } from "@/lib/text";
+import Select from "@comps/select/select";
+import Loader from "@comps/loader/loader";
 import styles from "./write.module.css";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 
-//TODO: add loading page before load or route, session undefined error when refresh, image sizing, tag input
+//TODO: image sizing
 
 export function WritePage() {
   const session = useSession();
   const router = useRouter();
   const query = useSearchParams();
-  const isEdit = useRef(false);
+  const editId = query.get("id");
   const [isUploading, setIsUploading] = useState(false);
   const [hashTags, setHashTags] = useState("");
   const [isHashInputShow, seetIsHashInputShow] = useState(false);
@@ -41,6 +46,31 @@ export function WritePage() {
       profile_img: "",
     },
   });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const confirmPopstate = (e) => {
+        window.history.pushState(null, "", window.location.href);
+      };
+
+      if (data.title || data.content) {
+        window.history.pushState(null, "", window.location.href);
+        window.addEventListener("popstate", confirmPopstate);
+      }
+
+      const confirmUnload = (e) => {
+        e.preventDefault();
+        return "";
+      };
+
+      window.addEventListener("beforeunload", confirmUnload);
+
+      return () => {
+        window.removeEventListener("popstate", confirmPopstate);
+        window.removeEventListener("beforeunload", confirmUnload);
+      };
+    }
+  }, [data.content, data.title]);
 
   useEffect(() => {
     if (session.status === "authenticated") {
@@ -64,13 +94,11 @@ export function WritePage() {
   ]);
 
   useEffect(() => {
-    const id = query.get("id");
-
-    if (id) {
+    if (editId) {
       const getData = async () => {
         try {
           const res = await fetchIns.get(
-            process.env.NEXT_PUBLIC_URL_POST + `/${id}`
+            process.env.NEXT_PUBLIC_URL_POST + `/${editId}`
           );
           const resData = await res.json();
 
@@ -79,7 +107,6 @@ export function WritePage() {
           const newData = structuredClone(resData);
           setData(newData);
           setHashTags(newData.tags.join(" "));
-          isEdit.current = true;
         } catch (err) {
           console.error(err.message);
           alert("There was an error when downloading post data");
@@ -88,7 +115,7 @@ export function WritePage() {
 
       getData();
     }
-  }, [query, router, session?.data?.user?.uid]);
+  }, [editId, query, router, session.data?.user?.uid]);
 
   const handleChangeTitle = (e) => {
     if (e.target.value.length <= process.env.NEXT_PUBLIC_MAX_TITLE_LEN) {
@@ -119,6 +146,15 @@ export function WritePage() {
       ...data,
       is_public: !data.is_public,
     }));
+  };
+
+  const handleClkBtnBack = () => {
+    const isConfirmed = confirm("Are you sure you want to go back?");
+
+    if (isConfirmed) {
+      const prevUrl = sessionStorage.getItem("prevUrl");
+      router.push(prevUrl);
+    }
   };
 
   const handleClkBtnUpload = async () => {
@@ -155,7 +191,7 @@ export function WritePage() {
       let res;
       data.summary = plainText.slice(0, process.env.NEXT_PUBLIC_SUMMARY_LEN);
 
-      if (isEdit.current) {
+      if (editId) {
         res = await fetchIns.patch(
           process.env.NEXT_PUBLIC_URL_POST + `/${query.get("id")}`,
           JSON.stringify(data)
@@ -181,15 +217,22 @@ export function WritePage() {
       <input
         className={styles.write_title}
         value={data.title}
-        placeholder="Enter the title here..."
+        placeholder={
+          editId ? "Downloading title data now..." : "Enter the title here..."
+        }
         onChange={handleChangeTitle}
       />
       <div className={styles.editor_wrapper}>
+        <div className={styles.loader_pre}>
+          <Loader />
+        </div>
         <Editor
           data={data.content}
           onChange={handleChangeContent}
           config={{
-            placeholder: "Enter the content here...",
+            placeholder: editId
+              ? "Downloading content now..."
+              : "Enter the content here...",
             removePlugins: ["MediaEmbedToolbar"],
           }}
         />
@@ -245,6 +288,13 @@ export function WritePage() {
           )}
         </div>
       </div>
+      <button
+        className={styles.btn_back}
+        onClick={handleClkBtnBack}
+        aria-label="button to navigate previouse page"
+      >
+        <IoArrowBackOutline size={30} color="grey" />
+      </button>
     </>
   );
 }

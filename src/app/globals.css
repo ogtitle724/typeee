@@ -45,7 +45,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --font-rgb: 240, 240, 240;
+    --font-rgb: 230, 230, 230;
     --font-sub-rgb: 193, 192, 192;
     --font-reverse-rgb: 255, 255, 255;
 

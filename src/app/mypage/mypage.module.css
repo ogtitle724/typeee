@@ -89,10 +89,12 @@
 }
 
 .btn_topic:hover {
-  color: rgb(var(--font-rgb));
   transform: translateY(-2px);
+  color: rgb(var(--font-rgb));
 }
 
 .btn_topic_focus {
+  transform: translateY(-2px);
+  background-color: rgb(var(--highlight-rgb));
   color: rgb(var(--font-rgb));
 }

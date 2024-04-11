@@ -19,6 +19,13 @@
   box-shadow: var(--strong-shadow);
 }
 
+.loader_pre {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .btn_hash {
   width: 30px;
   height: 30px;
@@ -113,6 +120,13 @@
   border-bottom: 3px solid rgb(var(--highlight-rgb));
   border-left: 3px solid transparent;
 }
+
+.btn_back {
+  position: fixed;
+  left: 15px;
+  bottom: 10px;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
