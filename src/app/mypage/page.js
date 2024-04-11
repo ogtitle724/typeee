@@ -12,7 +12,7 @@ import styles from "./mypage.module.css";
 import { disableScroll } from "@/lib/scroll";
 import { isMobileBrowser } from "@/lib/browser";
 
-export default function MyPage({ params }) {
+export default function MyPage() {
   console.log("MYPAGE");
   const session = useSession();
   const [curTopic, setCurTopic] = useState("");

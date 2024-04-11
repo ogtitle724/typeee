@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
-export default function NavigationEvents() {
+function NavigationEvents() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -14,4 +14,12 @@ export default function NavigationEvents() {
   }, [pathname, searchParams]);
 
   return null;
+}
+
+export default function Wrapper() {
+  return (
+    <Suspense>
+      <NavigationEvents />
+    </Suspense>
+  );
 }
