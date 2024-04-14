@@ -9,11 +9,18 @@ export default async function LoadingPostDetail() {
           <Metadata />
         </div>
         <div className={styles.content}>
-          <div className="skeleton_bg"></div>
-          <div className="skeleton_bg"></div>
-          <div className="skeleton_bg"></div>
-          <div className="skeleton_bg"></div>
-          <div className="skeleton_bg"></div>
+          <div className={styles.content_p}>
+            <div className={styles.content_h2 + " skeleton_bg"}></div>
+            <div className={styles.content_span + " skeleton_bg"}></div>
+            <div className={styles.content_span + " skeleton_bg"}></div>
+            <div className={styles.content_span + " skeleton_bg"}></div>
+          </div>
+          <div className={styles.content_p}>
+            <div className={styles.content_h2 + " skeleton_bg"}></div>
+            <div className={styles.content_span + " skeleton_bg"}></div>
+            <div className={styles.content_span + " skeleton_bg"}></div>
+            <div className={styles.content_span + " skeleton_bg"}></div>
+          </div>
         </div>
       </section>
       <RelatedPosts />

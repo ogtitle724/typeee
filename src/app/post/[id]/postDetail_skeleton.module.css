@@ -1,5 +1,6 @@
 .pre {
   width: var(--content-width);
+  min-height: 60vh;
   padding: 20px;
   position: relative;
   display: flex;
@@ -9,10 +10,9 @@
 }
 
 .title {
-  width: 94%;
   height: 36px;
   margin-bottom: 10px;
-  border-radius: var(--border-radius);
+  border-radius: 6px;
 }
 
 .dataWrapper {
@@ -61,24 +61,22 @@
   padding-top: 20px;
 }
 
-.content > div {
-  width: 95%;
-  height: 20px;
-  margin: 10px 0;
-  border-radius: 6px;
-}
-
-.content > div:nth-child(3) {
-  width: 89%;
+.content_p {
+  width: 90%;
   margin-bottom: 40px;
 }
 
-.content > div:nth-child(4) {
-  width: 93%;
+.content_h2 {
+  width: 80%;
+  height: 27px;
+  margin-bottom: 20px;
+  border-radius: 6px;
 }
 
-.content > div:nth-child(5) {
-  width: 87%;
+.content_span {
+  height: 20px;
+  margin: 10px 0;
+  border-radius: 6px;
 }
 
 .relatePosts {
