@@ -2,6 +2,8 @@ import Board from "../_components/board/basic/board";
 import styles from "./searchpage.module.css";
 import fetchIns from "@/lib/fetch";
 import { getMetadata } from "@/config/metadata";
+import { Suspense } from "react";
+import BoardSkeleton from "../_components/skeletion/board/board_skeleton";
 
 export const generateMetadata = async ({ params, searchParams }) => {
   try {
@@ -45,7 +47,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
   }
 };
 
-export default async function Topic({ searchParams }) {
+async function Content({ searchParams }) {
   const page = searchParams.page;
   const query = {
     $or: [
@@ -71,7 +73,6 @@ export default async function Topic({ searchParams }) {
           <>
             <Board
               pagingData={pagingData}
-              isList={true}
               isPagination={true}
               query={JSON.stringify(query)}
             />
@@ -87,4 +88,12 @@ export default async function Topic({ searchParams }) {
     console.error(err.message);
     return <span>There is an error during fetching Posts</span>;
   }
+}
+
+export default async function Topic({ searchParams }) {
+  return (
+    <Suspense>
+      <Content searchParams={searchParams} />
+    </Suspense>
+  );
 }

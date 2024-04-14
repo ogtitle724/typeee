@@ -9,11 +9,10 @@ import { usePathname } from "next/navigation";
 import debounce from "@/lib/debounce";
 import { NavRouter } from "../nav/nav_router.js/nav_router";
 import Loader from "@/app/_components/loader/loader";
-import { topicColor } from "@/config/topic";
 
-export default function Board({ pagingData, isList, isPagination, query }) {
+export default function Board({ pagingData, isPagination, query }) {
   const [posts, setPosts] = useState(pagingData.posts);
-  const [isGrid, setIsGrid] = useState(!isList);
+  const [isGrid, setIsGrid] = useState(null);
   const [width, setWidth] = useState(null);
   const sectionRef = useRef();
 
@@ -28,18 +27,17 @@ export default function Board({ pagingData, isList, isPagination, query }) {
 
   useEffect(() => {
     if (typeof window) {
-      if (isList || width < 770 || window.innerWidth < 770) setIsGrid(false);
-      else if (!isList) setIsGrid(true);
+      if ((width && width < 770) || window.innerWidth < 770) {
+        setIsGrid(false);
+      } else {
+        setIsGrid(true);
+      }
     }
-  }, [isList, width]);
+  }, [width]);
 
   if (posts.length) {
     if (width === null) {
-      return (
-        <div className={styles.loader_pre}>
-          <Loader />
-        </div>
-      );
+      return null;
     } else {
       return (
         <section ref={sectionRef} className={styles.pre}>

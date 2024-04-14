@@ -114,7 +114,7 @@
   width: 100%;
   aspect-ratio: 16/9;
   position: relative;
-  background-color: rgb(225, 221, 221);
+  background-color: rgb(var(--bg-a-rgb));
   filter: brightness(0.95);
 }
 
@@ -152,7 +152,7 @@
   font-weight: var(--weight-l);
 }
 
-.ul_list .title_wrapper,
+/* .ul_list .title_wrapper,
 .ul_list .content_wrapper {
   padding: 10px;
 }
@@ -160,7 +160,7 @@
 .ul_list .title,
 .ul_list .content {
   -webkit-line-clamp: 2;
-}
+} */
 
 .empty {
   width: var(--header-width);

@@ -1,6 +1,8 @@
 import Board from "@/app/_components/board/basic/board";
 import fetchIns from "@/lib/fetch";
 import { getMetadata } from "@/config/metadata";
+import { Suspense } from "react";
+import BoardSkeleton from "@/app/_components/skeletion/board/board_skeleton";
 
 export const generateMetadata = async ({ params, searchParams }) => {
   try {
@@ -41,7 +43,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
   }
 };
 
-export default async function Topic({ params, searchParams }) {
+async function Content({ params, searchParams }) {
   const query = { topic: params.topic, is_public: true };
   const page = searchParams.page;
 
@@ -57,7 +59,6 @@ export default async function Topic({ params, searchParams }) {
         <h1 className="hide">{`${params.topic} related posts page ${page}`}</h1>
         <Board
           pagingData={pagingData}
-          isList={true}
           isPagination={true}
           query={JSON.stringify(query)}
         />
@@ -67,4 +68,14 @@ export default async function Topic({ params, searchParams }) {
     console.error(err.message);
     return <span>There is an error during fetching Posts</span>;
   }
+}
+
+export default async function Topic({ params, searchParams }) {
+  return (
+    <>
+      <Suspense fallback={<BoardSkeleton />}>
+        <Content params={params} searchParams={searchParams} />
+      </Suspense>
+    </>
+  );
 }

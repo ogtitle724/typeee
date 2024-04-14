@@ -62,7 +62,7 @@ export default async function PostDetail({ params }) {
 
     return (
       <>
-        <section className={styles.pre}>
+        <section className={styles.pre + ""}>
           <h1 className={styles.title}>{postData.title}</h1>
           <div className={styles.dataWrapper}>
             <Metadata

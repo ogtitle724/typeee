@@ -44,6 +44,13 @@
   --hover-bright: 0.95;
 }
 
+@media screen and (max-width: 480px) {
+  :root {
+    --font-xt: 30px;
+    --font-t: 25px;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --font-rgb: 230, 230, 230;
@@ -67,13 +74,6 @@
 
   html {
     color-scheme: dark;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  :root {
-    --font-xt: 30px;
-    --font-t: 25px;
   }
 }
 
@@ -158,6 +158,31 @@ blockquote {
   background: rgb(var(--bg-c-rgb));
   border: 2px solid rgb(var(--border-reverse-rgb));
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), inset 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.skeleton_bg {
+  position: relative;
+  background-color: rgb(var(--bg-b-rgb));
+  overflow: hidden;
+}
+
+.skeleton_bg::after {
+  content: "";
+  height: 200px;
+  width: 20%;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%) rotateZ(30deg);
+  background-color: rgb(var(--bg-c-rgb));
+  animation: skeletonLight 5s ease infinite;
+}
+
+@keyframes skeletonLight {
+  100% {
+    left: 110%;
+  }
 }
 
 .hide {

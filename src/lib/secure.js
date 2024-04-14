@@ -25,6 +25,7 @@ const sanitizeOptions = {
     code: ["class"],
     oembed: ["width", "height"],
     figure: ["class", "style"],
+    div: ["class"],
   },
   allowedClasses: {
     code: [

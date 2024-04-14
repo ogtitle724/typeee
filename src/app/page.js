@@ -1,10 +1,12 @@
 import Board from "./_components/board/basic/board";
 import fetchIns from "@/lib/fetch";
 import { getMetadata } from "@/config/metadata";
+import BoardSkeleton from "./_components/skeletion/board/board_skeleton";
+import { Suspense } from "react";
 
 export const metadata = getMetadata();
 
-export default async function Home() {
+async function Content() {
   try {
     const query = { is_public: true };
     const res = await fetchIns.get(
@@ -16,16 +18,22 @@ export default async function Home() {
     return (
       <>
         <h1 className="hide">Typeee home page</h1>
-        <Board
-          pagingData={pagingData}
-          isList={false}
-          isPagination={false}
-          query={null}
-        />
+        <Board pagingData={pagingData} isPagination={false} query={null} />
       </>
     );
   } catch (err) {
     console.error(err.message);
     return <span>There is an error during fetching Posts</span>;
   }
+}
+
+export default function Home() {
+  return (
+    <>
+      <h1 className="hide">Typeee home page</h1>
+      <Suspense fallback={<BoardSkeleton />}>
+        <Content />
+      </Suspense>
+    </>
+  );
 }
