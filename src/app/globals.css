@@ -168,20 +168,28 @@ blockquote {
 
 .skeleton_bg::after {
   content: "";
-  height: 200px;
-  width: 20%;
+  height: max(200px, 300%);
+  width: 22%;
   display: block;
   position: absolute;
   top: 50%;
   left: 0;
   transform: translateY(-50%) rotateZ(30deg);
   background-color: rgb(var(--bg-c-rgb));
-  animation: skeletonLight 5s ease infinite;
+  background: rgb(242, 244, 246);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(var(--bg-c-rgb)) 7%,
+    rgb(var(--bg-c-rgb)) 93%,
+    transparent 100%
+  );
+  animation: skeletonLight 3.5s ease infinite;
 }
 
 @keyframes skeletonLight {
   100% {
-    left: 110%;
+    left: 120%;
   }
 }
 

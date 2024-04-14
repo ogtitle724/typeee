@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import styles from "./board.module.css";
+import Loader from "@comps/loader/loader";
+import debounce from "@/lib/debounce";
 import { IoCreateOutline } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import debounce from "@/lib/debounce";
 import { NavRouter } from "../nav/nav_router.js/nav_router";
-import Loader from "@/app/_components/loader/loader";
+import styles from "./board.module.css";
 
 export default function Board({ pagingData, isPagination, query }) {
   const [posts, setPosts] = useState(pagingData.posts);
@@ -95,16 +95,9 @@ function Item({ lastRef, post }) {
   const isSearch = path.includes("/search");
   const [isHover, setIsHover] = useState(false);
   const [isTagRotate, setIsTagRotate] = useState(false);
+  const [isClick, setIsClick] = useState(false);
   const itemRef = useRef();
   const tagContainerRef = useRef();
-  const topicRef = useRef();
-
-  useEffect(() => {
-    /* if (topicRef.current) {
-      topicRef.current.style.backgroundColor =
-        topicColor[post.topic.toLowerCase()];
-    } */
-  }, [post.topic]);
 
   useEffect(() => {
     const containerWidth = tagContainerRef.current.offsetWidth;
@@ -115,22 +108,25 @@ function Item({ lastRef, post }) {
     }
 
     const item = itemRef.current;
-    const over = () => setIsHover(true);
-    const out = () => setIsHover(false);
 
     if (item) {
+      const over = () => setIsHover(true);
+      const out = () => setIsHover(false);
+      const click = () => setIsClick(true);
+
       item.addEventListener("touchstart", over);
       item.addEventListener("touchend", out);
       item.addEventListener("mouseover", over);
       item.addEventListener("mouseout", out);
-    }
+      item.addEventListener("click", click);
 
-    return () => {
-      item.removeEventListener("touchstart", over);
-      item.removeEventListener("touchend", out);
-      item.removeEventListener("mouseover", over);
-      item.removeEventListener("mouseout", out);
-    };
+      return () => {
+        item.removeEventListener("touchstart", over);
+        item.removeEventListener("touchend", out);
+        item.removeEventListener("mouseover", over);
+        item.removeEventListener("mouseout", out);
+      };
+    }
   }, [isTagRotate]);
 
   return (
@@ -140,9 +136,7 @@ function Item({ lastRef, post }) {
     >
       <Link ref={lastRef} href={`/post/${post.id}`}>
         <div className={styles.item_metadata}>
-          <span ref={topicRef} className={styles.item_topic}>
-            {post.topic}
-          </span>
+          <span className={styles.item_topic}>{post.topic}</span>
           <div ref={tagContainerRef} className={styles.item_tags_container}>
             <div
               className={
@@ -189,6 +183,9 @@ function Item({ lastRef, post }) {
           </>
         )}
       </Link>
+      {isClick && (
+        <div className={styles.item_loader_pre + " skeleton_bg"}></div>
+      )}
     </li>
   );
 }

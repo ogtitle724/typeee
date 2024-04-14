@@ -1,6 +1,5 @@
 .pre {
   width: 100%;
-  padding: 10px 0;
   display: flex;
   gap: 10px;
 }
@@ -152,15 +151,15 @@
   font-weight: var(--weight-l);
 }
 
-/* .ul_list .title_wrapper,
-.ul_list .content_wrapper {
-  padding: 10px;
+.item_loader_pre {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgb(var(--bg-a-rgb));
+  opacity: 0.96;
 }
-
-.ul_list .title,
-.ul_list .content {
-  -webkit-line-clamp: 2;
-} */
 
 .empty {
   width: var(--header-width);

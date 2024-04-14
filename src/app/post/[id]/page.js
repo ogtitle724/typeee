@@ -9,6 +9,7 @@ import { auth } from "@/auth";
 import styles from "./postDetail.module.css";
 import fetchIns from "@/lib/fetch";
 import { getMetadata } from "@/config/metadata";
+import LoadingPostDetail from "./loading";
 
 export const generateMetadata = async ({ params }) => {
   try {

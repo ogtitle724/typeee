@@ -21,7 +21,7 @@
 
 .metadata {
   width: fit-content;
-  margin: 10px 0px 20px 0;
+  margin: 10px 0px;
   padding-left: 1px;
   position: relative;
   display: flex;
@@ -63,7 +63,7 @@
 
 .content > div {
   width: 95%;
-  height: 26px;
+  height: 20px;
   margin: 10px 0;
   border-radius: 6px;
 }
@@ -104,7 +104,7 @@
 
 .relatePosts li {
   width: 80%;
-  height: 26px;
+  height: 20px;
   margin: 10px 0;
   border-radius: 6px;
 }
