@@ -33,7 +33,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
     return getMetadata(
       `${params.topic} related posts page ${page}`,
       description,
-      process.env.URL + `/post/${params.id}`
+      process.env.URL + `/post/${params.topic}?page=${page}`
     );
   } catch (err) {
     console.error(
