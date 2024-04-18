@@ -7,7 +7,13 @@ import { IoLockClosed } from "react-icons/io5";
 import fetchIns from "@/lib/fetch";
 import Loader from "@/app/_components/loader/loader";
 
-export default function Board({ title, pagingData, curPage, setCurPage }) {
+export default function Board({
+  title,
+  pagingData,
+  setPagingData,
+  curPage,
+  setCurPage,
+}) {
   const [delTargets, setDelTargets] = useState(new Set());
   const isMouseDown = useRef(false);
 
@@ -67,7 +73,17 @@ export default function Board({ title, pagingData, curPage, setCurPage }) {
 
     if (isDel) {
       try {
-        await fetchIns.delete(process.env.NEXT_PUBLIC_URL_POST);
+        for (const target of delTargets) {
+          await fetchIns.delete(
+            process.env.NEXT_PUBLIC_URL_POST + `/${target}`
+          );
+        }
+
+        setPagingData({
+          ...pagingData,
+          posts: pagingData.posts.filter((post) => !delTargets.has(post.id)),
+        });
+        setDelTargets(new Set());
       } catch (err) {
         console.error(err.message);
       }

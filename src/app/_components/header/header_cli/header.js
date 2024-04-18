@@ -118,7 +118,6 @@ export default function Header() {
 }
 
 function Menu(props) {
-  console.log("HEADER MENU");
   const targetParam = useParams().topic;
   const session = useSession();
   const router = useRouter();

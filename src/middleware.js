@@ -26,10 +26,6 @@ const headerOptions = {
 };
 
 export function middleware(request) {
-  if (typeof EdgeRuntime !== "string") {
-    console.log("edge runtime");
-  }
-
   // Check the origin from the request
   const origin = request.headers.get("origin") ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);

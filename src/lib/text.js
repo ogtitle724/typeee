@@ -11,7 +11,6 @@ export const getFirstP = (content) => {
   const paragraphs = Array.from(tempDiv.querySelectorAll("p"))
     .map((p) => p.textContent.trim())
     .join(" ");
-  console.log(paragraphs);
   return paragraphs;
 };
 

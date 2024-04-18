@@ -114,7 +114,7 @@
   aspect-ratio: 16/9;
   position: relative;
   background-color: rgb(var(--bg-a-rgb));
-  filter: brightness(0.95);
+  filter: brightness(0.985);
 }
 
 .item_img {

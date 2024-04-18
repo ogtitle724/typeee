@@ -9,8 +9,9 @@ class Fetch {
       credentials: "include",
       headers: {
         Accept: "application/json, text/plain, */*",
+        "Cache-Control": "max-age=3600",
       },
-      next: { revalidate: 0 },
+      next: { revalidate: 3600 },
     };
     this.reqCount = 1000;
   }
@@ -101,7 +102,5 @@ class Fetch {
   }
 }
 
-// Export a single instance of the CustomFetch class
-// eslint-disable-next-line import/no-anonymous-default-export
-let fetchIns = new Fetch();
+const fetchIns = new Fetch();
 export default fetchIns;

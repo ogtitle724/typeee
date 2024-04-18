@@ -13,7 +13,6 @@ import { disableScroll } from "@/lib/scroll";
 import { isMobileBrowser } from "@/lib/browser";
 
 export default function MyPage() {
-  console.log("MYPAGE");
   const session = useSession();
   const [curTopic, setCurTopic] = useState("");
   const [curPage, setCurPage] = useState(1);
@@ -75,6 +74,7 @@ export default function MyPage() {
             curPage={curPage}
             setCurPage={setCurPage}
             pagingData={pagingData}
+            setPagingData={setPagingData}
           />
         </div>
       </section>
@@ -91,16 +91,11 @@ function TopicNav({ curTopic, setCurTopic, topics }) {
 
   useEffect(() => {
     if (typeof window) {
-      console.log("set resize");
-      window.addEventListener("resize", (e) => {
-        console.log("resize", e);
-        setWidth(e.target.innerWidth);
-      });
+      window.addEventListener("resize", (e) => setWidth(e.target.innerWidth));
     }
   }, []);
 
   useEffect(() => {
-    console.log("effect");
     const topics = topicsRef.current;
     const isHorizontalScroll = typeof window && !isMobileBrowser() && topics;
 

@@ -84,12 +84,14 @@
   border-bottom: 1px dotted rgb(var(--border-rgb));
   font-weight: var(--weight-t);
   font-size: var(--font-t);
+  line-height: calc(var(--font-t) + 11px);
 }
 
 .content h3 {
   margin: 10px 0;
   font-size: var(--font-l);
   font-weight: var(--weight-t);
+  line-height: calc(var(--font-l) + 11px);
 }
 
 .content h3 span {
@@ -101,6 +103,7 @@
   margin: 10px 0;
   font-size: var(--font-m);
   font-weight: var(--weight-t);
+  line-height: calc(var(--font-m) + 11px);
 }
 
 .content p {
@@ -116,11 +119,16 @@
 }
 
 .content ul {
-  padding: 5px 0 5px 20px;
+  padding: 3px 0 3px 20px;
 }
 
 .content li {
+  margin: 10px 0;
   line-height: calc(var(--font-m) + 10px);
+}
+
+.content li:first-child {
+  margin: 0 0 10px 0;
 }
 
 .content a {
@@ -130,15 +138,14 @@
 }
 
 .content figure {
-  margin: 0.9em auto;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.13);
-  border-radius: var(--border-radius);
-  overflow: hidden;
+  margin: 20px auto;
 }
 
 .content img {
   width: 100%;
   height: fit-content;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.13);
+  border-radius: var(--border-radius);
 }
 
 .content strong {

@@ -135,12 +135,24 @@ button {
 }
 
 blockquote {
-  padding: 5px 16px !important;
+  margin: 10px 0;
+  padding: 2px 14px !important;
   border-radius: var(--border-radius);
-  border: none !important;
-  background-color: rgb(var(--highlight-rgb));
-  font-style: italic;
+  border: 2px dashed rgb(var(--highlight-rgb)) !important;
+  background-color: rgb(var(--bg-b-rgb));
+}
+
+blockquote > * {
+  margin: 5px 0 !important;
+  font-size: var(--font-s) !important;
   font-weight: var(--weight-m);
+  line-height: calc(var(--font-s) + 4px);
+}
+
+blockquote > *:first-child {
+  text-align: center;
+  font-style: italic;
+  font-weight: var(--weight-t);
 }
 
 .main {

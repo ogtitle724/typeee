@@ -15,6 +15,7 @@ export const topics = [
   "Security",
   "SEO",
   "Error",
+  "QnA",
 ];
 
 export const topicColor = {

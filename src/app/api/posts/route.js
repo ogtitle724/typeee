@@ -1,13 +1,6 @@
 import { paging } from "@/service/mongoDB/mongoose_post";
-/* export const runtime = "edge"; */
 
 export async function GET(req, { params }) {
-  /* if (typeof EdgeRuntime !== "string") {
-    console.log("edge runtime");
-  } else {
-    console.log("nodejs runtime");
-  } */
-
   const { searchParams } = new URL(req.url);
 
   try {
