@@ -32,6 +32,12 @@
   overflow: hidden;
 }
 
+.item_qna {
+  margin-bottom: 10px;
+  padding: 6px 0;
+  border-radius: 20px 0 25px 20px;
+}
+
 .item a {
   display: flex;
   flex-direction: column;
@@ -159,6 +165,18 @@
   left: 0;
   background-color: rgb(var(--bg-a-rgb));
   opacity: 0.96;
+}
+
+.item_q_mark {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%) rotateZ(16deg);
+  border-radius: 100%;
+  text-align: center;
+  font-size: 6.8rem;
+  font-weight: var(--weight-t);
+  color: rgb(var(--highlight-rgb));
 }
 
 .empty {

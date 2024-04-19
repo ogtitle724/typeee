@@ -5,6 +5,7 @@ import Image from "next/image";
 import Loader from "@comps/loader/loader";
 import debounce from "@/lib/debounce";
 import { IoCreateOutline } from "react-icons/io5";
+import { BsQuestionCircleFill } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { NavRouter } from "../nav/nav_router.js/nav_router";
@@ -100,11 +101,13 @@ function Item({ lastRef, post }) {
   const tagContainerRef = useRef();
 
   useEffect(() => {
-    const containerWidth = tagContainerRef.current.offsetWidth;
-    const tagsWidth = tagContainerRef.current.children[0].offsetWidth;
+    if (tagContainerRef.current) {
+      const containerWidth = tagContainerRef.current.offsetWidth;
+      const tagsWidth = tagContainerRef.current.children[0].offsetWidth;
 
-    if (containerWidth * 0.8 < tagsWidth) {
-      setIsTagRotate(true);
+      if (containerWidth * 0.8 < tagsWidth) {
+        setIsTagRotate(true);
+      }
     }
 
     const item = itemRef.current;
@@ -132,30 +135,37 @@ function Item({ lastRef, post }) {
   return (
     <li
       ref={itemRef}
-      className={styles.item + (isHover ? " " + styles.item_hover : "")}
+      className={
+        styles.item +
+        (isHover ? " " + styles.item_hover : "") +
+        (post.topic === "qna" ? " " + styles.item_qna + " type_a" : "")
+      }
     >
       <Link ref={lastRef} href={`/post/${post.id}`}>
-        <div className={styles.item_metadata}>
-          <span className={styles.item_topic}>{post.topic}</span>
-          <div ref={tagContainerRef} className={styles.item_tags_container}>
-            <div
-              className={
-                styles.item_tags +
-                (isTagRotate ? " " + styles.item_tags_rotate : "")
-              }
-            >
-              {post.tags.map((tag) => (
-                <span key={"#" + tag}>{"#" + tag}</span>
-              ))}
-              {isTagRotate &&
-                post.tags.map((tag) => (
+        {post.topic === "qna" && <span className={styles.item_q_mark}>?</span>}
+        {!(post.topic === "qna") && (
+          <div className={styles.item_metadata}>
+            <span className={styles.item_topic}>{post.topic}</span>
+            <div ref={tagContainerRef} className={styles.item_tags_container}>
+              <div
+                className={
+                  styles.item_tags +
+                  (isTagRotate ? " " + styles.item_tags_rotate : "")
+                }
+              >
+                {post.tags.map((tag) => (
                   <span key={"#" + tag}>{"#" + tag}</span>
                 ))}
+                {isTagRotate &&
+                  post.tags.map((tag) => (
+                    <span key={"#" + tag}>{"#" + tag}</span>
+                  ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <h2 className={styles.item_title}>{post.title}</h2>
-        {!isSearch && (
+        {!isSearch && !(post.topic === "qna") && (
           <>
             {post.thumbnail && (
               <div className={styles.item_img_wrapper}>

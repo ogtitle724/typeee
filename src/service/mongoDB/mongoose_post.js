@@ -140,14 +140,24 @@ export async function paging(
 export async function relate(date, id, topic) {
   try {
     const prevPosts = await Post.find({
-      $and: [{ wr_date: { $lt: date } }, { "author.id": id }, { topic }],
+      $and: [
+        { wr_date: { $lt: date } },
+        { "author.id": id },
+        { topic },
+        { is_public: true },
+      ],
     })
       .select("title wr_date _id")
       .sort({ wr_date: -1 })
       .limit(6);
 
     const nextPosts = await Post.find({
-      $and: [{ wr_date: { $gt: date } }, { "author.id": id }, { topic }],
+      $and: [
+        { wr_date: { $gt: date } },
+        { "author.id": id },
+        { topic },
+        { is_public: true },
+      ],
     })
       .select("title wr_date _id")
       .sort({ wr_date: 1 })
