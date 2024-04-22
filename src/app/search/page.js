@@ -1,9 +1,9 @@
-import Board from "../_components/board/basic/board";
+import Board from "@comps/board/basic/board";
 import styles from "./searchpage.module.css";
 import fetchIns from "@/lib/fetch";
+import BoardSkeleton from "@comps/skeletion/board/board_skeleton";
 import { getMetadata } from "@/config/metadata";
 import { Suspense } from "react";
-import BoardSkeleton from "../_components/skeletion/board/board_skeleton";
 
 export const generateMetadata = async ({ params, searchParams }) => {
   try {
@@ -92,7 +92,7 @@ async function Content({ searchParams }) {
 
 export default async function Topic({ searchParams }) {
   return (
-    <Suspense>
+    <Suspense fallback={<BoardSkeleton />}>
       <Content searchParams={searchParams} />
     </Suspense>
   );

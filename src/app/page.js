@@ -1,7 +1,7 @@
-import Board from "./_components/board/basic/board";
 import fetchIns from "@/lib/fetch";
+import Board from "@comps/board/basic/board";
+import BoardSkeleton from "@comps/skeletion/board/board_skeleton";
 import { getMetadata } from "@/config/metadata";
-import BoardSkeleton from "./_components/skeletion/board/board_skeleton";
 import { Suspense } from "react";
 
 export const metadata = getMetadata();

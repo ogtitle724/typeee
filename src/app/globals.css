@@ -176,6 +176,7 @@ blockquote > *:first-child {
   position: relative;
   background-color: rgb(var(--bg-b-rgb));
   overflow: hidden;
+  z-index: 3;
 }
 
 .skeleton_bg::after {

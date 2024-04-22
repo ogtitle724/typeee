@@ -7,9 +7,7 @@ export async function GET(req, { params }) {
     const page = searchParams.get("page");
     const select = searchParams.get("select");
     const size = +searchParams.get("size");
-    let query = searchParams.get("query");
-
-    if (query) query = JSON.parse(query);
+    const query = JSON.parse(searchParams.get("query"));
 
     const params = [page, query, select, size].filter((ele) => ele);
     const pagingData = await paging(...params);

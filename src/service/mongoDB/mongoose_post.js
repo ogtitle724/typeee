@@ -106,9 +106,7 @@ export async function paging(
         .skip(size * (page - 1))
         .limit(size);
     } else {
-      pagingData = await Post.find(query)
-        .select("_id re_date")
-        .sort({ wr_date: -1 });
+      pagingData = await Post.find(query).select(select).sort({ wr_date: -1 });
     }
 
     const newPagingData = pagingData.map((post) => {

@@ -33,8 +33,11 @@
 }
 
 .item_qna {
-  margin-bottom: 10px;
+  min-height: 60px;
+  margin: 5px 0;
   padding: 6px 0;
+  display: flex;
+  align-items: center;
   border-radius: 20px 0 25px 20px;
 }
 
@@ -45,7 +48,7 @@
 }
 
 .item_hover {
-  transform: translateY(-7px) scale(1.01);
+  transform: translateY(-7px);
   box-shadow: var(--strong-shadow-hover);
 }
 
@@ -113,6 +116,7 @@
   line-height: calc(var(--font-m) + 6px);
   font-size: var(--font-m);
   font-weight: var(--weight-t);
+  z-index: 2;
 }
 
 .item_img_wrapper {

@@ -6,9 +6,9 @@ import CodeBlock from "@/app/_components/code/code";
 import { sanitize } from "@/lib/secure";
 import { relate } from "@/service/mongoDB/mongoose_post";
 import { auth } from "@/auth";
+import { getMetadata } from "@/config/metadata";
 import styles from "./postDetail.module.css";
 import fetchIns from "@/lib/fetch";
-import { getMetadata } from "@/config/metadata";
 
 export const generateMetadata = async ({ params }) => {
   try {
@@ -29,6 +29,20 @@ export const generateMetadata = async ({ params }) => {
       "ERROR(app/post/[id]/page.js > generateMetadata):",
       err.message
     );
+  }
+};
+
+export const generateStaticParams = async () => {
+  try {
+    const select = "_id";
+    const res = await fetchIns.get(
+      process.env.NEXT_PUBLIC_URL_PAGING +
+        `?page=${1}&query=${JSON.stringify({})}&select=${select}&size=Infinity`
+    );
+    const { posts } = await res.json();
+    return posts;
+  } catch (err) {
+    console.error(err.message);
   }
 };
 
@@ -60,6 +74,8 @@ export default async function PostDetail({ params }) {
       nextPosts = nextPosts.slice(-3);
     }
 
+    const session = await auth();
+
     return (
       <>
         <section className={styles.pre + ""}>
@@ -71,7 +87,9 @@ export default async function PostDetail({ params }) {
               date={postData.wr_date}
               profile_img={postData.author.profile_img}
             />
-            <BtnWrapper postData={postData} />
+            {session && session.user.uid === postData.author.uid && (
+              <BtnWrapper postData={postData} />
+            )}
           </div>
 
           <div className={styles.content}>
