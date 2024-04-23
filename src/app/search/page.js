@@ -1,9 +1,10 @@
 import Board from "@comps/board/basic/board";
 import styles from "./searchpage.module.css";
-import fetchIns from "@/lib/fetch";
 import BoardSkeleton from "@comps/skeletion/board/board_skeleton";
 import { getMetadata } from "@/config/metadata";
 import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 
 export const generateMetadata = async ({ params, searchParams }) => {
   try {
@@ -15,11 +16,15 @@ export const generateMetadata = async ({ params, searchParams }) => {
         { title: { $regex: searchParams.param, $options: "i" } },
       ],
     };
-
-    const res = await fetchIns.get(
+    const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
-        `?page=${page}&query=${JSON.stringify(query)}`
-    );
+      `?page=${page}&query=${JSON.stringify(query)}`;
+    const options = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    };
+
+    const res = await fetch(url, options);
     const pagingData = await res.json();
 
     let [description, idx] = ["", 1];
@@ -57,10 +62,16 @@ async function Content({ searchParams }) {
   };
 
   try {
-    const res = await fetchIns.get(
+    const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
-        `?page=${page}&query=${JSON.stringify(query)}`
-    );
+      `?page=${page}&query=${JSON.stringify(query)}`;
+    const options = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+      next: { tags: ["paging"] },
+    };
+
+    const res = await fetch(url, options);
     const pagingData = await res.json();
 
     return (

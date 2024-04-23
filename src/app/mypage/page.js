@@ -7,7 +7,6 @@ import { topics } from "@/config/topic";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Board from "../_components/board/mgt/board";
-import fetchIns from "@/lib/fetch";
 import styles from "./mypage.module.css";
 import { disableScroll } from "@/lib/scroll";
 import { isMobileBrowser } from "@/lib/browser";
@@ -33,12 +32,17 @@ export default function MyPage() {
 
         if (curTopic) query.topic = curTopic.toLowerCase();
 
-        const res = await fetchIns.get(
+        const url =
           process.env.NEXT_PUBLIC_URL_PAGING +
-            `?page=${curPage}&query=${JSON.stringify(query)}&select=${select}`
-        );
-        const pagingData = await res.json();
+          `?page=${curPage}&query=${JSON.stringify(query)}&select=${select}`;
+        const options = {
+          method: "GET",
+          headers: { Accept: "application/json" },
+          next: { tags: ["paging"] },
+        };
 
+        const res = await fetch(url, options);
+        const pagingData = await res.json();
         setPagingData(pagingData);
       } catch (err) {
         console.error(err.message);

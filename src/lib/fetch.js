@@ -1,17 +1,13 @@
-import revalidate from "./revalidate";
+import { revalidate } from "./revalidate";
 import debounce from "./debounce";
 import { isJson } from "./text";
 
 class Fetch {
   constructor() {
     this.defaultOptions = {
-      mode: "cors",
-      credentials: "include",
       headers: {
         Accept: "application/json, text/plain, */*",
-        "Cache-Control": "max-age=3600",
       },
-      next: { revalidate: 3600 },
     };
     this.reqCount = 1000;
   }

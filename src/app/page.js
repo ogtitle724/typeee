@@ -1,4 +1,3 @@
-import fetchIns from "@/lib/fetch";
 import Board from "@comps/board/basic/board";
 import BoardSkeleton from "@comps/skeletion/board/board_skeleton";
 import { getMetadata } from "@/config/metadata";
@@ -9,10 +8,16 @@ export const metadata = getMetadata();
 async function Content() {
   try {
     const query = { is_public: true };
-    const res = await fetchIns.get(
+    const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
-        `?page=${1}&query=${JSON.stringify(query)}`
-    );
+      `?page=${1}&query=${JSON.stringify(query)}`;
+    const option = {
+      method: "GET",
+      headers: { Application: "application/json" },
+      next: { tags: ["paging"] },
+    };
+
+    const res = await fetch(url, option);
     const pagingData = await res.json();
 
     return (

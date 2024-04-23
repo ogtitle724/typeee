@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { IoTrashOutline } from "react-icons/io5";
-import fetchIns from "@/lib/fetch";
 
 export default function BtnDelete(props) {
   const router = useRouter();
@@ -12,7 +11,7 @@ export default function BtnDelete(props) {
 
     if (isDeleteOk) {
       try {
-        await fetchIns.delete(props.url);
+        await fetch(props.url, { method: "DELETE" });
         router.back();
       } catch (err) {
         console.error("BtnDelete Error :", err.message);

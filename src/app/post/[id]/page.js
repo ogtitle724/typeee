@@ -8,13 +8,16 @@ import { relate } from "@/service/mongoDB/mongoose_post";
 import { auth } from "@/auth";
 import { getMetadata } from "@/config/metadata";
 import styles from "./postDetail.module.css";
-import fetchIns from "@/lib/fetch";
 
 export const generateMetadata = async ({ params }) => {
   try {
-    const res = await fetchIns.get(
-      process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`
-    );
+    const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
+    const options = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+      next: { tags: ["post"] },
+    };
+    const res = await fetch(url, options);
     const postData = await res.json();
 
     return getMetadata(
@@ -35,22 +38,35 @@ export const generateMetadata = async ({ params }) => {
 export const generateStaticParams = async () => {
   try {
     const select = "_id";
-    const res = await fetchIns.get(
+    const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
-        `?page=${1}&query=${JSON.stringify({})}&select=${select}&size=Infinity`
-    );
+      `?page=${1}&query=${JSON.stringify({})}&select=${select}&size=Infinity`;
+    const options = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    };
+
+    const res = await fetch(url, options);
     const { posts } = await res.json();
     return posts;
   } catch (err) {
-    console.error(err.message);
+    console.error(
+      "ERROR(/app/post/[id]/page.js) > generateStaticParams",
+      err.message
+    );
   }
 };
 
 export default async function PostDetail({ params }) {
   try {
-    const res = await fetchIns.get(
-      process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`
-    );
+    const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
+    const options = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+      next: { tags: ["post"] },
+    };
+
+    const res = await fetch(url, options);
     const postData = await res.json();
 
     const regexCode = /(<pre><code.*?>.*?<\/code><\/pre>)/gs;
@@ -121,7 +137,7 @@ export default async function PostDetail({ params }) {
       </>
     );
   } catch (err) {
-    console.error("Error(/app/post/[id]/page.js) :", err.message);
+    console.error("ERROR(/app/post/[id]/page.js > <Content />) :", err.message);
     return (
       <section>
         <span>There is an error during fetching Post</span>

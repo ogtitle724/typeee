@@ -1,7 +1,15 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidateTag, revalidatePath } from "next/cache";
 
-export default async function revalidate() {
-  revalidateTag("get");
+export async function pathRevalidation(paths, option = null) {
+  for (const path of paths) {
+    revalidatePath(path, option);
+  }
+}
+
+export async function tagRevalidation(tags) {
+  for (const tag of tags) {
+    revalidateTag(tag);
+  }
 }

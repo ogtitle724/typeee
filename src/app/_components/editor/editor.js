@@ -1,6 +1,5 @@
 "use client";
 import ClassicEditor from "ckeditor5-custom-build/build/ckeditor";
-import fetchIns from "@/lib/fetch";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import "./style.css";
 
@@ -24,12 +23,13 @@ export default function Editor({
           formData.append("name", file.name);
           formData.append("file", file);
 
-          const res = await fetchIns.post(
+          const res = await fetch(
             process.env.NEXT_PUBLIC_PATH_CK_UPLOAD,
             formData,
-            { next: { revalidate: 0 } }
+            { method: "POST", headers: { Accept: "application/json" } }
           );
           const body = await res.json();
+
           return {
             default: body.src,
           };

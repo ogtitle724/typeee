@@ -1,5 +1,4 @@
 import { topics } from "@/config/topic";
-import fetchIns from "@/lib/fetch";
 
 export default async function sitemap() {
   const URLs = [
@@ -14,12 +13,18 @@ export default async function sitemap() {
 
   for (const topic of topics) {
     try {
-      const res = await fetchIns.get(
+      const url =
         process.env.NEXT_PUBLIC_URL_PAGING +
-          `?page=${1}&query=${JSON.stringify({
-            topic: topic.toLowerCase(),
-          })}&select=${select}&size=Infinity`
-      );
+        `?page=${1}&query=${JSON.stringify({
+          topic: topic.toLowerCase(),
+        })}&select=${select}&size=Infinity`;
+      const options = {
+        method: "GET",
+        headers: { Accept: "application/json" },
+        next: { tags: ["paging"] },
+      };
+
+      const res = await fetch(url, options);
       const pagingData = await res.json();
 
       pagingData.posts.forEach((post) => {

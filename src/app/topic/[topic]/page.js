@@ -1,5 +1,4 @@
 import Board from "@/app/_components/board/basic/board";
-import fetchIns from "@/lib/fetch";
 import { getMetadata } from "@/config/metadata";
 import { Suspense } from "react";
 import BoardSkeleton from "@/app/_components/skeletion/board/board_skeleton";
@@ -9,10 +8,16 @@ export const generateMetadata = async ({ params, searchParams }) => {
     const query = { topic: params.topic, is_public: true };
     const page = searchParams.page;
 
-    const res = await fetchIns.get(
+    const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
-        `?page=${page}&query=${JSON.stringify(query)}`
-    );
+      `?page=${page}&query=${JSON.stringify(query)}`;
+    const options = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+      next: { tags: ["paging"] },
+    };
+
+    const res = await fetch(url, options);
     const pagingData = await res.json();
 
     let [description, idx] = ["", 1];
@@ -48,10 +53,16 @@ async function Content({ params, searchParams }) {
   const page = searchParams.page;
 
   try {
-    const res = await fetchIns.get(
+    const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
-        `?page=${page}&query=${JSON.stringify(query)}`
-    );
+      `?page=${page}&query=${JSON.stringify(query)}`;
+    const options = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+      next: { tags: ["paging"] },
+    };
+
+    const res = await fetch(url, options);
     const pagingData = await res.json();
 
     return (

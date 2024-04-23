@@ -65,6 +65,7 @@
 
 .ck.ck-editor__editable li {
   margin: 10px 0;
+  font-size: var(--font-m);
   line-height: calc(var(--font-m) + 10px);
 }
 

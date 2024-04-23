@@ -13,15 +13,13 @@ import {
   IoSave,
 } from "react-icons/io5";
 import { topics } from "@/config/topic";
-import fetchIns from "@/lib/fetch";
 import { getFirstP } from "@/lib/text";
 import Select from "@comps/select/select";
 import Loader from "@comps/loader/loader";
 import styles from "./write.module.css";
+import { pathRevalidation, tagRevalidation } from "@/lib/revalidate";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
-
-//TODO: image sizing
 
 export function WritePage() {
   const session = useSession();
@@ -97,9 +95,14 @@ export function WritePage() {
     if (editId) {
       const getData = async () => {
         try {
-          const res = await fetchIns.get(
-            process.env.NEXT_PUBLIC_URL_POST + `/${editId}`
-          );
+          const url = process.env.NEXT_PUBLIC_URL_POST + `/${editId}`;
+          const options = {
+            method: "GET",
+            headers: { Accept: "application/json" },
+            next: { revalidate: 0 },
+          };
+
+          const res = await fetch(url, options);
           const resData = await res.json();
 
           if (resData === null) return router.push("/");
@@ -192,15 +195,34 @@ export function WritePage() {
       data.summary = plainText.slice(0, process.env.NEXT_PUBLIC_SUMMARY_LEN);
 
       if (editId) {
-        res = await fetchIns.patch(
+        res = await fetch(
           process.env.NEXT_PUBLIC_URL_POST + `/${query.get("id")}`,
-          JSON.stringify(data)
+          {
+            method: "PATCH",
+            body: JSON.stringify(data),
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
         );
+
+        /* pathRevalidation([`/post/${query.get("id")}`], "paging");
+
+        if (data.is_public) {
+          tagRevalidation("paging");
+        } */
       } else {
-        res = await fetchIns.post(
-          process.env.NEXT_PUBLIC_URL_POST,
-          JSON.stringify(data)
-        );
+        res = await fetch(process.env.NEXT_PUBLIC_URL_POST, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+
+        /* tagRevalidation("paging"); */
       }
 
       const resData = await res.json();

@@ -4,7 +4,6 @@ import styles from "./board.module.css";
 import { NavState } from "../nav/nav_state/nav_state";
 import { useState, useRef, useEffect } from "react";
 import { IoLockClosed } from "react-icons/io5";
-import fetchIns from "@/lib/fetch";
 import Loader from "@/app/_components/loader/loader";
 
 export default function Board({
@@ -74,9 +73,8 @@ export default function Board({
     if (isDel) {
       try {
         for (const target of delTargets) {
-          await fetchIns.delete(
-            process.env.NEXT_PUBLIC_URL_POST + `/${target}`
-          );
+          const url = process.env.NEXT_PUBLIC_URL_POST + `/${target}`;
+          await fetch(url, { method: "DELETE" });
         }
 
         setPagingData({
