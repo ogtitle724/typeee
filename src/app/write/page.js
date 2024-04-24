@@ -207,11 +207,7 @@ export function WritePage() {
           }
         );
 
-        /* pathRevalidation([`/post/${query.get("id")}`], "paging");
-
-        if (data.is_public) {
-          tagRevalidation("paging");
-        } */
+        await pathRevalidation(`/post/${query.get("id")}`);
       } else {
         res = await fetch(process.env.NEXT_PUBLIC_URL_POST, {
           method: "POST",
@@ -221,10 +217,9 @@ export function WritePage() {
             "Content-Type": "application/json",
           },
         });
-
-        /* tagRevalidation("paging"); */
       }
 
+      await tagRevalidation("paging");
       const resData = await res.json();
       router.push(`/post/${resData._id}`);
     } catch (err) {

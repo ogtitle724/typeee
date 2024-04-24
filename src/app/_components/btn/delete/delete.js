@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { IoTrashOutline } from "react-icons/io5";
+import { tagRevalidation } from "@/lib/revalidate";
 
 export default function BtnDelete(props) {
   const router = useRouter();
@@ -12,6 +13,7 @@ export default function BtnDelete(props) {
     if (isDeleteOk) {
       try {
         await fetch(props.url, { method: "DELETE" });
+        tagRevalidation("paging");
         router.back();
       } catch (err) {
         console.error("BtnDelete Error :", err.message);

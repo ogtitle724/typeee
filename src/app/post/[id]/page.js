@@ -14,19 +14,24 @@ export const generateMetadata = async ({ params }) => {
     const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
     const options = {
       method: "GET",
+
       headers: { Accept: "application/json" },
       next: { tags: ["post"] },
     };
     const res = await fetch(url, options);
     const postData = await res.json();
 
-    return getMetadata(
-      postData.title,
-      postData.summary,
-      process.env.URL + `/post/${params.id}`,
-      postData.thumbnail,
-      postData.tags
-    );
+    if (postData) {
+      return getMetadata(
+        postData.title,
+        postData.summary,
+        process.env.URL + `/post/${params.id}`,
+        postData.thumbnail,
+        postData.tags
+      );
+    } else {
+      return getMetadata();
+    }
   } catch (err) {
     console.error(
       "ERROR(app/post/[id]/page.js > generateMetadata):",
@@ -43,6 +48,7 @@ export const generateStaticParams = async () => {
       `?page=${1}&query=${JSON.stringify({})}&select=${select}&size=Infinity`;
     const options = {
       method: "GET",
+
       headers: { Accept: "application/json" },
     };
 
@@ -69,73 +75,75 @@ export default async function PostDetail({ params }) {
     const res = await fetch(url, options);
     const postData = await res.json();
 
-    const regexCode = /(<pre><code.*?>.*?<\/code><\/pre>)/gs;
-    const splited = postData.content.split(regexCode);
+    if (postData) {
+      const relatePosts = await relate(
+        postData.wr_date,
+        postData.author.id,
+        postData.topic
+      );
 
-    const relatePosts = await relate(
-      postData.wr_date,
-      postData.author.id,
-      postData.topic
-    );
+      let prevPosts = relatePosts.prevPosts;
+      let nextPosts = relatePosts.nextPosts.reverse();
 
-    let prevPosts = relatePosts.prevPosts;
-    let nextPosts = relatePosts.nextPosts.reverse();
+      if (prevPosts.length < 3) {
+        nextPosts = nextPosts.slice(-(6 - prevPosts.length));
+      } else if (nextPosts.length < 3) {
+        prevPosts = prevPosts.slice(0, 6 - nextPosts.length);
+      } else {
+        prevPosts = prevPosts.slice(0, 3);
+        nextPosts = nextPosts.slice(-3);
+      }
 
-    if (prevPosts.length < 3) {
-      nextPosts = nextPosts.slice(-(6 - prevPosts.length));
-    } else if (nextPosts.length < 3) {
-      prevPosts = prevPosts.slice(0, 6 - nextPosts.length);
-    } else {
-      prevPosts = prevPosts.slice(0, 3);
-      nextPosts = nextPosts.slice(-3);
-    }
+      const regexCode = /(<pre><code.*?>.*?<\/code><\/pre>)/gs;
+      const splited = postData.content.split(regexCode);
 
-    const session = await auth();
-
-    return (
-      <>
-        <section className={styles.pre + ""}>
-          <h1 className={styles.title}>{postData.title}</h1>
-          <div className={styles.dataWrapper}>
-            <Metadata
-              name={postData.author.name}
-              topic={postData.topic}
-              date={postData.wr_date}
-              profile_img={postData.author.profile_img}
-            />
-            {session && session.user.uid === postData.author.uid && (
+      return (
+        <>
+          <section className={styles.pre + ""}>
+            <h1 className={styles.title}>{postData.title}</h1>
+            <div className={styles.dataWrapper}>
+              <Metadata
+                name={postData.author.name}
+                topic={postData.topic}
+                date={postData.wr_date}
+                profile_img={postData.author.profile_img}
+              />
               <BtnWrapper postData={postData} />
-            )}
-          </div>
+            </div>
 
-          <div className={styles.content}>
-            {splited.map((html, idx) => {
-              if (html.startsWith("<pre><code")) {
-                return <CodeBlock key={"code block" + idx} codeString={html} />;
-              } else {
-                return (
-                  <div
-                    key={"content block" + idx}
-                    dangerouslySetInnerHTML={{ __html: sanitize(html) }}
-                  ></div>
-                );
-              }
-            })}
-          </div>
-          <div className={styles.hashtags}>
-            {postData.tags &&
-              postData.tags.map((tag) => (
-                <span key={"#" + tag}>{"#" + tag}</span>
-              ))}
-          </div>
-        </section>
-        <RelatedPosts
-          nextPosts={nextPosts}
-          prevPosts={prevPosts}
-          title={postData.title}
-        />
-      </>
-    );
+            <div className={styles.content}>
+              {splited.map((html, idx) => {
+                if (html.startsWith("<pre><code")) {
+                  return (
+                    <CodeBlock key={"code block" + idx} codeString={html} />
+                  );
+                } else {
+                  return (
+                    <div
+                      key={"content block" + idx}
+                      dangerouslySetInnerHTML={{ __html: sanitize(html) }}
+                    ></div>
+                  );
+                }
+              })}
+            </div>
+            <div className={styles.hashtags}>
+              {postData.tags &&
+                postData.tags.map((tag) => (
+                  <span key={"#" + tag}>{"#" + tag}</span>
+                ))}
+            </div>
+          </section>
+          <RelatedPosts
+            nextPosts={nextPosts}
+            prevPosts={prevPosts}
+            title={postData.title}
+          />
+        </>
+      );
+    } else {
+      <span>no data</span>;
+    }
   } catch (err) {
     console.error("ERROR(/app/post/[id]/page.js > <Content />) :", err.message);
     return (
@@ -167,9 +175,9 @@ async function BtnWrapper({ postData }) {
   const session = await auth();
 
   return (
-    <div className={styles.btns + " type_a"}>
+    <>
       {session && session.user.uid === postData.author.uid && (
-        <>
+        <div className={styles.btns + " type_a"}>
           <BtnEdit
             isAnnonymous={!postData.author.uid}
             comparePwd={postData.author.pwd}
@@ -184,9 +192,9 @@ async function BtnWrapper({ postData }) {
             }
             size={20}
           />
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import { revalidate } from "./revalidate";
+import { tagRevalidation } from "./revalidate";
 import debounce from "./debounce";
 import { isJson } from "./text";
 
@@ -64,7 +64,7 @@ class Fetch {
 
   async post(url, data, options = {}) {
     const debounceArg = () => {
-      revalidate();
+      tagRevalidation(["get"]);
 
       return this.request(url, {
         ...options,
@@ -79,7 +79,7 @@ class Fetch {
 
   async patch(url, data, options = {}) {
     const debounceArg = () => {
-      revalidate();
+      tagRevalidation(["get"]);
 
       return this.request(url, {
         ...options,
@@ -93,7 +93,7 @@ class Fetch {
   }
 
   async delete(url, options = {}) {
-    revalidate();
+    tagRevalidation(["get"]);
     return this.request(url, { ...options, method: "DELETE" });
   }
 }

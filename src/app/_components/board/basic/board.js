@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import Loader from "@comps/loader/loader";
 import debounce from "@/lib/debounce";
 import { IoCreateOutline } from "react-icons/io5";
-import { BsQuestionCircleFill } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { NavRouter } from "../nav/nav_router.js/nav_router";

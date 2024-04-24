@@ -1,5 +1,7 @@
 import { topics } from "@/config/topic";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap() {
   const URLs = [
     {
@@ -21,7 +23,6 @@ export default async function sitemap() {
       const options = {
         method: "GET",
         headers: { Accept: "application/json" },
-        next: { tags: ["paging"] },
       };
 
       const res = await fetch(url, options);

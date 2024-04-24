@@ -1,6 +1,6 @@
 import { IoChevronForwardOutline, IoChevronBackOutline } from "react-icons/io5";
 import { useSearchParams, usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import styles from "./nav_router.module.css";
 
@@ -52,50 +52,52 @@ export function NavRouter({ totalPage, unit }) {
   };
 
   return (
-    <nav className={styles.pre + " type_a"}>
-      <ul>
-        <li>
-          <button
-            className={styles.dir}
-            onClick={() => handleClkBtnRotateNav(0)}
-          >
-            <IoChevronBackOutline size={17} />
-          </button>
-        </li>
-        {pages.map((next) => {
-          if (next === +params.get("page")) {
-            return (
-              <li key={"page nav (current page)"}>
-                <span className={styles.page + " " + styles.page_cur}>
-                  {next}
-                </span>
-              </li>
-            );
-          } else {
-            const regex = /(page=)\d+/;
-            let newQuery = query.current.slice();
-            newQuery = newQuery.replace(regex, `page=${next}`);
+    <Suspense>
+      <nav className={styles.pre + " type_a"}>
+        <ul>
+          <li>
+            <button
+              className={styles.dir}
+              onClick={() => handleClkBtnRotateNav(0)}
+            >
+              <IoChevronBackOutline size={17} />
+            </button>
+          </li>
+          {pages.map((next) => {
+            if (next === +params.get("page")) {
+              return (
+                <li key={"page nav (current page)"}>
+                  <span className={styles.page + " " + styles.page_cur}>
+                    {next}
+                  </span>
+                </li>
+              );
+            } else {
+              const regex = /(page=)\d+/;
+              let newQuery = query.current.slice();
+              newQuery = newQuery.replace(regex, `page=${next}`);
 
-            if (!params.get("page")) newQuery += `page=${next}`;
+              if (!params.get("page")) newQuery += `page=${next}`;
 
-            return (
-              <li key={"page nav button " + next}>
-                <Link href={pathname + `?${newQuery}`}>
-                  <span className={styles.page}>{next}</span>
-                </Link>
-              </li>
-            );
-          }
-        })}
-        <li>
-          <button
-            className={styles.dir}
-            onClick={() => handleClkBtnRotateNav(1)}
-          >
-            <IoChevronForwardOutline size={17} />
-          </button>
-        </li>
-      </ul>
-    </nav>
+              return (
+                <li key={"page nav button " + next}>
+                  <Link href={pathname + `?${newQuery}`}>
+                    <span className={styles.page}>{next}</span>
+                  </Link>
+                </li>
+              );
+            }
+          })}
+          <li>
+            <button
+              className={styles.dir}
+              onClick={() => handleClkBtnRotateNav(1)}
+            >
+              <IoChevronForwardOutline size={17} />
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </Suspense>
   );
 }

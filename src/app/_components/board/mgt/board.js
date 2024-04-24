@@ -5,6 +5,7 @@ import { NavState } from "../nav/nav_state/nav_state";
 import { useState, useRef, useEffect } from "react";
 import { IoLockClosed } from "react-icons/io5";
 import Loader from "@/app/_components/loader/loader";
+import { tagRevalidation } from "@/lib/revalidate";
 
 export default function Board({
   title,
@@ -82,6 +83,7 @@ export default function Board({
           posts: pagingData.posts.filter((post) => !delTargets.has(post.id)),
         });
         setDelTargets(new Set());
+        tagRevalidation("paging");
       } catch (err) {
         console.error(err.message);
       }
