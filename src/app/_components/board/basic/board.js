@@ -176,8 +176,8 @@ function Item({ lastRef, post }) {
                 />
               </div>
             )}
-            {!post.thumbnail && (
-              <p className={styles.item_content}>{post.summary || "test"}</p>
+            {!post.thumbnail && post.summary && (
+              <p className={styles.item_content}>{post.summary}</p>
             )}
             <div className={styles.item_profile}>
               <span>{post.author.name}</span>

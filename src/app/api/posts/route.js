@@ -2,7 +2,7 @@ import { paging } from "@/service/mongoDB/mongoose_post";
 
 export async function GET(req, { params }) {
   const { searchParams } = new URL(req.url);
-  console.log("pagingingingni");
+
   try {
     const page = searchParams.get("page");
     const select = searchParams.get("select");
