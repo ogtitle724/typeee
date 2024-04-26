@@ -48,7 +48,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
       process.env.URL + `/post/${params.id}`
     );
   } catch (err) {
-    console.error("ERROR(app/search/page.js > generateMetadata):", err.message);
+    console.error("ERROR(/search/page.js > generateMetadata):", err.message);
   }
 };
 

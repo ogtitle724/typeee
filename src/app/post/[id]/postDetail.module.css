@@ -74,17 +74,24 @@
 .content {
   width: 100%;
   min-height: 160px;
-  padding: 20px 0;
-  padding-top: 20px;
+  padding: 40px 0;
 }
 
 .content h2 {
-  margin-bottom: 15px;
-  padding: 10px 0;
-  border-bottom: 1px dotted rgb(var(--border-rgb));
+  margin-bottom: 30px;
+  padding: 3px 6px;
+  position: relative;
   font-weight: var(--weight-t);
   font-size: var(--font-t);
   line-height: calc(var(--font-t) + 11px);
+  position: relative;
+  border-radius: var(--border-radius);
+  background-color: rgb(var(--bg-b-rgb));
+  text-align: center;
+}
+
+.content h2:not(:first-child) {
+  margin-top: 90px;
 }
 
 .content h3 {
@@ -107,7 +114,7 @@
 }
 
 .content p {
-  margin: 10px 0;
+  margin: 10px 0 25px 0;
   font-size: var(--font-m);
   line-height: calc(var(--font-m) + 11px);
 }
@@ -119,6 +126,7 @@
 }
 
 .content ul {
+  margin: 10px 0 30px 0;
   padding: 3px 0 3px 20px;
 }
 
@@ -139,7 +147,7 @@
 }
 
 .content figure {
-  margin: 20px auto;
+  margin: 25px auto;
 }
 
 @media screen and (max-width: 576px) {

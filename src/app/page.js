@@ -27,7 +27,7 @@ async function Content() {
       </>
     );
   } catch (err) {
-    console.error(err.message);
+    console.error("ERROR(/page.js > <Content>)", err.message);
     return <span>There is an error during fetching Posts</span>;
   }
 }

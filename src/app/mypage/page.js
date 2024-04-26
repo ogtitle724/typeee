@@ -45,7 +45,7 @@ export default function MyPage() {
         const pagingData = await res.json();
         setPagingData(pagingData);
       } catch (err) {
-        console.error(err.message);
+        console.error("ERROR(/mypage > page.js)", err.message);
       }
     };
 

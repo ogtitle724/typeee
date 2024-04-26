@@ -14,7 +14,6 @@ export const generateMetadata = async ({ params }) => {
     const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
     const options = {
       method: "GET",
-
       headers: { Accept: "application/json" },
       next: { tags: ["post"] },
     };
@@ -35,7 +34,8 @@ export const generateMetadata = async ({ params }) => {
   } catch (err) {
     console.error(
       "ERROR(app/post/[id]/page.js > generateMetadata):",
-      err.message
+      err.message,
+      params.id
     );
   }
 };
@@ -48,12 +48,12 @@ export const generateStaticParams = async () => {
       `?page=${1}&query=${JSON.stringify({})}&select=${select}&size=Infinity`;
     const options = {
       method: "GET",
-
       headers: { Accept: "application/json" },
     };
 
     const res = await fetch(url, options);
     const { posts } = await res.json();
+    console.log(posts);
     return posts;
   } catch (err) {
     console.error(
@@ -145,7 +145,11 @@ export default async function PostDetail({ params }) {
       <span>no data</span>;
     }
   } catch (err) {
-    console.error("ERROR(/app/post/[id]/page.js > <Content />) :", err.message);
+    console.error(
+      "ERROR(/app/post/[id]/page.js > <Content />) :",
+      err.message,
+      params.id
+    );
     return (
       <section>
         <span>There is an error during fetching Post</span>

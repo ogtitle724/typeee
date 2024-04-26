@@ -42,7 +42,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
     );
   } catch (err) {
     console.error(
-      "ERROR(app/topic/[topic]/page.js > generateMetadata):",
+      "ERROR(/topic/[topic]/page.js > generateMetadata):",
       err.message
     );
   }
@@ -50,7 +50,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
 
 async function Content({ params, searchParams }) {
   const query = { topic: params.topic, is_public: true };
-  const page = searchParams.page;
+  const page = searchParams.page || 1;
 
   try {
     const url =
@@ -76,7 +76,7 @@ async function Content({ params, searchParams }) {
       </>
     );
   } catch (err) {
-    console.error(err.message);
+    console.error("ERROR(/topic/[topic]/page.js) > <Content>", err.message);
     return <span>There is an error during fetching Posts</span>;
   }
 }

@@ -11,7 +11,7 @@
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
   --font-xt: 43px;
   --font-t: 28px;
-  --font-l: 21px;
+  --font-l: 24px;
   --font-m: 18px;
   --font-s: 16px;
   --font-vs: 14px;
@@ -30,8 +30,8 @@
   --border-reverse-rgb: 255, 255, 255;
 
   --focus-rgb: 119, 143, 194;
-  --highlight-rgb: 199, 203, 218;
   --highlight-rgb: 217, 222, 236;
+  --highlight-title-rgb: 238, 238, 88;
   --radial-g-a-rgb: 241, 237, 254;
   --radial-g-b-rgb: 255, 242, 249;
   --bg-a-rgb: 255, 255, 255;
@@ -63,6 +63,7 @@
 
     --focus-rgb: 176, 117, 60;
     --highlight-rgb: 139, 97, 56;
+    --highlight-title-rgb: 139, 65, 1;
     --radial-g-a-rgb: 57, 53, 67;
     --radial-g-b-rgb: 53, 49, 49;
     --bg-a-rgb: 41, 41, 47;
@@ -135,10 +136,10 @@ button {
 }
 
 blockquote {
-  margin: 10px 0;
+  margin: 30px 0;
   padding: 2px 14px !important;
   border-radius: var(--border-radius);
-  border: 2px dashed rgb(var(--highlight-rgb)) !important;
+  border: 1px solid rgb(var(--highlight-rgb)) !important;
   background-color: rgb(var(--bg-b-rgb));
 }
 

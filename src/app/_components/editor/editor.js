@@ -13,9 +13,9 @@ export default function Editor({
   onFocus,
 }) {
   const customUploadAdapter = (loader) => {
-    // (2)
     return {
       async upload() {
+        console.log("upload image");
         const formData = new FormData();
 
         try {
@@ -23,11 +23,10 @@ export default function Editor({
           formData.append("name", file.name);
           formData.append("file", file);
 
-          const res = await fetch(
-            process.env.NEXT_PUBLIC_PATH_CK_UPLOAD,
-            formData,
-            { method: "POST", headers: { Accept: "application/json" } }
-          );
+          const res = await fetch(process.env.NEXT_PUBLIC_PATH_CK_UPLOAD, {
+            method: "POST",
+            body: formData,
+          });
           const body = await res.json();
 
           return {
@@ -42,7 +41,6 @@ export default function Editor({
   };
 
   function uploadPlugin(editor) {
-    // (3)
     editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
       return customUploadAdapter(loader);
     };
