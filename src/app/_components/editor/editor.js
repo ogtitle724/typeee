@@ -15,7 +15,6 @@ export default function Editor({
   const customUploadAdapter = (loader) => {
     return {
       async upload() {
-        console.log("upload image");
         const formData = new FormData();
 
         try {

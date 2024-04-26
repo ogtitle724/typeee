@@ -104,7 +104,7 @@ postSchema.pre("save", function (next) {
   this.update({}, { $inc: { "meta.view_cnt": 1 } }, { multi: true });
   next();
 }); */
-console.log(mongoose.models);
+
 //here make vertual method that calc score(best)
 const Post = mongoose.models?.posts || mongoose.model("posts", postSchema);
 

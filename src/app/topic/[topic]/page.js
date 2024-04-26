@@ -4,6 +4,8 @@ import { Suspense } from "react";
 import BoardSkeleton from "@/app/_components/skeletion/board/board_skeleton";
 import { topics } from "@/config/topic";
 
+export const dynamic = "force-static";
+
 export const generateStaticParams = async () => {
   return topics.map((topic) => {
     topic;
