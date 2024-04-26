@@ -2,6 +2,13 @@ import Board from "@/app/_components/board/basic/board";
 import { getMetadata } from "@/config/metadata";
 import { Suspense } from "react";
 import BoardSkeleton from "@/app/_components/skeletion/board/board_skeleton";
+import { topics } from "@/config/topic";
+
+export const generateStaticParams = async () => {
+  return topics.map((topic) => {
+    topic;
+  });
+};
 
 export const generateMetadata = async ({ params, searchParams }) => {
   try {
