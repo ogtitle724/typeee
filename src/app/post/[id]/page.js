@@ -23,7 +23,7 @@ export const generateMetadata = async ({ params }) => {
     if (postData) {
       return getMetadata(
         postData.title,
-        postData.summary,
+        postData.summary || postData.title,
         process.env.URL + `/post/${params.id}`,
         postData.thumbnail,
         postData.tags
