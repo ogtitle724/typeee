@@ -28,15 +28,6 @@ export default async function sitemap() {
       const res = await fetch(url, options);
       const pagingData = await res.json();
 
-      pagingData.posts.forEach((post) => {
-        URLs.push({
-          url: process.env.URL + `/post/${post.id}`,
-          lastModified: post.re_date,
-          changeFrequency: "always",
-          priority: 0.8,
-        });
-      });
-
       for (let page = 1; page <= pagingData.totalPage; page++) {
         URLs.push({
           url:
@@ -47,6 +38,15 @@ export default async function sitemap() {
           priority: 0.7,
         });
       }
+
+      pagingData.posts.forEach((post) => {
+        URLs.push({
+          url: process.env.URL + `/post/${post.id}`,
+          lastModified: post.re_date,
+          changeFrequency: "always",
+          priority: 0.8,
+        });
+      });
     } catch (err) {
       console.error("ERROR(app/sitemap.js > sitemap):", err.message);
     }

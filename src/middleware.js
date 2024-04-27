@@ -1,8 +1,22 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
+import { Redis } from "@upstash/redis";
+import { Ratelimit } from "@upstash/ratelimit";
 
-/* export const runtime = "experimental-edge"; */
+//rate limiting
+const rateLimiter = new Ratelimit({
+  limiter: Ratelimit.slidingWindow(5, "10 s"),
+  redis: Redis.fromEnv(),
+  analytics: true,
+  ephemeralCache: undefined,
+  prefix: "@upstash/ratelimit",
+  timeout: undefined,
+});
 
+const allowedOrigins = [process.env.URL, process.env.AUTH_GOOGLE_URL];
+
+//CSP
 const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
+const cspOptions = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'strict-dynamic'; style-src 'self' https://authjs.dev 'nonce-${nonce}'; img-src 'self' https://authjs.dev; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://accounts.google.com/; frame-ancestors 'none'; report-to csp-endpoint;`;
 const reportingGroup = {
   group: "csp-endpoint",
   max_age: 10886400,
@@ -13,8 +27,6 @@ const reportingGroup = {
     },
   ],
 };
-const cspOptions = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'strict-dynamic'; style-src 'self' https://authjs.dev 'nonce-${nonce}'; img-src 'self' https://authjs.dev; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://accounts.google.com/; frame-ancestors 'none'; report-to csp-endpoint;`;
-const allowedOrigins = [process.env.URL, process.env.AUTH_GOOGLE_URL];
 
 const headerOptions = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
@@ -25,7 +37,15 @@ const headerOptions = {
   "Report-To": JSON.stringify(reportingGroup),
 };
 
-export function middleware(request) {
+export async function middleware(request) {
+  const ip = request.ip ?? request.headers.get("X-Forwarded-For") ?? "unknown";
+  const { success } = await rateLimiter.limit(ip);
+  console.log(success);
+  if (!success) {
+    return NextResponse.json({ error: "rate limited" }, { status: 429 });
+  }
+
+  console.log("MIDDLEWARE EXECUTED!");
   // Check the origin from the request
   const origin = request.headers.get("origin") ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
