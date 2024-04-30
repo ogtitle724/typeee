@@ -55,7 +55,7 @@ export const generateStaticParams = async () => {
     const { posts } = await res.json();
     console.log(posts);
 
-    return posts;
+    return posts || [];
   } catch (err) {
     console.error(
       "ERROR(/app/post/[id]/page.js) > generateStaticParams",

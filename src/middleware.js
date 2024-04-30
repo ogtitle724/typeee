@@ -27,7 +27,7 @@ const headerOptions = {
 };
 
 export async function middleware(request) {
-  /* await rateLimit(request); */
+  await rateLimit(request);
   const origin = request.nextUrl.origin ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
 
