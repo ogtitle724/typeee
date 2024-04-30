@@ -27,8 +27,8 @@ const headerOptions = {
 };
 
 export async function middleware(request) {
-  await rateLimit(request);
-  /* const origin = request.nextUrl.origin ?? "";
+  /* await rateLimit(request); */
+  const origin = request.nextUrl.origin ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
 
   // Handle preflighted requests
@@ -54,11 +54,11 @@ export async function middleware(request) {
     return NextResponse.json(
       {
         error: "Origin not allowed",
-        message: "Ther request origin is not allowed to access this resource.",
+        message: "There request origin is not allowed to access this resource.",
       },
       { status: 403 }
     );
-  } */
+  }
 }
 
 export const config = {

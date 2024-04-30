@@ -53,6 +53,7 @@ export const generateStaticParams = async () => {
 
     const res = await fetch(url, options);
     const { posts } = await res.json();
+    console.log(posts);
 
     return posts;
   } catch (err) {
