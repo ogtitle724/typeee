@@ -28,7 +28,7 @@ const headerOptions = {
 
 export async function middleware(request) {
   await rateLimit(request);
-  const origin = request.nextUrl.origin ?? "";
+  /* const origin = request.nextUrl.origin ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
 
   // Handle preflighted requests
@@ -58,7 +58,7 @@ export async function middleware(request) {
       },
       { status: 403 }
     );
-  }
+  } */
 }
 
 export const config = {
