@@ -219,7 +219,12 @@ export function WritePage() {
         });
       }
 
-      await tagRevalidation("paging");
+      await Promise.all([
+        pathRevalidation(`/`),
+        pathRevalidation(`/toic/${data.topic}`),
+      ]);
+
+      /* await tagRevalidation("paging"); */
       const resData = await res.json();
       router.push(`/post/${resData._id}`);
     } catch (err) {
