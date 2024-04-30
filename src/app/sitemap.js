@@ -30,9 +30,7 @@ export default async function sitemap() {
 
       for (let page = 1; page <= pagingData.totalPage; page++) {
         URLs.push({
-          url:
-            process.env.URL +
-            `/topic/${topic.toLocaleLowerCase()}?page=${page}`,
+          url: process.env.URL + `/topic/${topic.toLowerCase()}?page=${page}`,
           lastModified: new Date(),
           changeFrequency: "always",
           priority: 0.7,

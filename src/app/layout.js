@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { getMetadata } from "@/config/metadata";
 import Header from "@comps/header/header_cli/header";
 import SessionWrapper from "@comps/session_provider/session_provider";
@@ -7,7 +7,8 @@ import SvrHeader from "@comps/header/header_svr/header";
 import NavigationEvents from "@comps/navigation_events/layout_script";
 import { headers } from "next/headers";
 import "./globals.css";
-import Script from "next/script";
+import { Suspense } from "react";
+import Analytics from "./_components/gtm/gtm";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = getMetadata();
@@ -17,12 +18,6 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <head>
-        <Script
-          src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
-          strategy="beforeInteractive"
-        />
-      </head>
       <body className={inter.className}>
         <SessionWrapper>
           <SvrHeader />
@@ -30,8 +25,12 @@ export default function RootLayout({ children }) {
           <main className="main">{children}</main>
           <NavigationEvents />
         </SessionWrapper>
+        <Suspense>
+          <Analytics nonce={nonce} />
+        </Suspense>
       </body>
-      <GoogleAnalytics gaId="G-NL8JMR1330" />
+      {/* <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} nonce={nonce} /> */}
+      {/* <GoogleAnalytics gaId={process.env.GA4_ID} /> */}
     </html>
   );
 }

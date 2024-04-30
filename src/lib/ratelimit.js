@@ -1,5 +1,6 @@
 import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit";
+import { NextResponse } from "next/server";
 
 export default async function rateLimit(req) {
   const routes = ["/mypage", "/post", "/search", "/topic", "/write"];

@@ -7,7 +7,7 @@ const allowedOrigins = [process.env.URL, process.env.AUTH_GOOGLE_URL];
 const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 const cspOptions = `
   default-src 'self'; 
-  script-src 'self' 'nonce-${nonce}' 'strict-dynamic'  https://www.googletagmanager.com; 
+  script-src 'self' 'nonce-${nonce}' 'strict-dynamic'; 
   style-src 'self' https://authjs.dev 'nonce-${nonce}'; 
   img-src 'self' https://authjs.dev; 
   font-src 'self'; 
@@ -28,8 +28,7 @@ const headerOptions = {
 
 export async function middleware(request) {
   await rateLimit(request);
-
-  /* const origin = request.nextUrl.origin ?? "";
+  const origin = request.nextUrl.origin ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
 
   // Handle preflighted requests
@@ -45,7 +44,6 @@ export async function middleware(request) {
   const response = NextResponse.next();
 
   if (isAllowedOrigin) {
-    console.log("ALLOWED");
     response.headers.set("Access-Control-Allow-Origin", origin);
     Object.entries(headerOptions).forEach(([key, value]) => {
       response.headers.set(key, value);
@@ -53,8 +51,6 @@ export async function middleware(request) {
 
     return response;
   } else {
-    console.log("NOT ALLOWED");
-
     return NextResponse.json(
       {
         error: "Origin not allowed",
@@ -62,7 +58,7 @@ export async function middleware(request) {
       },
       { status: 403 }
     );
-  } */
+  }
 }
 
 export const config = {
