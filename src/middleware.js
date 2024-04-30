@@ -7,9 +7,11 @@ const allowedOrigins = [process.env.URL, process.env.AUTH_GOOGLE_URL];
 const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 const cspOptions = `
   default-src 'self'; 
-  script-src 'self' 'nonce-${nonce}' 'strict-dynamic'; 
-  style-src 'self' https://authjs.dev 'nonce-${nonce}'; 
-  img-src 'self' https://authjs.dev; 
+  script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${
+  process.env.NODE_ENV === "production" ? "" : `'unsafe-eval'`
+}; 
+  style-src 'self' https://authjs.dev 'unsafe-inline'; 
+  img-src 'self' https://authjs.dev https://typeee-s3.s3.ap-northeast-2.amazonaws.com data:image; 
   font-src 'self'; 
   object-src 'none'; 
   base-uri 'self'; 

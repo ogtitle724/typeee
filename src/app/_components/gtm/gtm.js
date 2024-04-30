@@ -1,8 +1,9 @@
 "use client";
+
+import Script from "next/script";
 import { pageview } from "./pageview.js";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import Script from "next/script";
 
 export default function Analytics({ nonce }) {
   const pathname = usePathname();
@@ -14,9 +15,9 @@ export default function Analytics({ nonce }) {
     }
   }, [pathname, searchParams]);
 
-  /* if (process.env.NEXT_PUBLIC_VERCEL_ENV !== "production") {
+  if (process.env.NODE_ENV === "development") {
     return null;
-  } */
+  }
 
   return (
     <>
@@ -41,7 +42,7 @@ export default function Analytics({ nonce }) {
     })(window,document,'script','dataLayer', "${process.env.NEXT_PUBLIC_GTM_ID}");
   `,
         }}
-      ></Script>
+      />
     </>
   );
 }

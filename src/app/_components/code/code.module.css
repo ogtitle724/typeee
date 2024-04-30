@@ -1,6 +1,6 @@
 .pre {
   width: 100%;
-  margin: 30px auto;
+  margin: 30px auto 40px auto;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
   border-radius: var(--border-radius);
   overflow-x: hidden;
@@ -20,7 +20,7 @@
   padding: 3px 5px;
   font-size: var(--font-vs);
   font-weight: var(--weight-m);
-  text-transform: capitalize;
+  text-transform: lowercase;
   color: black;
 }
 

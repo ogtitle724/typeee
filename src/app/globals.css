@@ -2,7 +2,7 @@
   --header-width: min(450px, 91vw);
   --header-height: 50px;
   --main-width: 94vw;
-  --content-width: min(1020px, 94vw);
+  --content-width: min(960px, 94vw);
   --max-width: 1100px;
   --border-radius: 12px;
 
@@ -11,7 +11,7 @@
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
   --font-xt: 43px;
   --font-t: 28px;
-  --font-l: 24px;
+  --font-l: 22px;
   --font-m: 18px;
   --font-s: 16px;
   --font-vs: 14px;
