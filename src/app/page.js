@@ -14,7 +14,6 @@ async function Content() {
     const option = {
       method: "GET",
       headers: { Application: "application/json" },
-      next: { tags: ["paging"] },
     };
 
     const res = await fetch(url, option);

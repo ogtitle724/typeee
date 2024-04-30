@@ -5,7 +5,7 @@ import { NavState } from "../nav/nav_state/nav_state";
 import { useState, useRef, useEffect } from "react";
 import { IoLockClosed } from "react-icons/io5";
 import Loader from "@/app/_components/loader/loader";
-import { tagRevalidation } from "@/lib/revalidate";
+import { pathRevalidation, tagRevalidation } from "@/lib/revalidate";
 
 export default function Board({
   title,
@@ -14,7 +14,7 @@ export default function Board({
   curPage,
   setCurPage,
 }) {
-  const [delTargets, setDelTargets] = useState(new Set());
+  const [delTargets, setDelTargets] = useState({});
   const isMouseDown = useRef(false);
 
   useEffect(() => {
@@ -32,12 +32,12 @@ export default function Board({
     };
   }, []);
 
-  const handleClkCheckbox = (e) => {
+  const handleClkCheckbox = (e, topic) => {
     const targetId = e.target.dataset.id;
     const newSet = structuredClone(delTargets);
 
-    if (delTargets.has(targetId)) newSet.delete(targetId);
-    else newSet.add(targetId);
+    if (delTargets[targetId]) delete newSet[targetId];
+    else newSet[targetId] = topic;
     setDelTargets(newSet);
   };
 
@@ -47,7 +47,7 @@ export default function Board({
     const targetId = e.target.dataset.id;
     const newSet = structuredClone(delTargets);
 
-    if (delTargets.has(targetId)) newSet.delete(targetId);
+    if (delTargets[targetId]) newSet.delete(targetId);
     else newSet.add(targetId);
     setDelTargets(newSet);
   };
@@ -55,7 +55,7 @@ export default function Board({
   const handleClkBtnSelectAll = () => {
     const newSet = structuredClone(delTargets);
 
-    if (delTargets.size === pagingData.posts.length) {
+    if (Object.keys(delTargets).length === pagingData.posts.length) {
       setDelTargets(new Set());
     } else {
       for (let post of pagingData.posts) {
@@ -67,23 +67,24 @@ export default function Board({
   };
 
   const handleClkBtnDel = async () => {
-    if (!delTargets.size) return;
+    if (!Object.keys(delTargets).length) return;
 
     const isDel = confirm("Are you sure to delete all the posts you select?");
 
     if (isDel) {
       try {
-        for (const target of delTargets) {
+        for (const [target, topic] of Object.entries(delTargets)) {
           const url = process.env.NEXT_PUBLIC_URL_POST + `/${target}`;
           await fetch(url, { method: "DELETE" });
+          await pathRevalidation(`/topic/${topic}`);
         }
 
         setPagingData({
           ...pagingData,
-          posts: pagingData.posts.filter((post) => !delTargets.has(post.id)),
+          posts: pagingData.posts.filter((post) => !delTargets[post.id]),
         });
         setDelTargets(new Set());
-        tagRevalidation("paging");
+        pathRevalidation("/");
       } catch (err) {
         console.error(err.message);
       }
@@ -117,10 +118,10 @@ export default function Board({
                     className={
                       styles.checkbox +
                       " " +
-                      (delTargets.has(post.id) ? styles.checkbox_active : "")
+                      (delTargets[post.id] ? styles.checkbox_active : "")
                     }
-                    onClick={handleClkCheckbox}
-                    onMouseOut={handleOutCheckbox}
+                    onClick={(e) => handleClkCheckbox(e, post.topic)}
+                    onMouseOut={(e) => handleOutCheckbox(e, post.topic)}
                     data-id={post.id}
                     role="radio-button"
                   ></div>

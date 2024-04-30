@@ -182,15 +182,9 @@ async function BtnWrapper({ postData }) {
     <>
       {session && session.user.uid === postData.author.uid && (
         <div className={styles.btns + " type_a"}>
-          <BtnEdit
-            isAnnonymous={!postData.author.uid}
-            comparePwd={postData.author.pwd}
-            targetId={postData._id.toString()}
-            size={22}
-          />
+          <BtnEdit targetId={postData._id.toString()} size={22} />
           <BtnDelete
-            isAnnonymous={!postData.author.uid}
-            comparePwd={postData.author.pwd}
+            topic={postData.topic}
             url={
               process.env.NEXT_PUBLIC_URL_POST + `/${postData._id.toString()}`
             }

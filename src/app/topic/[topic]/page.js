@@ -23,7 +23,6 @@ export const generateMetadata = async ({ params, searchParams }) => {
     const options = {
       method: "GET",
       headers: { Accept: "application/json" },
-      next: { tags: ["paging"] },
     };
 
     const res = await fetch(url, options);
@@ -68,7 +67,6 @@ async function Content({ params, searchParams }) {
     const options = {
       method: "GET",
       headers: { Accept: "application/json" },
-      next: { tags: ["paging"] },
     };
 
     const res = await fetch(url, options);

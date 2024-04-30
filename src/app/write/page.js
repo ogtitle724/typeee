@@ -221,10 +221,9 @@ export function WritePage() {
 
       await Promise.all([
         pathRevalidation(`/`),
-        pathRevalidation(`/toic/${data.topic}`),
+        pathRevalidation(`/topic/${data.topic}`),
       ]);
 
-      /* await tagRevalidation("paging"); */
       const resData = await res.json();
       router.push(`/post/${resData._id}`);
     } catch (err) {
