@@ -50,3 +50,10 @@
   background-color: rgb(var(--highlight-rgb));
   border-radius: 40px;
 }
+
+.content > a > span {
+  flex-grow: 1;
+  text-align: center;
+  font-size: var(--font-m);
+  font-weight: var(--weight-t);
+}

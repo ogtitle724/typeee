@@ -26,7 +26,8 @@ export default function CodeBlock(props) {
   const str = content
     .match(regexCodeString)[0]
     .replaceAll("&lt;", "<")
-    .replaceAll("&gt;", ">");
+    .replaceAll("&gt;", ">")
+    .replaceAll("&amp;", "&");
 
   return (
     <section className={styles.pre}>

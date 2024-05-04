@@ -1,8 +1,8 @@
 import Board from "@comps/board/basic/board";
-import styles from "./searchpage.module.css";
 import BoardSkeleton from "@comps/skeletion/board/board_skeleton";
 import { getMetadata } from "@/config/metadata";
 import { Suspense } from "react";
+import styles from "./searchpage.module.css";
 
 export const dynamic = "force-dynamic";
 

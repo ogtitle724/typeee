@@ -17,7 +17,7 @@ import { getFirstP } from "@/lib/text";
 import Select from "@comps/select/select";
 import Loader from "@comps/loader/loader";
 import styles from "./write.module.css";
-import { pathRevalidation, tagRevalidation } from "@/lib/revalidate";
+import { pathRevalidation } from "@/lib/revalidate";
 
 const Editor = dynamic(() => import("@comps/editor/editor"), { ssr: false });
 

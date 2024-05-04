@@ -9,9 +9,9 @@ export default function NotFound() {
       <div className={styles.content}>
         <p>To someone,</p>
         <p>
-          Who landed on our 404 page. It seems like you've entered wrong place.
-          There is no such page you entered. But don't worry here the EXIT for
-          you
+          {
+            "Who landed on our 404 page. It seems like you've entered wrong place. There is no such page you entered. But don't worry here the EXIT for you"
+          }
         </p>
         <Link href={"/"}>
           <span>Home Page</span>

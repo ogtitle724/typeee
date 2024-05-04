@@ -64,6 +64,7 @@ export const generateStaticParams = async () => {
 };
 
 export default async function PostDetail({ params }) {
+  console.log("RENDERING POST DETAIL");
   try {
     const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
     const options = {
