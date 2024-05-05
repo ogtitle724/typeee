@@ -4,19 +4,17 @@ import { Suspense } from "react";
 import BoardSkeleton from "@/app/_components/skeletion/board/board_skeleton";
 import { topics } from "@/config/topic";
 
-export const dynamic = "force-static";
-
-export const generateStaticParams = async () => {
+/* export const generateStaticParams = async () => {
   return topics.map((topic) => {
     topic;
   });
-};
+}; */
 
 export const generateMetadata = async ({ params, searchParams }) => {
   try {
-    const query = { topic: params.topic, is_public: true };
+    const query = { topic: params.topic, is_public: true, size: 30 };
     const page = searchParams.page;
-    console.log(query.topic, page);
+    console.log(query.topic, page, searchParams);
     const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
       `?page=${page ?? 1}&query=${JSON.stringify(query)}`;
@@ -88,7 +86,7 @@ async function Content({ params, searchParams }) {
   }
 }
 
-export default async function Topic({ params, searchParams }) {
+export default async function Page({ params, searchParams }) {
   return (
     <>
       <Suspense fallback={<BoardSkeleton />}>

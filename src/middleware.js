@@ -1,7 +1,11 @@
 import { NextResponse, NextRequest } from "next/server";
 import rateLimit from "@/lib/ratelimit";
 
-const allowedOrigins = [process.env.URL, process.env.AUTH_GOOGLE_URL];
+const allowedOrigins = [
+  "vercel.app",
+  process.env.URL,
+  process.env.AUTH_GOOGLE_URL,
+];
 
 //CSP
 const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
@@ -60,7 +64,7 @@ export async function middleware(request) {
           { status: 429 }
         );
       } else {
-        return NextResponse.redirect(new URL("/rate-limit", origin));
+        return NextResponse.redirect(new URL("/ratelimit", origin));
       }
     }
 

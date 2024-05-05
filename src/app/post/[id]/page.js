@@ -40,7 +40,7 @@ export const generateMetadata = async ({ params }) => {
   }
 };
 
-export const generateStaticParams = async () => {
+/* export const generateStaticParams = async () => {
   try {
     const select = "_id";
     const url =
@@ -62,7 +62,7 @@ export const generateStaticParams = async () => {
       err.message
     );
   }
-};
+}; */
 
 export default async function PostDetail({ params }) {
   try {
