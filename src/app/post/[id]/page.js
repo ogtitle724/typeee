@@ -52,8 +52,9 @@ export const generateStaticParams = async () => {
     };
 
     const res = await fetch(url, options);
+    console.log(res);
     const { posts } = await res.json();
-
+    console.log(posts);
     return posts || [];
   } catch (err) {
     console.error(
@@ -64,7 +65,6 @@ export const generateStaticParams = async () => {
 };
 
 export default async function PostDetail({ params }) {
-  console.log("RENDERING POST DETAIL");
   try {
     const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
     const options = {
