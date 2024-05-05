@@ -13,7 +13,6 @@ export const topics = [
   "Improve",
   "Performance",
   "Security",
-  "SEO",
   "Error",
   "QnA",
 ];
@@ -33,6 +32,5 @@ export const topicColor = {
   improve: "#e2dde6",
   performance: "#a3c7d7",
   security: "#e6e0dd",
-  seo: "#e6dde2",
   error: "#e6dddd",
 };

@@ -10,8 +10,8 @@
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
   --font-xt: 43px;
-  --font-t: 28px;
-  --font-l: 22px;
+  --font-t: 35px;
+  --font-l: 25px;
   --font-m: 18px;
   --font-s: 16px;
   --font-vs: 14px;
@@ -31,7 +31,7 @@
 
   --focus-rgb: 119, 143, 194;
   --highlight-rgb: 217, 222, 236;
-  --highlight-title-rgb: 238, 238, 88;
+  --highlight-title-rgb: 229, 229, 73;
   --radial-g-a-rgb: 241, 237, 254;
   --radial-g-b-rgb: 255, 242, 249;
   --bg-a-rgb: 255, 255, 255;
@@ -47,8 +47,10 @@
 
 @media screen and (max-width: 480px) {
   :root {
-    --font-xt: 30px;
+    --font-xt: 25px;
     --font-t: 25px;
+    --font-l: 22px;
+    --font-m: 16px;
   }
 }
 
@@ -59,12 +61,12 @@
     --font-reverse-rgb: 0, 0, 0;
 
     --border-rgb: 220, 222, 224;
-    --border-sub-rgb: 63, 65, 67;
+    --border-sub-rgb: 84, 86, 89;
     --border-reverse-rgb: 62, 64, 66;
 
     --focus-rgb: 176, 117, 60;
     --highlight-rgb: 139, 97, 56;
-    --highlight-title-rgb: 139, 65, 1;
+    --highlight-title-rgb: 195, 195, 37;
     --radial-g-a-rgb: 57, 53, 67;
     --radial-g-b-rgb: 53, 49, 49;
     --bg-a-rgb: 41, 41, 47;

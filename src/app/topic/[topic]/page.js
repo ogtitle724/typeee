@@ -16,7 +16,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
   try {
     const query = { topic: params.topic, is_public: true };
     const page = searchParams.page;
-
+    console.log(page);
     const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
       `?page=${page}&query=${JSON.stringify(query)}`;

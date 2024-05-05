@@ -128,12 +128,6 @@ export default async function PostDetail({ params }) {
                 }
               })}
             </div>
-            <div className={styles.hashtags}>
-              {postData.tags &&
-                postData.tags.map((tag) => (
-                  <span key={"#" + tag}>{"#" + tag}</span>
-                ))}
-            </div>
           </section>
           <RelatedPosts
             nextPosts={nextPosts}

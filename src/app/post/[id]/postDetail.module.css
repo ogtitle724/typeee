@@ -16,6 +16,7 @@
   font-size: var(--font-xt);
   font-weight: var(--weight-t);
   line-height: calc(var(--font-xt) + 10px);
+  letter-spacing: -1px;
 }
 
 .dataWrapper {
@@ -78,16 +79,27 @@
 }
 
 .content h2 {
-  margin-bottom: 30px;
-  padding: 3px 6px;
+  padding-left: 16px;
+  margin-bottom: 10px;
   position: relative;
   font-weight: var(--weight-t);
   font-size: var(--font-t);
   line-height: calc(var(--font-t) + 11px);
   position: relative;
-  border-radius: var(--border-radius);
-  background-color: rgb(var(--bg-b-rgb));
-  text-align: center;
+  text-align: start;
+  letter-spacing: -1px;
+  overflow: hidden;
+}
+
+.content h2::after {
+  content: "";
+  width: 8px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: rgb(var(--highlight-title-rgb));
+  border-radius: 4px;
 }
 
 .content h2:not(:first-child) {
@@ -109,7 +121,7 @@
 .content h4 {
   margin: 10px 0;
   font-size: var(--font-m);
-  font-weight: var(--weight-t);
+  font-weight: var(--weight-t) !important;
   line-height: calc(var(--font-m) + 11px);
 }
 
@@ -167,6 +179,7 @@
   padding: 0 5px;
   border-radius: 4px;
   background-color: rgb(var(--border-sub-rgb));
+  font-weight: var(--weight-l);
 }
 
 .hashtags {
