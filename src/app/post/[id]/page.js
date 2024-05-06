@@ -18,7 +18,7 @@ const testRead = cache(async (id) => {
 
 export const generateMetadata = async ({ params }) => {
   console.log("META");
-  try {
+  /* try {
     const id = params.id;
     const postData = await testRead(id);
 
@@ -39,8 +39,8 @@ export const generateMetadata = async ({ params }) => {
       err,
       params.id
     );
-  }
-  /* try {
+  } */
+  try {
     const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
     console.log(url);
     const options = {
@@ -67,7 +67,7 @@ export const generateMetadata = async ({ params }) => {
       err,
       params.id
     );
-  } */
+  }
 };
 
 export const generateStaticParams = async () => {
@@ -96,17 +96,17 @@ export default async function PostDetail({ params }) {
   console.log("POST");
 
   try {
-    /* const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
-    console.log(url);
+    const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
     const options = {
       method: "GET",
       headers: { Accept: "application/json" },
     };
 
     const res = await fetch(url, options);
-    const postData = await res.json(); */
-    const id = params.id;
-    const postData = await testRead(id);
+    const postData = await res.json();
+
+    /* const id = params.id;
+    const postData = await testRead(id); */
 
     if (postData) {
       const relatePosts = await relate(
