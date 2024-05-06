@@ -63,7 +63,7 @@ export const generateMetadata = async ({ params }) => {
   } catch (err) {
     console.error(
       "ERROR(app/post/[id]/page.js > generateMetadata):",
-      err,
+      err.message,
       params.id
     );
   } */
