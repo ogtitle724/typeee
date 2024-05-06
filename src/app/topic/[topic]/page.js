@@ -1,23 +1,16 @@
 import Board from "@/app/_components/board/basic/board";
+import BoardSkeleton from "@/app/_components/skeletion/board/board_skeleton";
 import { getMetadata } from "@/config/metadata";
 import { Suspense } from "react";
-import BoardSkeleton from "@/app/_components/skeletion/board/board_skeleton";
-import { topics } from "@/config/topic";
-
-/* export const generateStaticParams = async () => {
-  return topics.map((topic) => {
-    topic;
-  });
-}; */
 
 export const generateMetadata = async ({ params, searchParams }) => {
   try {
     const query = { topic: params.topic, is_public: true, size: 30 };
     const page = searchParams.page;
-    console.log(query.topic, page, searchParams);
+
     const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
-      `?page=${page ?? 1}&query=${JSON.stringify(query)}`;
+      `?page=${page}&query=${JSON.stringify(query)}`;
     const options = {
       method: "GET",
       headers: { Accept: "application/json" },

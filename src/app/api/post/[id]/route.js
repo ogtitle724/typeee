@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { sanitize } from "@/lib/secure";
 
 export async function GET(req, { params }) {
+  console.log("ROUTE GET");
   try {
     const id = params.id;
     const postData = await read(id);

@@ -8,14 +8,44 @@ import { relate } from "@/service/mongoDB/mongoose_post";
 import { auth } from "@/auth";
 import { getMetadata } from "@/config/metadata";
 import styles from "./postDetail.module.css";
+import { read } from "@/service/mongoDB/mongoose_post";
+import { cache } from "react";
+
+const testRead = cache(async (id) => {
+  const postData = await read(id);
+  return postData;
+});
 
 export const generateMetadata = async ({ params }) => {
+  console.log("META");
   try {
+    const id = params.id;
+    const postData = await testRead(id);
+
+    if (postData) {
+      return getMetadata(
+        postData.title,
+        postData.summary || postData.title,
+        process.env.URL + `/post/${params.id}`,
+        postData.thumbnail,
+        postData.tags
+      );
+    } else {
+      return getMetadata();
+    }
+  } catch (err) {
+    console.error(
+      "ERROR(app/post/[id]/page.js > generateMetadata):",
+      err,
+      params.id
+    );
+  }
+  /* try {
     const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
+    console.log(url);
     const options = {
       method: "GET",
       headers: { Accept: "application/json" },
-      next: { tags: ["post"] },
     };
     const res = await fetch(url, options);
     const postData = await res.json();
@@ -34,13 +64,13 @@ export const generateMetadata = async ({ params }) => {
   } catch (err) {
     console.error(
       "ERROR(app/post/[id]/page.js > generateMetadata):",
-      err.message,
+      err,
       params.id
     );
-  }
+  } */
 };
 
-/* export const generateStaticParams = async () => {
+export const generateStaticParams = async () => {
   try {
     const select = "_id";
     const url =
@@ -52,9 +82,7 @@ export const generateMetadata = async ({ params }) => {
     };
 
     const res = await fetch(url, options);
-    console.log(res);
     const { posts } = await res.json();
-    console.log(posts);
     return posts || [];
   } catch (err) {
     console.error(
@@ -62,19 +90,23 @@ export const generateMetadata = async ({ params }) => {
       err.message
     );
   }
-}; */
+};
 
 export default async function PostDetail({ params }) {
+  console.log("POST");
+
   try {
-    const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
+    /* const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
+    console.log(url);
     const options = {
       method: "GET",
       headers: { Accept: "application/json" },
-      next: { tags: ["post"] },
     };
 
     const res = await fetch(url, options);
-    const postData = await res.json();
+    const postData = await res.json(); */
+    const id = params.id;
+    const postData = await testRead(id);
 
     if (postData) {
       const relatePosts = await relate(

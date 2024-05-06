@@ -38,7 +38,6 @@ export default function MyPage() {
         const options = {
           method: "GET",
           headers: { Accept: "application/json" },
-          next: { tags: ["paging"] },
         };
 
         const res = await fetch(url, options);

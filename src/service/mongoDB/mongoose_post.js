@@ -17,6 +17,7 @@ export async function create(data) {
 }
 
 export async function read(id) {
+  console.log("DB READ");
   try {
     let post = await Post.findById(id);
     return post;

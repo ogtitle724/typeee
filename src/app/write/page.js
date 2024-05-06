@@ -207,7 +207,7 @@ export function WritePage() {
           }
         );
 
-        await pathRevalidation(`/post/${query.get("id")}`);
+        /* await pathRevalidation(`/post/${query.get("id")}`); */
       } else {
         res = await fetch(process.env.NEXT_PUBLIC_URL_POST, {
           method: "POST",
