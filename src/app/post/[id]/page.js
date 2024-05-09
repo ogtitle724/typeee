@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 
 const RelatedPosts = dynamic(() => import("./relate.js"), {});
 
-const testRead = cache(async (id) => {
+const cachedRead = cache(async (id) => {
   const postData = await read(id);
   return postData;
 });
@@ -20,7 +20,7 @@ const testRead = cache(async (id) => {
 export const generateMetadata = async ({ params }) => {
   try {
     /* const id = params.id;
-    const postData = await testRead(id); */
+    const postData = await cachedRead(id); */
 
     const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
     const options = {
@@ -45,7 +45,7 @@ export const generateMetadata = async ({ params }) => {
   } catch (err) {
     console.error(
       "ERROR(app/post/[id]/page.js > generateMetadata):",
-      err,
+      err.message,
       params.id
     );
   }
@@ -64,12 +64,12 @@ export const generateStaticParams = async () => {
 };
 
 export default async function PostDetail({ params }) {
-  console.log("POST----------------");
+  console.log("\npost)");
   console.log("start:", new Date());
 
   try {
     /* const id = params.id;
-    const postData = await testRead(id); */
+    const postData = await cachedRead(id); */
 
     const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
     const options = {

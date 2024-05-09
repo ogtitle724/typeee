@@ -35,7 +35,7 @@ const headerOptions = {
 export async function middleware(request) {
   const origin = request.nextUrl.origin ?? "";
   const path = request.nextUrl.pathname ?? "";
-  console.log("\nMiddleware:", path);
+  console.log("\nMiddleware***********************************", path);
   console.log("start:", new Date());
 
   const ip = request.ip ?? request.headers.get("X-Forwarded-For") ?? "unknown";
