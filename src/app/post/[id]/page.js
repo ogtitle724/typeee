@@ -170,12 +170,3 @@ async function BtnWrapper({ postData }) {
     </>
   );
 }
-
-/* const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
-    const options = {
-      method: "GET",
-      headers: { Accept: "application/json" },
-    };
-
-    const res = await fetch(url, options);
-    const postData = await res.json(); */

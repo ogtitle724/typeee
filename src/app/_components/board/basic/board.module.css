@@ -166,8 +166,8 @@
   aspect-ratio: 1/1;
   position: absolute;
   top: 6px;
-  right: 6px;
-  border: 5px solid;
+  right: 7px;
+  border: 6px solid;
   border-color: rgb(var(--border-rgb)) rgb(var(--green-rgb))
     rgb(var(--green-rgb)) rgb(var(--green-rgb));
   border-radius: 100%;
