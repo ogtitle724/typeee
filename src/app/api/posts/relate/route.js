@@ -1,5 +1,7 @@
 import { relate } from "@/service/mongoDB/mongoose_post";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req, { params }) {
   try {
     const { searchParams } = new URL(req.url);

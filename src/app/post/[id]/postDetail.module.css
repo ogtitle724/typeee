@@ -19,10 +19,6 @@
   letter-spacing: -1px;
 }
 
-.dataWrapper {
-  width: 100%;
-}
-
 .metadata {
   width: fit-content;
   margin: 10px 0px 20px 0;
@@ -61,7 +57,7 @@
 
 .btns {
   width: fit-content;
-  padding: 6px 13px;
+  padding: 7px 13px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -69,7 +65,7 @@
   position: fixed;
   bottom: 30px;
   right: 5vw;
-  z-index: 2;
+  z-index: 3;
 }
 
 .content {

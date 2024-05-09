@@ -6,7 +6,7 @@ import { sanitize } from "@/lib/secure";
 import { auth } from "@/auth";
 import { getMetadata } from "@/config/metadata";
 import styles from "./postDetail.module.css";
-import { read } from "@/service/mongoDB/mongoose_post";
+import { paging, read } from "@/service/mongoDB/mongoose_post";
 import { cache } from "react";
 import dynamic from "next/dynamic";
 
@@ -19,8 +19,17 @@ const testRead = cache(async (id) => {
 
 export const generateMetadata = async ({ params }) => {
   try {
-    const id = params.id;
-    const postData = await testRead(id);
+    /* const id = params.id;
+    const postData = await testRead(id); */
+
+    const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
+    const options = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    };
+
+    const res = await fetch(url, options);
+    const postData = await res.json();
 
     if (postData) {
       return getMetadata(
@@ -44,18 +53,8 @@ export const generateMetadata = async ({ params }) => {
 
 export const generateStaticParams = async () => {
   try {
-    const select = "_id";
-    const url =
-      process.env.NEXT_PUBLIC_URL_PAGING +
-      `?page=${1}&query=${JSON.stringify({})}&select=${select}&size=Infinity`;
-    const options = {
-      method: "GET",
-      headers: { Accept: "application/json" },
-    };
-
-    const res = await fetch(url, options);
-    const { posts } = await res.json();
-    return posts || [];
+    const pagingData = await paging(1, {}, "_id", Infinity);
+    return pagingData.posts;
   } catch (err) {
     console.error(
       "ERROR(/app/post/[id]/page.js) > generateStaticParams",
@@ -65,14 +64,24 @@ export const generateStaticParams = async () => {
 };
 
 export default async function PostDetail({ params }) {
-  console.log("POST start:", new Date());
+  console.log("POST----------------");
+  console.log("start:", new Date());
 
   try {
-    const id = params.id;
-    const postData = await testRead(id);
+    /* const id = params.id;
+    const postData = await testRead(id); */
+
+    const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
+    const options = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    };
+
+    const res = await fetch(url, options);
+    const postData = await res.json();
 
     if (postData) {
-      console.log("POST end:", new Date());
+      console.log("end:", new Date());
       return (
         <>
           <section className={styles.pre + ""}>

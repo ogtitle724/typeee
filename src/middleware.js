@@ -35,8 +35,8 @@ const headerOptions = {
 export async function middleware(request) {
   const origin = request.nextUrl.origin ?? "";
   const path = request.nextUrl.pathname ?? "";
-
-  console.log("Middleware start time:", new Date(), path);
+  console.log("\nMiddleware:", path);
+  console.log("start:", new Date());
 
   const ip = request.ip ?? request.headers.get("X-Forwarded-For") ?? "unknown";
   const isAllowedOrigin = allowedOrigins.includes(origin);
@@ -56,8 +56,7 @@ export async function middleware(request) {
       path.startsWith("/api") ? "(API)" : "(PAGE)",
       `${limitResult.remaining}/${limitResult.limit}`,
       limitResult.success,
-      request.method,
-      path
+      request.method
     );
 
     if (!limitResult.success) {
@@ -78,8 +77,8 @@ export async function middleware(request) {
     Object.entries(headerOptions).forEach(([key, value]) => {
       response.headers.set(key, value);
     });
-    console.log("Middleware end time:", new Date(), path);
 
+    console.log("end:", new Date());
     return response;
   } else {
     return NextResponse.json(
