@@ -1,15 +1,16 @@
-import Link from "next/link";
 import BtnDelete from "@comps/btn/delete/delete";
 import BtnEdit from "@/app/_components/btn/edit/edit";
 import Image from "next/image";
 import CodeBlock from "@/app/_components/code/code";
 import { sanitize } from "@/lib/secure";
-import { relate } from "@/service/mongoDB/mongoose_post";
 import { auth } from "@/auth";
 import { getMetadata } from "@/config/metadata";
 import styles from "./postDetail.module.css";
 import { read } from "@/service/mongoDB/mongoose_post";
 import { cache } from "react";
+import dynamic from "next/dynamic";
+
+const RelatedPosts = dynamic(() => import("./relate.js"), {});
 
 const testRead = cache(async (id) => {
   const postData = await read(id);
@@ -17,7 +18,6 @@ const testRead = cache(async (id) => {
 });
 
 export const generateMetadata = async ({ params }) => {
-  console.log("META");
   try {
     const id = params.id;
     const postData = await testRead(id);
@@ -40,33 +40,6 @@ export const generateMetadata = async ({ params }) => {
       params.id
     );
   }
-  /* try {
-    const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
-    const options = {
-      method: "GET",
-      headers: { Accept: "application/json" },
-    };
-    const res = await fetch(url, options);
-    const postData = await res.json();
-
-    if (postData) {
-      return getMetadata(
-        postData.title,
-        postData.summary || postData.title,
-        process.env.URL + `/post/${params.id}`,
-        postData.thumbnail,
-        postData.tags
-      );
-    } else {
-      return getMetadata();
-    }
-  } catch (err) {
-    console.error(
-      "ERROR(app/post/[id]/page.js > generateMetadata):",
-      err.message,
-      params.id
-    );
-  } */
 };
 
 export const generateStaticParams = async () => {
@@ -92,43 +65,14 @@ export const generateStaticParams = async () => {
 };
 
 export default async function PostDetail({ params }) {
-  console.log("POST", params);
+  console.log("POST start:", new Date());
 
   try {
-    /* const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
-    const options = {
-      method: "GET",
-      headers: { Accept: "application/json" },
-    };
-
-    const res = await fetch(url, options);
-    const postData = await res.json(); */
-
     const id = params.id;
     const postData = await testRead(id);
 
     if (postData) {
-      const relatePosts = await relate(
-        postData.wr_date,
-        postData.author.id,
-        postData.topic
-      );
-
-      let prevPosts = relatePosts.prevPosts;
-      let nextPosts = relatePosts.nextPosts.reverse();
-
-      if (prevPosts.length < 3) {
-        nextPosts = nextPosts.slice(-(6 - prevPosts.length));
-      } else if (nextPosts.length < 3) {
-        prevPosts = prevPosts.slice(0, 6 - nextPosts.length);
-      } else {
-        prevPosts = prevPosts.slice(0, 3);
-        nextPosts = nextPosts.slice(-3);
-      }
-
-      const regexCode = /(<pre><code.*?>.*?<\/code><\/pre>)/gs;
-      const splited = postData.content.split(regexCode);
-
+      console.log("POST end:", new Date());
       return (
         <>
           <section className={styles.pre + ""}>
@@ -144,7 +88,7 @@ export default async function PostDetail({ params }) {
             </div>
 
             <div className={styles.content}>
-              {splited.map((html, idx) => {
+              {JSON.parse(postData.content).map((html, idx) => {
                 if (html.startsWith("<pre><code")) {
                   return (
                     <CodeBlock key={"code block" + idx} codeString={html} />
@@ -160,11 +104,25 @@ export default async function PostDetail({ params }) {
               })}
             </div>
           </section>
-          <RelatedPosts
-            nextPosts={nextPosts}
-            prevPosts={prevPosts}
-            title={postData.title}
-          />
+          <section className={styles.relate_pre}>
+            <h3>Related Posts</h3>
+            <ul>
+              {new Array(7).fill(null).map((ele, idx) => {
+                return (
+                  <li
+                    className={"skeleton_bg"}
+                    key={`relate_placeholder_` + idx}
+                  ></li>
+                );
+              })}
+            </ul>
+            <RelatedPosts
+              wr_date={postData.wr_date}
+              uid={postData.author.uid}
+              topic={postData.topic}
+              title={postData.title}
+            />
+          </section>
         </>
       );
     } else {
@@ -222,27 +180,11 @@ async function BtnWrapper({ postData }) {
   );
 }
 
-function RelatedPosts({ nextPosts, prevPosts, title }) {
-  return (
-    <section id="here" className={styles.relatePosts}>
-      <h3>Related Posts</h3>
-      <ul>
-        {nextPosts.map((nextPost, idx) => {
-          return (
-            <li className={styles.next} key={`next post ${idx}`}>
-              <Link href={`/post/${nextPost._id}`}>{nextPost.title}</Link>
-            </li>
-          );
-        })}
-        {<li className={styles.related_cur}>{title}</li>}
-        {prevPosts.map((prevPost, idx) => {
-          return (
-            <li key={`prev post ${idx}`}>
-              <Link href={`/post/${prevPost._id}`}>{prevPost.title}</Link>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
-  );
-}
+/* const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
+    const options = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    };
+
+    const res = await fetch(url, options);
+    const postData = await res.json(); */

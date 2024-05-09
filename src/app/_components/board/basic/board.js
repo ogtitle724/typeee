@@ -130,6 +130,9 @@ function Item({ lastRef, post }) {
     }
   }, [isTagRotate]);
 
+  const handleClkLink = () =>
+    console.log("Board Click:", new Date().toISOString());
+
   return (
     <li
       ref={itemRef}
@@ -139,7 +142,7 @@ function Item({ lastRef, post }) {
         (post.topic === "qna" ? " " + styles.item_qna + " type_a" : "")
       }
     >
-      <Link ref={lastRef} href={`/post/${post.id}`}>
+      <Link onClick={handleClkLink} ref={lastRef} href={`/post/${post.id}`}>
         {post.topic === "qna" && <span className={styles.item_q_mark}>?</span>}
         {!(post.topic === "qna") && (
           <div className={styles.item_metadata}>
@@ -192,9 +195,7 @@ function Item({ lastRef, post }) {
           </>
         )}
       </Link>
-      {isClick && (
-        <div className={styles.item_loader_pre + " skeleton_bg"}></div>
-      )}
+      {isClick && <div className={styles.item_loader_pre}></div>}
     </li>
   );
 }

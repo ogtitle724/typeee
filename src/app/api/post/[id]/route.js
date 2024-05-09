@@ -23,11 +23,15 @@ export async function PATCH(req, { params }) {
   try {
     const id = params.id;
     const data = await req.json();
-    const session = await auth(); //이거 미들웨어에서 받은담에 req에 포함시키고 싶다
+    const session = await auth();
+
+    if (!session.user || session.user.uid !== data.author.uid) {
+      throw new Error("Unauthorized for update");
+    }
 
     data.title = sanitize(data.title);
-    data.content = sanitize(data.content);
     data.tags = data.tags.map((tag) => sanitize(tag));
+    data.content = sanitize(data.content);
 
     const updatedPost = await update(id, data, session.user.uid);
 

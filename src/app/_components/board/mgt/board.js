@@ -41,14 +41,14 @@ export default function Board({
     setDelTargets(newSet);
   };
 
-  const handleOutCheckbox = (e) => {
+  const handleOutCheckbox = (e, topic) => {
     if (!isMouseDown.current) return;
 
     const targetId = e.target.dataset.id;
     const newSet = structuredClone(delTargets);
 
     if (delTargets[targetId]) newSet.delete(targetId);
-    else newSet.add(targetId);
+    else newSet[targetId] = topic;
     setDelTargets(newSet);
   };
 

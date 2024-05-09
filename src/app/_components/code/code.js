@@ -20,7 +20,7 @@ export default function CodeBlock(props) {
   }
 
   //extract lang
-  let lang = content.match(regexLang)[0];
+  let lang = content.match(regexLang)?.[0];
   if (lang === "plaintext") lang = "text";
 
   const str = content

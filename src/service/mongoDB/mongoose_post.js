@@ -61,20 +61,19 @@ export async function update(id, data, key) {
       data.thumbnail = null;
     }
 
-    if (key === post.author.uid) {
-      Object.keys(data).forEach((key) => {
-        if (typeof data[key] === "object") {
-          post[key] = structuredClone(data[key]);
-        } else {
-          post[key] = data[key];
-        }
-      });
+    const regexCode = /(<pre><code.*?>.*?<\/code><\/pre>)/gs;
+    data.content = JSON.stringify(data.content.split(regexCode));
 
-      await post.save();
-      return post;
-    } else {
-      throw new Error("Unauthorized for update");
-    }
+    Object.keys(data).forEach((key) => {
+      if (typeof data[key] === "object") {
+        post[key] = structuredClone(data[key]);
+      } else {
+        post[key] = data[key];
+      }
+    });
+
+    await post.save();
+    return post;
   } catch (err) {
     console.error(
       "ERROR(/service/mongoDB/mongoose_post.js > update):",
@@ -136,12 +135,12 @@ export async function paging(
   }
 }
 
-export async function relate(date, id, topic) {
+export async function relate(date, uid, topic) {
   try {
     const prevPosts = await Post.find({
       $and: [
         { wr_date: { $lt: date } },
-        { "author.id": id },
+        { "author.uid": uid },
         { topic },
         { is_public: true },
       ],
@@ -153,7 +152,7 @@ export async function relate(date, id, topic) {
     const nextPosts = await Post.find({
       $and: [
         { wr_date: { $gt: date } },
-        { "author.id": id },
+        { "author.uid": uid },
         { topic },
         { is_public: true },
       ],

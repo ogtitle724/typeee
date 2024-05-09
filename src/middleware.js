@@ -35,6 +35,9 @@ const headerOptions = {
 export async function middleware(request) {
   const origin = request.nextUrl.origin ?? "";
   const path = request.nextUrl.pathname ?? "";
+
+  console.log("Middleware start time:", new Date(), path);
+
   const ip = request.ip ?? request.headers.get("X-Forwarded-For") ?? "unknown";
   const isAllowedOrigin = allowedOrigins.includes(origin);
   const response = NextResponse.next();
@@ -75,6 +78,7 @@ export async function middleware(request) {
     Object.entries(headerOptions).forEach(([key, value]) => {
       response.headers.set(key, value);
     });
+    console.log("Middleware end time:", new Date(), path);
 
     return response;
   } else {
@@ -100,3 +104,5 @@ export const config = {
     },
   ],
 };
+
+//1.2초

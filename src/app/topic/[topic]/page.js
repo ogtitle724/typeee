@@ -1,5 +1,5 @@
 import Board from "@/app/_components/board/basic/board";
-import BoardSkeleton from "@/app/_components/skeletion/board/board_skeleton";
+import BoardSkeleton from "@/app/_components/skeleton/board/board_skeleton";
 import { getMetadata } from "@/config/metadata";
 import { Suspense } from "react";
 

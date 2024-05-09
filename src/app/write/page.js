@@ -1,5 +1,5 @@
 "use client";
-
+//TODO: image size limit
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
@@ -13,7 +13,7 @@ import {
   IoSave,
 } from "react-icons/io5";
 import { topics } from "@/config/topic";
-import { getFirstP } from "@/lib/text";
+import { getRawText } from "@/lib/text";
 import Select from "@comps/select/select";
 import Loader from "@comps/loader/loader";
 import styles from "./write.module.css";
@@ -107,6 +107,7 @@ export function WritePage() {
 
           if (resData === null) return router.push("/");
 
+          resData.content = JSON.parse(resData.content).join("");
           const newData = structuredClone(resData);
           setData(newData);
           setHashTags(newData.tags.join(" "));
@@ -161,6 +162,7 @@ export function WritePage() {
   };
 
   const handleClkBtnUpload = async () => {
+    //check essential data
     if (session.status !== "authenticated") {
       return alert(
         "You must log in to write a post. (Please note that your data will be deleted during the login process.)"
@@ -173,24 +175,30 @@ export function WritePage() {
       );
     }
 
-    if (hashTags) {
-      data.tags = hashTags.trim().split(" ");
-      const longTags = data.tags.filter((tag) => tag.length > 20);
-
-      if (longTags.length)
-        return alert("Set the hashtag to 20 characters or less.");
-      if (data.tags.length > 6) return alert("Up to 20 hashtags are allowed.");
-    }
-
-    const plainText = getFirstP(data.content);
+    //check content size
+    const plainText = getRawText(data.content);
 
     if (new Blob([plainText]).size > process.env.NEXT_PUBLIC_MAX_CONTENT_LEN) {
       return alert("The size of your post has exceeded the size limit :(");
     }
 
-    setIsUploading(true);
+    //check whether the hash tags valid
+    if (hashTags) {
+      data.tags = hashTags.trim().split(" ");
+      const longTags = data.tags.filter((tag) => tag.length > 20);
+
+      if (longTags.length) {
+        return alert("Set the hashtag to 20 characters or less.");
+      }
+
+      if (data.tags.length > 6) {
+        return alert("Up to 20 hashtags are allowed.");
+      }
+    }
 
     try {
+      setIsUploading(true);
+
       let res;
       data.summary = plainText.slice(0, process.env.NEXT_PUBLIC_SUMMARY_LEN);
 

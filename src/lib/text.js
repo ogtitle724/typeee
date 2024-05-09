@@ -3,7 +3,7 @@ export const delTags = (content) => {
   return deleted;
 };
 
-export const getFirstP = (content) => {
+export const getRawText = (content) => {
   const tempDiv = document.createElement("div");
   tempDiv.innerHTML = content;
 
