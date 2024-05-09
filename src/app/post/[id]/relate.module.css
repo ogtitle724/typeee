@@ -2,6 +2,7 @@
   flex-grow: 1;
   width: var(--content-width);
   border-radius: var(--border-radius);
+  background-color: rgb(var(--bg-a-rgb));
   z-index: 2;
 }
 
