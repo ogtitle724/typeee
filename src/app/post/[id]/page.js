@@ -19,17 +19,8 @@ const cachedRead = cache(async (id) => {
 
 export const generateMetadata = async ({ params }) => {
   try {
-    /* const id = params.id;
-    const postData = await cachedRead(id); */
-
-    const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
-    const options = {
-      method: "GET",
-      headers: { Accept: "application/json" },
-    };
-
-    const res = await fetch(url, options);
-    const postData = await res.json();
+    const id = params.id;
+    const postData = await cachedRead(id);
 
     if (postData) {
       return getMetadata(
@@ -68,17 +59,8 @@ export default async function PostDetail({ params }) {
   console.log("start:", new Date());
 
   try {
-    /* const id = params.id;
-    const postData = await cachedRead(id); */
-
-    const url = process.env.NEXT_PUBLIC_URL_POST + `/${params.id}`;
-    const options = {
-      method: "GET",
-      headers: { Accept: "application/json" },
-    };
-
-    const res = await fetch(url, options);
-    const postData = await res.json();
+    const id = params.id;
+    const postData = await cachedRead(id);
 
     if (postData) {
       console.log("end:", new Date());
