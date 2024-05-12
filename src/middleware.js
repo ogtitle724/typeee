@@ -15,7 +15,7 @@ const cspOptions = `
   process.env.NODE_ENV === "production" ? "" : `'unsafe-eval'`
 }; 
   style-src 'self' https://authjs.dev 'unsafe-inline'; 
-  img-src 'self' https://authjs.dev https://typeee-s3.s3.ap-northeast-2.amazonaws.com; 
+  img-src 'self' https://authjs.dev https://typeee-s3.s3.ap-northeast-2.amazonaws.com data:; 
   font-src 'self'; 
   object-src 'none'; 
   base-uri 'self'; 
@@ -40,7 +40,6 @@ export async function middleware(request) {
 
   const ip = request.ip ?? request.headers.get("X-Forwarded-For") ?? "unknown";
   const isAllowedOrigin = allowedOrigins.includes(origin);
-  const response = NextResponse.next();
 
   if (isAllowedOrigin) {
     let limitResult;
@@ -61,15 +60,13 @@ export async function middleware(request) {
 
     if (!limitResult.success) {
       if (path === "/ratelimit") {
-        return NextResponse.json(
-          { error: "rate limit exceeded" },
-          { status: 429 }
-        );
+        return new Response.sendStatus(429);
       } else {
         return NextResponse.redirect(new URL("/ratelimit", origin));
       }
     }
 
+    const response = NextResponse.next();
     response.headers.set("X-RateLimit-Limit", limitResult.result);
     response.headers.set("X-RateLimit-Remaining", limitResult.remaining);
     response.headers.set("Access-Control-Allow-Origin", origin);

@@ -1,7 +1,7 @@
 import BtnDelete from "@comps/btn/delete/delete";
-import BtnEdit from "@/app/_components/btn/edit/edit";
+import BtnEdit from "@comps/btn/edit/edit";
 import Image from "next/image";
-import CodeBlock from "@/app/_components/code/code";
+import CodeBlock from "@comps/code/code";
 import { sanitize } from "@/lib/secure";
 import { auth } from "@/auth";
 import { getMetadata } from "@/config/metadata";
@@ -9,6 +9,7 @@ import styles from "./postDetail.module.css";
 import { paging, read } from "@/service/mongoDB/mongoose_post";
 import { cache } from "react";
 import dynamic from "next/dynamic";
+import Img from "@comps/img/img";
 
 const RelatedPosts = dynamic(() => import("./relate.js"), {});
 
@@ -79,16 +80,18 @@ export default async function PostDetail({ params }) {
             </div>
 
             <div className={styles.content}>
-              {JSON.parse(postData.content).map((html, idx) => {
-                if (html.startsWith("<pre><code")) {
+              {JSON.parse(postData.content).map((ele, idx) => {
+                if (typeof ele === "object") {
+                  return <Img key={"img block" + idx} data={ele} />;
+                } else if (ele.startsWith("<pre><code")) {
                   return (
-                    <CodeBlock key={"code block" + idx} codeString={html} />
+                    <CodeBlock key={"code block" + idx} codeString={ele} />
                   );
                 } else {
                   return (
                     <div
                       key={"content block" + idx}
-                      dangerouslySetInnerHTML={{ __html: sanitize(html) }}
+                      dangerouslySetInnerHTML={{ __html: sanitize(ele) }}
                     ></div>
                   );
                 }

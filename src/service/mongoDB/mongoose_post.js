@@ -61,9 +61,29 @@ export async function update(id, data, key) {
       data.thumbnail = null;
     }
 
-    const regexCode = /(<pre><code.*?>.*?<\/code><\/pre>)/gs;
-    data.content = JSON.stringify(data.content.split(regexCode));
+    const regexCode =
+      /(<pre><code.*?>.*?<\/code><\/pre>)|(<figure.*?><img.*?><\/figure>)/gs;
 
+    data.content = data.content.split(regexCode).filter((ele) => ele);
+    data.content = JSON.stringify(
+      data.content.map((ele) => {
+        if (ele.startsWith("<figure")) {
+          const pctMatch = ele.match(/width:([0-9\.]+)%/);
+          const pct = pctMatch ? pctMatch[1] : 100;
+          const aspectRatio = ele.match(
+            /style\=\"aspect\-ratio:([0-9\/]+)\"/
+          )[1];
+          const src = ele.match(/src=\"([0-9a-z\/\.\:\-]+)\"/)[1];
+          const width = +ele.match(/width="(\d+)"/)[1];
+          const height = +ele.match(/height="(\d+)"/)[1];
+          return { src, aspectRatio, pct, width, height };
+        } else {
+          return ele;
+        }
+      })
+    );
+
+    console.log(data.content);
     Object.keys(data).forEach((key) => {
       if (typeof data[key] === "object") {
         post[key] = structuredClone(data[key]);

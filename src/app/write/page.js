@@ -106,8 +106,17 @@ export function WritePage() {
           const resData = await res.json();
 
           if (resData === null) return router.push("/");
+          console.log(JSON.parse(resData.content));
+          resData.content = JSON.parse(resData.content)
+            .map((ele) => {
+              if (typeof ele === "object") {
+                return `<figure class="image image_resized" style="width:${ele.pct}%"><img style="aspect-ratio:${ele.aspectRatio}" src="${ele.src}" width="${ele.width}" height="${ele.height}" /></figure>`;
+              } else {
+                return ele;
+              }
+            })
+            .join("");
 
-          resData.content = JSON.parse(resData.content).join("");
           const newData = structuredClone(resData);
           setData(newData);
           setHashTags(newData.tags.join(" "));
@@ -135,6 +144,7 @@ export function WritePage() {
       ...data,
       content: editor.getData(),
     }));
+    console.log(editor.getData());
   };
 
   const handleClkBtnHash = () => {
