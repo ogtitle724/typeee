@@ -15,9 +15,9 @@ export default function Analytics({ nonce }) {
     }
   }, [pathname, searchParams]);
 
-  if (process.env.NODE_ENV === "development") {
+  /* if (process.env.NODE_ENV === "development") {
     return null;
-  }
+  } */
 
   return (
     <>
