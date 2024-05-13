@@ -15,7 +15,7 @@ const cspOptions = `
   process.env.NODE_ENV === "production" ? "" : `'unsafe-eval'`
 }; 
   style-src 'self' https://authjs.dev https://www.googletagmanager.com  https://fonts.googleapis.com 'unsafe-inline'; 
-  img-src 'self' https://authjs.dev https://typeee-s3.s3.ap-northeast-2.amazonaws.com data:; 
+  img-src 'self' https://authjs.dev https://typeee-s3.s3.ap-northeast-2.amazonaws.com https://www.google-analytics.com data:; 
   font-src 'self' https://fonts.gstatic.com; 
   object-src 'none'; 
   base-uri 'self'; 
