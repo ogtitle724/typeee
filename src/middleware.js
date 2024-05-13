@@ -14,7 +14,7 @@ const cspOptions = `
   script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${
   process.env.NODE_ENV === "production" ? "" : `'unsafe-eval'`
 }; 
-  style-src 'self' https://authjs.dev https://www.googletagmanager.com 'unsafe-inline'; 
+  style-src 'self' https://authjs.dev https://www.googletagmanager.com  https://fonts.googleapis.com 'unsafe-inline'; 
   img-src 'self' https://authjs.dev https://typeee-s3.s3.ap-northeast-2.amazonaws.com data:; 
   font-src 'self'; 
   object-src 'none'; 
