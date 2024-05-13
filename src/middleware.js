@@ -16,7 +16,7 @@ const cspOptions = `
 }; 
   style-src 'self' https://authjs.dev https://www.googletagmanager.com  https://fonts.googleapis.com 'unsafe-inline'; 
   img-src 'self' https://authjs.dev https://typeee-s3.s3.ap-northeast-2.amazonaws.com data:; 
-  font-src 'self'; 
+  font-src 'self' https://fonts.gstatic.com; 
   object-src 'none'; 
   base-uri 'self'; 
   form-action 'self' https://accounts.google.com/; 
