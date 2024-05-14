@@ -18,15 +18,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Suspense>
+          <Analytics nonce={nonce} />
+        </Suspense>
         <SessionWrapper>
           <SvrHeader />
           <Header />
           <main className="main">{children}</main>
           <NavigationEvents />
         </SessionWrapper>
-        <Suspense>
-          <Analytics nonce={nonce} />
-        </Suspense>
       </body>
     </html>
   );
