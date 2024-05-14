@@ -19,9 +19,9 @@ const cspOptions = `
   font-src 'self' https://fonts.gstatic.com; 
   object-src 'none'; 
   base-uri 'self'; 
-  form-action 'self' https://accounts.google.com/; 
+  form-action 'self' https://accounts.google.com; 
   frame-ancestors 'none'; 
-  connect-src: 'self' https://www.google-analytics.com;
+  connect-src 'self' https://www.google-analytics.com;
 `;
 
 const headerOptions = {
