@@ -10,6 +10,7 @@ export const topics = [
   "AWS",
   "Blender",
   "Effect",
+  "Analytics",
   "Improve",
   "Performance",
   "Security",
