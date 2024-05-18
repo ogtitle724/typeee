@@ -22,6 +22,7 @@ export async function POST(req) {
     data.content = data.content.split(regexCode).filter((ele) => ele);
 
     let idx = 0;
+
     for (let content of data.content) {
       if (content.startsWith("<figure")) {
         const pctMatch = content.match(/width:([0-9\.]+)%/);
@@ -38,7 +39,7 @@ export async function POST(req) {
         );
 
         if (!data.thumbnail) {
-          data.thumbnail = process.env.AWS_S3_BUCKET_URL + `/${src}`;
+          data.thumbnail = src;
         }
 
         data.content[idx] = { src, ratio, pct, width, height };
