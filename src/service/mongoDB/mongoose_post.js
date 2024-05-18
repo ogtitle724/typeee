@@ -29,61 +29,55 @@ export async function read(id) {
 export async function update(id, data, key) {
   try {
     let post = await Post.findById(id);
-
-    //detect change image
-    const prevImgDirs = getImgDirs(post.content);
-    let updatedImgDirs = getImgDirs(data.content);
-
-    if (prevImgDirs) {
-      for (const dir of prevImgDirs) {
-        if (updatedImgDirs && !updatedImgDirs.includes(dir)) {
-          await deleteFile(dir);
-        }
-      }
-    }
-
-    if (updatedImgDirs) {
-      data.thumbnail = null;
-
-      for (const dir of updatedImgDirs) {
-        let newDir = dir;
-
-        if (dir.indexOf("/temp") !== -1) {
-          newDir = dir.replace("/temp", "");
-          await copyFile(dir, newDir);
-          data.content = data.content.replace(dir, newDir);
-        }
-
-        if (!data.thumbnail)
-          data.thumbnail = process.env.AWS_S3_BUCKET_URL + `/${newDir}`;
-      }
-    } else {
-      data.thumbnail = null;
-    }
-
+    let prevImgUrls = new Set(
+      JSON.parse(post.content)
+        .filter((ele) => typeof ele === "object")
+        .map((ele) => ele.src)
+    );
     const regexCode =
       /(<pre><code.*?>.*?<\/code><\/pre>)|(<figure.*?><img.*?><\/figure>)/gs;
 
+    data.thumbnail = null;
     data.content = data.content.split(regexCode).filter((ele) => ele);
-    data.content = JSON.stringify(
-      data.content.map((ele) => {
-        if (ele.startsWith("<figure")) {
-          const pctMatch = ele.match(/width:([0-9\.]+)%/);
-          const pct = pctMatch ? pctMatch[1] : 100;
-          const aspectRatio = ele.match(
-            /style\=\"aspect\-ratio:([0-9\/]+)\"/
-          )[1];
-          const src = ele.match(/src=\"([0-9a-z\/\.\:\-]+)\"/)[1];
-          const width = +ele.match(/width="(\d+)"/)[1];
-          const height = +ele.match(/height="(\d+)"/)[1];
-          return { src, aspectRatio, pct, width, height };
-        } else {
-          return ele;
-        }
-      })
-    );
 
-    console.log(data.content);
+    let idx = 0;
+
+    for (let content of data.content) {
+      if (content.startsWith("<figure")) {
+        const pctMatch = content.match(/width:([0-9\.]+)%/);
+        const pct = pctMatch ? pctMatch[1] : 100;
+        const ratio = content.match(/style\=\"aspect\-ratio:([0-9\/]+)\"/)[1];
+        let src = content.match(/src=\"([0-9a-z\/\.\:\-]+)\"/)[1];
+        const width = +content.match(/width="(\d+)"/)[1];
+        const height = +content.match(/height="(\d+)"/)[1];
+
+        if (src.includes("/temp")) {
+          const newSrc = src.replace("/temp", "");
+
+          await copyFile(
+            src.replace(process.env.AWS_S3_BUCKET_URL + "/", ""),
+            newSrc.replace(process.env.AWS_S3_BUCKET_URL + "/", "")
+          );
+          src = newSrc;
+        } else {
+          prevImgUrls.delete(src);
+        }
+
+        if (!data.thumbnail) {
+          data.thumbnail = src;
+        }
+
+        data.content[idx] = { src, ratio, pct, width, height };
+      }
+      idx++;
+    }
+
+    for (const url of prevImgUrls) {
+      console.log(url);
+      await deleteFile(url.replace(process.env.AWS_S3_BUCKET_URL + "/", ""));
+    }
+
+    data.content = JSON.stringify(data.content);
     Object.keys(data).forEach((key) => {
       if (typeof data[key] === "object") {
         post[key] = structuredClone(data[key]);

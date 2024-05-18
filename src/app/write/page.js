@@ -243,12 +243,6 @@ export function WritePage() {
       ]);
 
       const resData = await res.json();
-
-      window.dataLayer.push({
-        event: "upload_post",
-        postId: resData._id,
-      });
-
       router.push(`/post/${resData._id}`);
     } catch (err) {
       console.error(err.message);

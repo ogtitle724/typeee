@@ -60,24 +60,22 @@ export async function middleware(request) {
     );
 
     if (!limitResult.success) {
-      if (path === "/ratelimit") {
-        return new Response.sendStatus(429);
-      } else {
+      if (path !== "/ratelimit") {
         return NextResponse.redirect(new URL("/ratelimit", origin));
       }
+    } else {
+      const response = NextResponse.next();
+      response.headers.set("X-RateLimit-Limit", limitResult.result);
+      response.headers.set("X-RateLimit-Remaining", limitResult.remaining);
+      response.headers.set("Access-Control-Allow-Origin", origin);
+
+      Object.entries(headerOptions).forEach(([key, value]) => {
+        response.headers.set(key, value);
+      });
+
+      console.log("end:", new Date());
+      return response;
     }
-
-    const response = NextResponse.next();
-    response.headers.set("X-RateLimit-Limit", limitResult.result);
-    response.headers.set("X-RateLimit-Remaining", limitResult.remaining);
-    response.headers.set("Access-Control-Allow-Origin", origin);
-
-    Object.entries(headerOptions).forEach(([key, value]) => {
-      response.headers.set(key, value);
-    });
-
-    console.log("end:", new Date());
-    return response;
   } else {
     return NextResponse.json(
       {
