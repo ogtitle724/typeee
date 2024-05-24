@@ -106,7 +106,7 @@ export function WritePage() {
           const resData = await res.json();
 
           if (resData === null) return router.push("/");
-          console.log(JSON.parse(resData.content));
+
           resData.content = JSON.parse(resData.content)
             .map((ele) => {
               if (typeof ele === "object") {
@@ -144,7 +144,6 @@ export function WritePage() {
       ...data,
       content: editor.getData(),
     }));
-    console.log(editor.getData());
   };
 
   const handleClkBtnHash = () => {

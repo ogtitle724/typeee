@@ -34,7 +34,6 @@ export async function uploadFileToS3(file, fileName) {
 }
 
 export async function copyFile(source, destination) {
-  console.log(source, destination);
   const copyParams = {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
     CopySource: `/${process.env.AWS_S3_BUCKET_NAME}/${source}`,

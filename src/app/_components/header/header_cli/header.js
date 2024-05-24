@@ -28,12 +28,17 @@ export default function Header() {
       scrollY.current = window.scrollY;
 
       const headerScrollEffect = (e) => {
-        if (window.scrollY - scrollY.current > 0) {
-          header.style.top = `-${header.offsetHeight}px`;
-          header.style.opacity = 0;
-        } else if (window.scrollY - scrollY.current < 0) {
+        if (window.scrollY < 50) {
           header.style.top = "20px";
           header.style.opacity = 1;
+        } else {
+          if (window.scrollY - scrollY.current > 0) {
+            header.style.top = `-${header.offsetHeight}px`;
+            header.style.opacity = 0;
+          } else if (window.scrollY - scrollY.current < 0) {
+            header.style.top = "20px";
+            header.style.opacity = 1;
+          }
         }
 
         scrollY.current = window.scrollY;

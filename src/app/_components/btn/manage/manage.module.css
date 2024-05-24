@@ -1,0 +1,12 @@
+.pre {
+  width: fit-content;
+  padding: 7px 13px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  position: fixed;
+  bottom: 30px;
+  right: 5vw;
+  z-index: 3;
+}

@@ -1,44 +1,11 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import rateLimit from "@/lib/ratelimit";
-
-const allowedOrigins = [
-  "vercel.app",
-  process.env.URL,
-  process.env.AUTH_GOOGLE_URL,
-];
-
-//CSP
-const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
-const cspOptions = `
-  default-src 'self'; 
-  script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${
-  process.env.NODE_ENV === "production" ? "" : `'unsafe-eval'`
-}; 
-  style-src 'self' https://authjs.dev https://www.googletagmanager.com  https://fonts.googleapis.com 'unsafe-inline'; 
-  img-src 'self' https://authjs.dev https://typeee-s3.s3.ap-northeast-2.amazonaws.com https://www.google-analytics.com https://www.googletagmanager.com  https://fonts.gstatic.com data:; 
-  font-src 'self' https://fonts.gstatic.com; 
-  object-src 'none'; 
-  base-uri 'self'; 
-  form-action 'self' https://accounts.google.com; 
-  frame-ancestors 'none'; 
-  connect-src 'self' https://www.google-analytics.com;
-`;
-
-const headerOptions = {
-  "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers":
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Authorization, Content-Security-Policy, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
-  "Access-Control-Allow-Credentials": "true",
-  "x-nonce": nonce,
-  "Content-Security-Policy": cspOptions.replace(/\s{2,}/g, " ").trim(),
-};
+import { getHeaders } from "@/config/response_headers";
+import { allowedOrigins } from "@/config/allowed_origin";
 
 export async function middleware(request) {
   const origin = request.nextUrl.origin ?? "";
   const path = request.nextUrl.pathname ?? "";
-  console.log("\nMiddleware***********************************", path);
-  console.log("start:", new Date());
-
   const ip = request.ip ?? request.headers.get("X-Forwarded-For") ?? "unknown";
   const isAllowedOrigin = allowedOrigins.includes(origin);
 
@@ -49,6 +16,11 @@ export async function middleware(request) {
       limitResult = await rateLimit("api_" + ip);
     } else {
       limitResult = await rateLimit("page_" + ip);
+    }
+
+    if (path.startsWith("/post/")) {
+      const url = process.env.URL + "/api/test";
+      await fetch(url, { method: "GET" });
     }
 
     console.log(
@@ -65,15 +37,15 @@ export async function middleware(request) {
       }
     } else {
       const response = NextResponse.next();
-      response.headers.set("X-RateLimit-Limit", limitResult.result);
-      response.headers.set("X-RateLimit-Remaining", limitResult.remaining);
-      response.headers.set("Access-Control-Allow-Origin", origin);
 
-      Object.entries(headerOptions).forEach(([key, value]) => {
+      response.headers.set("Access-Control-Allow-Origin", origin);
+      response.headers.set("X-RateLimit-Limit", limitResult.limit);
+      response.headers.set("X-RateLimit-Remaining", limitResult.remaining);
+
+      Object.entries(getHeaders()).forEach(([key, value]) => {
         response.headers.set(key, value);
       });
 
-      console.log("end:", new Date());
       return response;
     }
   } else {
@@ -99,5 +71,3 @@ export const config = {
     },
   ],
 };
-
-//1.2초

@@ -17,7 +17,6 @@ export async function create(data) {
 }
 
 export async function read(id) {
-  console.log("DB READ");
   try {
     let post = await Post.findById(id);
     return post;
@@ -73,7 +72,6 @@ export async function update(id, data, key) {
     }
 
     for (const url of prevImgUrls) {
-      console.log(url);
       await deleteFile(url.replace(process.env.AWS_S3_BUCKET_URL + "/", ""));
     }
 

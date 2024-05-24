@@ -1,18 +1,18 @@
-import BtnDelete from "@comps/btn/delete/delete";
-import BtnEdit from "@comps/btn/edit/edit";
 import Image from "next/image";
 import CodeBlock from "@comps/code/code";
 import { sanitize } from "@/lib/secure";
-import { auth } from "@/auth";
 import { getMetadata } from "@/config/metadata";
 import styles from "./postDetail.module.css";
 import { paging, read } from "@/service/mongoDB/mongoose_post";
 import { cache } from "react";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import Img from "@comps/img/img";
 
-const RelatedPosts = dynamic(() => import("./relate.js"), {});
+export const dynamic = "force-static"; //cahce hit
+export const revalidate = 86400; //csp allow at hit(not prerender)
 
+const RelatedPosts = dynamicImport(() => import("./relate.js"), { ssr: false });
+const BtnWrapper = dynamicImport(() => import("@comps/btn/manage/manage.js"));
 const cachedRead = cache(async (id) => {
   const postData = await read(id);
   return postData;
@@ -56,15 +56,11 @@ export const generateStaticParams = async () => {
 };
 
 export default async function PostDetail({ params }) {
-  console.log("\npost)");
-  console.log("start:", new Date());
-
   try {
     const id = params.id;
     const postData = await cachedRead(id);
 
     if (postData) {
-      console.log("end:", new Date());
       return (
         <>
           <section className={styles.pre + ""}>
@@ -76,7 +72,11 @@ export default async function PostDetail({ params }) {
                 date={postData.wr_date}
                 profile_img={postData.author.profile_img}
               />
-              <BtnWrapper postData={postData} />
+              <BtnWrapper
+                id={postData.id.toString()}
+                topic={postData.topic}
+                uid={postData.author.uid}
+              />
             </div>
 
             <div className={styles.content}>
@@ -150,26 +150,5 @@ function Metadata({ name, topic, date, profile_img }) {
         <span>{`${topic} • ${new Date(date).toString().slice(0, 21)}`}</span>
       </div>
     </section>
-  );
-}
-
-async function BtnWrapper({ postData }) {
-  const session = await auth();
-
-  return (
-    <>
-      {session && session.user.uid === postData.author.uid && (
-        <div className={styles.btns + " type_a"}>
-          <BtnEdit targetId={postData._id.toString()} size={22} />
-          <BtnDelete
-            topic={postData.topic}
-            url={
-              process.env.NEXT_PUBLIC_URL_POST + `/${postData._id.toString()}`
-            }
-            size={20}
-          />
-        </div>
-      )}
-    </>
   );
 }
