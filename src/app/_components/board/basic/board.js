@@ -10,6 +10,7 @@ import { NavRouter } from "../nav/nav_router.js/nav_router";
 import styles from "./board.module.css";
 
 export default function Board({ pagingData, isPagination, query }) {
+  console.log(pagingData);
   const [posts, setPosts] = useState(pagingData.posts);
   const [isGrid, setIsGrid] = useState(null);
   const [width, setWidth] = useState(null);
@@ -34,7 +35,7 @@ export default function Board({ pagingData, isPagination, query }) {
     }
   }, [width]);
 
-  if (posts.length) {
+  if (pagingData.posts.length) {
     if (width === null) {
       return null;
     } else {
@@ -43,21 +44,21 @@ export default function Board({ pagingData, isPagination, query }) {
           {isGrid ? (
             <>
               <ul className={styles.grid_col}>
-                {posts
+                {pagingData.posts
                   .filter((post, idx) => idx % 3 === 0)
                   .map((post, idx) => (
                     <Item key={"post_" + idx} post={post} />
                   ))}
               </ul>
               <ul className={styles.grid_col}>
-                {posts
+                {pagingData.posts
                   .filter((post, idx) => idx % 3 === 1)
                   .map((post, idx) => (
                     <Item key={"post_" + idx} post={post} />
                   ))}
               </ul>
               <ul className={styles.grid_col}>
-                {posts
+                {pagingData.posts
                   .filter((post, idx) => idx % 3 === 2)
                   .map((post, idx) => (
                     <Item key={"post_" + idx} post={post} />
@@ -66,7 +67,7 @@ export default function Board({ pagingData, isPagination, query }) {
             </>
           ) : (
             <ul className={styles.list}>
-              {posts.map((post, idx) => (
+              {pagingData.posts.map((post, idx) => (
                 <Item key={"post_" + idx} post={post} />
               ))}
             </ul>

@@ -5,12 +5,14 @@ import { Suspense } from "react";
 
 export const metadata = getMetadata();
 
-async function Content() {
+async function Content({ page }) {
+  console.log(page);
   try {
     const query = { is_public: true };
+
     const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
-      `?page=${1}&query=${JSON.stringify(query)}`;
+      `?page=${page}&query=${JSON.stringify(query)}`;
     const option = {
       method: "GET",
       headers: { Application: "application/json" },
@@ -18,11 +20,11 @@ async function Content() {
 
     const res = await fetch(url, option);
     const pagingData = await res.json();
-
+    console.log(pagingData);
     return (
       <>
         <h1 className="hide">Typeee home page</h1>
-        <Board pagingData={pagingData} isPagination={false} query={null} />
+        <Board pagingData={pagingData} isPagination={true} query={null} />
       </>
     );
   } catch (err) {
@@ -31,12 +33,14 @@ async function Content() {
   }
 }
 
-export default function Home() {
+export default function Home({ searchParams }) {
+  const page = searchParams.page || 1;
+
   return (
     <>
       <h1 className="hide">Typeee home page</h1>
       <Suspense fallback={<BoardSkeleton />}>
-        <Content />
+        <Content page={page} />
       </Suspense>
     </>
   );

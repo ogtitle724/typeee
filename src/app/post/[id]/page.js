@@ -9,7 +9,6 @@ import dynamicImport from "next/dynamic";
 import Img from "@comps/img/img";
 
 export const dynamic = "force-static"; //cahce hit
-/* export const revalidate = 86400; */ //csp allow at hit(not prerender)
 
 const RelatedPosts = dynamicImport(() => import("./relate.js"), { ssr: false });
 const BtnWrapper = dynamicImport(() => import("@comps/btn/manage/manage.js"));

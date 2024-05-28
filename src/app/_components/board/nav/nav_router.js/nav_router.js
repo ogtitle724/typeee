@@ -1,4 +1,11 @@
-import { IoChevronForwardOutline, IoChevronBackOutline } from "react-icons/io5";
+import {
+  IoChevronForwardOutline,
+  IoChevronBackOutline,
+  IoCaretBackOutline,
+  IoCaretForwardOutline,
+  IoChevronUpCircle,
+  IoChevronDownCircle,
+} from "react-icons/io5";
 import { useSearchParams, usePathname } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -10,7 +17,7 @@ export function NavRouter({ totalPage, unit }) {
   const [page, setPage] = useState(+params.get("page") || 1); //value for mark centered page
   const [pages, setPages] = useState([]);
   const query = useRef("");
-
+  console.log(pathname);
   useEffect(() => {
     query.current = "";
 
@@ -51,6 +58,20 @@ export function NavRouter({ totalPage, unit }) {
     }
   };
 
+  const handleClkBtnBottom = () => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  };
+
+  const handleClkBtnTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <Suspense>
       <nav className={styles.pre + " type_a"}>
@@ -60,11 +81,14 @@ export function NavRouter({ totalPage, unit }) {
               className={styles.dir}
               onClick={() => handleClkBtnRotateNav(0)}
             >
-              <IoChevronBackOutline size={17} />
+              <IoCaretBackOutline size={20} />
             </button>
           </li>
           {pages.map((next) => {
-            if (next === +params.get("page")) {
+            if (
+              next === +params.get("page") ||
+              (!params.get("page") && next === 1)
+            ) {
               return (
                 <li key={"page nav (current page)"}>
                   <span className={styles.page + " " + styles.page_cur}>
@@ -81,7 +105,7 @@ export function NavRouter({ totalPage, unit }) {
 
               return (
                 <li key={"page nav button " + next}>
-                  <Link href={pathname + `?${newQuery}`}>
+                  <Link href={pathname + (next === 1 ? "" : `?${newQuery}`)}>
                     <span className={styles.page}>{next}</span>
                   </Link>
                 </li>
@@ -93,9 +117,17 @@ export function NavRouter({ totalPage, unit }) {
               className={styles.dir}
               onClick={() => handleClkBtnRotateNav(1)}
             >
-              <IoChevronForwardOutline size={17} />
+              <IoCaretForwardOutline size={20} />
             </button>
           </li>
+          <div className={styles.btn_wrapper}>
+            <button onClick={handleClkBtnTop}>
+              <IoChevronUpCircle size={30} />
+            </button>
+            <button onClick={handleClkBtnBottom}>
+              <IoChevronDownCircle size={30} />
+            </button>
+          </div>
         </ul>
       </nav>
     </Suspense>

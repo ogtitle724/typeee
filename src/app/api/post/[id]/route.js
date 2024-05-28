@@ -1,6 +1,8 @@
 import { update, read, del } from "@/service/mongoDB/mongoose_post";
 import { auth } from "@/auth";
 import { sanitize } from "@/lib/secure";
+import { getImgDirs } from "@/lib/text";
+import { deleteFile } from "@/service/aws/s3";
 
 export async function GET(req, { params }) {
   try {
@@ -48,7 +50,19 @@ export async function PATCH(req, { params }) {
 export async function DELETE(req, { params }) {
   try {
     const id = params.id;
+    const postData = await read(id);
+    const imgDirs = JSON.parse(postData.content)
+      .filter((ele) => typeof ele === "object")
+      .map((ele) => {
+        const urlObj = new URL(ele.src);
+        const path = urlObj.pathname;
+        const objKey = path.startsWith("/") ? path.substring(1) : path;
+        console.log("HHH", ele, objKey);
+        return objKey;
+      });
+
     await del(id);
+    await Promise.all(imgDirs.map((dir) => deleteFile(dir)));
 
     return new Response(JSON.stringify("Delete completed"), {
       status: 200,

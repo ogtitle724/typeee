@@ -32,6 +32,7 @@
 }
 
 .item_qna {
+  flex-grow: 0;
   min-height: 60px;
   margin: 5px 0;
   display: flex;
@@ -40,6 +41,7 @@
 }
 
 .item a {
+  height: 100%;
   padding: 10px 0;
   display: flex;
   flex-direction: column;
@@ -121,6 +123,7 @@
 .item_img_wrapper {
   width: 100%;
   aspect-ratio: 16/9;
+  margin: auto 0;
   position: relative;
   background-color: rgb(var(--bg-a-rgb));
   filter: brightness(0.985);
