@@ -10,8 +10,6 @@ import { NavRouter } from "../nav/nav_router.js/nav_router";
 import styles from "./board.module.css";
 
 export default function Board({ pagingData, isPagination, query }) {
-  console.log(pagingData);
-  const [posts, setPosts] = useState(pagingData.posts);
   const [isGrid, setIsGrid] = useState(null);
   const [width, setWidth] = useState(null);
   const sectionRef = useRef();
@@ -42,7 +40,7 @@ export default function Board({ pagingData, isPagination, query }) {
       return (
         <section ref={sectionRef} className={styles.pre}>
           {isGrid ? (
-            <>
+            <div className={styles.grid}>
               <ul className={styles.grid_col}>
                 {pagingData.posts
                   .filter((post, idx) => idx % 3 === 0)
@@ -64,7 +62,7 @@ export default function Board({ pagingData, isPagination, query }) {
                     <Item key={"post_" + idx} post={post} />
                   ))}
               </ul>
-            </>
+            </div>
           ) : (
             <ul className={styles.list}>
               {pagingData.posts.map((post, idx) => (
@@ -95,7 +93,6 @@ function Item({ lastRef, post }) {
   const isSearch = path.includes("/search");
   const [isHover, setIsHover] = useState(false);
   const [isTagRotate, setIsTagRotate] = useState(false);
-  const [isClick, setIsClick] = useState(false);
   const itemRef = useRef();
   const tagContainerRef = useRef();
 
@@ -114,13 +111,11 @@ function Item({ lastRef, post }) {
     if (item) {
       const over = () => setIsHover(true);
       const out = () => setIsHover(false);
-      const click = () => setIsClick(true);
 
       item.addEventListener("touchstart", over);
       item.addEventListener("touchend", out);
       item.addEventListener("mouseover", over);
       item.addEventListener("mouseout", out);
-      item.addEventListener("click", click);
 
       return () => {
         item.removeEventListener("touchstart", over);
@@ -193,7 +188,6 @@ function Item({ lastRef, post }) {
           </>
         )}
       </Link>
-      {isClick && <div className={styles.item_loader_pre}></div>}
     </li>
   );
 }

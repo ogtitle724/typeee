@@ -119,6 +119,13 @@ body {
   color: rgb(var(--font-rgb));
 }
 
+footer {
+  width: var(--content-width);
+  height: 0px;
+  background-color: rgb(var(--border-rgb));
+  border-radius: var(--border-radius);
+}
+
 a {
   color: inherit;
   text-decoration: none;

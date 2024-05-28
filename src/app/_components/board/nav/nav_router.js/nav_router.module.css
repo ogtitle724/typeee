@@ -1,10 +1,10 @@
 .pre {
   width: var(--header-width);
+  height: fit-content;
+  margin: 0 auto;
   padding: 5px 10px;
-  position: fixed;
-  left: 50vw;
-  bottom: 10px;
-  transform: translateX(-50%);
+  position: sticky;
+  bottom: 20px;
   z-index: 3;
 }
 

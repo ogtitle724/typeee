@@ -6,10 +6,8 @@ import { Suspense } from "react";
 export const metadata = getMetadata();
 
 async function Content({ page }) {
-  console.log(page);
   try {
     const query = { is_public: true };
-
     const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
       `?page=${page}&query=${JSON.stringify(query)}`;
@@ -20,7 +18,7 @@ async function Content({ page }) {
 
     const res = await fetch(url, option);
     const pagingData = await res.json();
-    console.log(pagingData);
+
     return (
       <>
         <h1 className="hide">Typeee home page</h1>

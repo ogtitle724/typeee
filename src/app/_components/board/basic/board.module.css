@@ -1,5 +1,11 @@
 .pre {
   width: 100%;
+  height: fit-content;
+}
+
+.grid {
+  width: 100%;
+  padding-bottom: 30px;
   display: flex;
   gap: 10px;
 }
@@ -161,26 +167,6 @@
 .item_profile span {
   font-size: var(--font-xvs);
   font-weight: var(--weight-l);
-}
-
-.item_loader_pre {
-  width: 5px;
-  aspect-ratio: 1/1;
-  position: absolute;
-  top: 6px;
-  right: 7px;
-  border: 6px solid;
-  border-color: rgb(var(--border-rgb)) rgb(var(--green-rgb))
-    rgb(var(--green-rgb)) rgb(var(--green-rgb));
-  border-radius: 100%;
-  animation: spin 1.3s ease infinite;
-  z-index: 2;
-}
-
-@keyframes spin {
-  100% {
-    transform: rotateZ(360deg);
-  }
 }
 
 .item_q_mark {

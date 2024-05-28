@@ -48,6 +48,7 @@ export default function RootLayout({ children }) {
             }}
           />
         </Suspense>
+        <footer></footer>
       </body>
     </html>
   );

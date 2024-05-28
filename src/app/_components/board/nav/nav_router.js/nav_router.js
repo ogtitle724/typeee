@@ -1,6 +1,4 @@
 import {
-  IoChevronForwardOutline,
-  IoChevronBackOutline,
   IoCaretBackOutline,
   IoCaretForwardOutline,
   IoChevronUpCircle,
@@ -17,7 +15,7 @@ export function NavRouter({ totalPage, unit }) {
   const [page, setPage] = useState(+params.get("page") || 1); //value for mark centered page
   const [pages, setPages] = useState([]);
   const query = useRef("");
-  console.log(pathname);
+
   useEffect(() => {
     query.current = "";
 
