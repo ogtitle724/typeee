@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
-import styles from "./board.module.css";
+import Loader from "@/app/_components/loader/loader";
 import { NavState } from "../nav/nav_state/nav_state";
 import { useState, useRef, useEffect } from "react";
 import { IoLockClosed } from "react-icons/io5";
-import Loader from "@/app/_components/loader/loader";
-import { pathRevalidation, tagRevalidation } from "@/lib/revalidate";
+import { pathRevalidation } from "@/lib/revalidate";
+import styles from "./board.module.css";
 
 export default function Board({
   title,
@@ -13,6 +13,8 @@ export default function Board({
   setPagingData,
   curPage,
   setCurPage,
+  isLoading,
+  setIsLoading,
 }) {
   const [delTargets, setDelTargets] = useState({});
   const isMouseDown = useRef(false);
@@ -47,7 +49,7 @@ export default function Board({
     const targetId = e.target.dataset.id;
     const newSet = structuredClone(delTargets);
 
-    if (delTargets[targetId]) newSet.delete(targetId);
+    if (delTargets[targetId]) delete newSet[targetId];
     else newSet[targetId] = topic;
     setDelTargets(newSet);
   };
@@ -59,7 +61,7 @@ export default function Board({
       setDelTargets(new Set());
     } else {
       for (let post of pagingData.posts) {
-        newSet.add(post.id);
+        newSet[post.id] = post.topic;
       }
 
       setDelTargets(newSet);
@@ -72,21 +74,29 @@ export default function Board({
     const isDel = confirm("Are you sure to delete all the posts you select?");
 
     if (isDel) {
+      setIsLoading(true);
+      const topics = new Set();
+
       try {
         for (const [target, topic] of Object.entries(delTargets)) {
           const url = process.env.NEXT_PUBLIC_URL_POST + `/${target}`;
           await fetch(url, { method: "DELETE" });
-          await pathRevalidation(`/topic/${topic}`);
+          topics.add(topic);
         }
 
         setPagingData({
           ...pagingData,
           posts: pagingData.posts.filter((post) => !delTargets[post.id]),
         });
-        setDelTargets(new Set());
-        pathRevalidation("/");
+        setDelTargets({});
       } catch (err) {
         console.error(err.message);
+      } finally {
+        for (const topic of topics.values()) {
+          await pathRevalidation(`/topic/${topic}`);
+          await pathRevalidation("/");
+        }
+        setIsLoading(true);
       }
     }
   };
@@ -99,7 +109,7 @@ export default function Board({
         </header>
       )}
       <ul className={styles.ul}>
-        {pagingData ? (
+        {pagingData && !isLoading ? (
           pagingData.posts.length ? (
             pagingData.posts.map((post, idx) => {
               return (
@@ -142,6 +152,7 @@ export default function Board({
           curPage={curPage}
           setCurPage={setCurPage}
           totalPage={pagingData?.totalPage}
+          setIsLoading={setIsLoading}
           unit={9}
         />
         <button className={styles.btn} onClick={handleClkBtnSelectAll}>

@@ -6,21 +6,18 @@ import { allowedOrigins } from "@/config/allowed_origin";
 export async function middleware(request) {
   const origin = request.nextUrl.origin ?? "";
   const path = request.nextUrl.pathname ?? "";
+  const method = request.method;
   const ip = request.ip ?? request.headers.get("X-Forwarded-For") ?? "unknown";
   const isAllowedOrigin = allowedOrigins.includes(origin);
+  let limitResult;
 
   if (isAllowedOrigin) {
-    let limitResult;
-
     if (path.startsWith("/api")) {
-      limitResult = await rateLimit("api_" + ip);
+      if (method !== "DELETE") {
+        limitResult = await rateLimit("typeee-api-" + ip);
+      }
     } else {
-      limitResult = await rateLimit("page_" + ip);
-    }
-
-    if (path.startsWith("/post/")) {
-      const url = process.env.URL + "/api/test";
-      await fetch(url, { method: "GET" });
+      limitResult = await rateLimit("typeee-page-" + ip);
     }
 
     console.log(
@@ -38,9 +35,9 @@ export async function middleware(request) {
     } else {
       const response = NextResponse.next();
 
-      response.headers.set("Access-Control-Allow-Origin", origin);
       response.headers.set("X-RateLimit-Limit", limitResult.limit);
       response.headers.set("X-RateLimit-Remaining", limitResult.remaining);
+      response.headers.set("Access-Control-Allow-Origin", origin);
 
       Object.entries(getHeaders()).forEach(([key, value]) => {
         response.headers.set(key, value);

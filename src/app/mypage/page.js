@@ -15,6 +15,7 @@ export default function MyPage() {
   const session = useSession();
   const [curTopic, setCurTopic] = useState("");
   const [curPage, setCurPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [pagingData, setPagingData] = useState();
   const router = useRouter();
 
@@ -25,6 +26,7 @@ export default function MyPage() {
   useEffect(() => {
     const fetchMyPosts = async () => {
       try {
+        setIsLoading(true);
         const select = "_id topic title wr_date is_public";
         const query = {
           "author.uid": session.data.user.uid,
@@ -45,6 +47,8 @@ export default function MyPage() {
         setPagingData(pagingData);
       } catch (err) {
         console.error("ERROR(/mypage > page.js)", err.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -70,6 +74,7 @@ export default function MyPage() {
           <TopicNav
             curTopic={curTopic}
             setCurTopic={setCurTopic}
+            setCurPage={setCurPage}
             topics={topics}
           />
 
@@ -78,6 +83,8 @@ export default function MyPage() {
             setCurPage={setCurPage}
             pagingData={pagingData}
             setPagingData={setPagingData}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         </div>
       </section>
@@ -87,7 +94,7 @@ export default function MyPage() {
   }
 }
 
-function TopicNav({ curTopic, setCurTopic, topics }) {
+function TopicNav({ curTopic, setCurTopic, setCurPage, topics }) {
   const topicsRef = useRef();
   const left = useRef(0);
   const [width, setWidth] = useState();
@@ -128,7 +135,10 @@ function TopicNav({ curTopic, setCurTopic, topics }) {
     }
   }, [width]);
 
-  const handleClkBtnTopic = (e) => setCurTopic(e.target.dataset.topic);
+  const handleClkBtnTopic = (e) => {
+    setCurPage(1);
+    setCurTopic(e.target.dataset.topic);
+  };
 
   return (
     <section ref={topicsRef} className={styles.nav_container}>
