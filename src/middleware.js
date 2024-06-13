@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import rateLimit from "@/lib/ratelimit";
+import { rateLimit, rateLimitMax } from "@/lib/ratelimit";
 import { getHeaders } from "@/config/response_headers";
 import { allowedOrigins } from "@/config/allowed_origin";
 
@@ -9,24 +9,17 @@ export async function middleware(request) {
   const method = request.method;
   const ip = request.ip ?? request.headers.get("X-Forwarded-For") ?? "unknown";
   const isAllowedOrigin = allowedOrigins.includes(origin);
-  let limitResult;
 
   if (isAllowedOrigin) {
     if (path.startsWith("/api")) {
-      if (method !== "DELETE") {
+      if (method === "DELETE") {
+        limitResult = await rateLimitMax("typeee-api-delete" + ip);
+      } else {
         limitResult = await rateLimit("typeee-api-" + ip);
       }
     } else {
       limitResult = await rateLimit("typeee-page-" + ip);
     }
-
-    console.log(
-      "Rate Limiting:",
-      path.startsWith("/api") ? "(API)" : "(PAGE)",
-      `${limitResult.remaining}/${limitResult.limit}`,
-      limitResult.success,
-      request.method
-    );
 
     if (!limitResult.success) {
       if (path !== "/ratelimit") {

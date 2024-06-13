@@ -175,7 +175,7 @@ function Menu(props) {
         return (
           <Link
             key={`menuItem_${topic.toLowerCase()}`}
-            href={`/topic/${topic.toLowerCase()}?page=1`}
+            href={`/topic/${topic.toLowerCase()}`}
             className={
               styles.menu_item +
               (topic.toLowerCase() === targetParam

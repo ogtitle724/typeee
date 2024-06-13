@@ -6,7 +6,7 @@ import { Suspense } from "react";
 export const generateMetadata = async ({ params, searchParams }) => {
   try {
     const query = { topic: params.topic, is_public: true, size: 30 };
-    const page = searchParams.page;
+    const page = searchParams.page || 1;
 
     const url =
       process.env.NEXT_PUBLIC_URL_PAGING +
@@ -37,7 +37,7 @@ export const generateMetadata = async ({ params, searchParams }) => {
     return getMetadata(
       `${params.topic} related posts page ${page}`,
       description,
-      process.env.URL + `/topic/${params.topic}?page=${page}`
+      process.env.URL + `/topic/${params.topic}`
     );
   } catch (err) {
     console.error(

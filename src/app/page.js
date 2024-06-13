@@ -5,7 +5,9 @@ import { Suspense } from "react";
 
 export const metadata = getMetadata();
 
-async function Content({ page }) {
+async function Content({ searchParams }) {
+  const page = searchParams.page || 1;
+
   try {
     const query = { is_public: true };
     const url =
@@ -32,13 +34,11 @@ async function Content({ page }) {
 }
 
 export default function Home({ searchParams }) {
-  const page = searchParams.page || 1;
-
   return (
     <>
       <h1 className="hide">Typeee home page</h1>
       <Suspense fallback={<BoardSkeleton />}>
-        <Content page={page} />
+        <Content searchParams={searchParams} />
       </Suspense>
     </>
   );
