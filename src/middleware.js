@@ -9,6 +9,7 @@ export async function middleware(request) {
   const method = request.method;
   const ip = request.ip ?? request.headers.get("X-Forwarded-For") ?? "unknown";
   const isAllowedOrigin = allowedOrigins.includes(origin);
+  let limitResult;
 
   if (isAllowedOrigin) {
     if (path.startsWith("/api")) {
